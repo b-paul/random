@@ -1,0 +1,289 @@
+% Horrors beyond your imagination (i made this in 2021 apparently?????)
+
+% \newcount{\num}
+% \num=2
+% $$num=\the\num$$
+% \advance\num by 10
+% $$num+=10 = \the\num$$
+% \multiply\num by 10
+% $$num*=10 = \the\num$$
+
+% \def\macro(#1,#2,#3){$$\left[#1,#2,#3\right]$$}
+
+% \macro(5, 6, 9)
+
+\newcounter{temp}
+
+\newcounter{0}
+\newcounter{1}
+\newcounter{2}
+\newcounter{3}
+\newcounter{4}
+\newcounter{5}
+\newcounter{6}
+\newcounter{7}
+\newcounter{8}
+
+\newcounter{10}
+\newcounter{11}
+\newcounter{12}
+\newcounter{13}
+\newcounter{14}
+\newcounter{15}
+\newcounter{16}
+\newcounter{17}
+\newcounter{18}
+
+\setcounter{0}{0}
+\setcounter{1}{0}
+\setcounter{2}{0}
+\setcounter{3}{0}
+\setcounter{4}{0}
+\setcounter{5}{0}
+\setcounter{6}{0}
+\setcounter{7}{0}
+\setcounter{8}{0}
+
+\setcounter{10}{0}
+\setcounter{11}{0}
+\setcounter{12}{0}
+\setcounter{13}{0}
+\setcounter{14}{0}
+\setcounter{15}{0}
+\setcounter{16}{0}
+\setcounter{17}{0}
+\setcounter{18}{0}
+
+\newcounter{UL}
+\newcounter{UR}
+\newcounter{DL}
+\newcounter{DR}
+
+\setcounter{UL}{0}
+\setcounter{UR}{0}
+\setcounter{DL}{0}
+\setcounter{DR}{0}
+
+\def\piece(#1){
+    \coordinate (M) at (\the\x, \the\y);
+    
+    \draw[red, thick] (M)++(0,0.42) - ++(90:0.08);
+    
+    \draw (M) circle (0.5cm);
+    
+    \newcount{\hand}
+    \hand=#1
+    \advance\hand by -3
+    \multiply\hand by -30
+    
+    \draw [->] (M) - ++(\the\hand:0.4);
+    
+    \advance\x by 1
+}
+
+\def\pin(#1){
+    \coordinate (M) at (\the\x +0.5, \the\y +0.5);
+    
+    \ifnum#1=0
+    \draw [fill=white] (M) circle (0.17);
+    \else
+    \draw [fill=black] (M) circle (0.17);
+    \fi
+    
+    \advance\x by 1
+}
+
+\def\pinprime(#1){
+    \coordinate (M) at (\the\x +0.5, \the\y +0.5);
+    
+    \ifnum#1=0
+    \draw [fill=black] (M) circle (0.17);
+    \else
+    \draw [fill=white] (M) circle (0.17);
+    \fi
+    
+    \advance\x by 1
+}
+
+\def\setpins(#1,#2,#3,#4){
+    \ifnum#1=1
+    \setcounter{UL}{1}
+    \else
+    \setcounter{UL}{0}
+    \fi
+    \ifnum#2=1
+    \setcounter{UR}{1}
+    \else
+    \setcounter{UR}{0}
+    \fi
+    \ifnum#3=1
+    \setcounter{DL}{1}
+    \else
+    \setcounter{DL}{0}
+    \fi
+    \ifnum#4=1
+    \setcounter{DR}{1}
+    \else
+    \setcounter{DR}{0}
+    \fi
+}
+
+\def\move(#1){
+    \ifnum\value{UL}=1 
+    \addtocounter{0}{#1}
+    \addtocounter{12}{-#1}
+    \fi
+    \ifnum\value{UR}=1 
+    \addtocounter{2}{#1}
+    \addtocounter{10}{-#1}
+    \fi
+    \ifnum\value{DL}=1 
+    \addtocounter{6}{#1}
+    \addtocounter{18}{-#1}
+    \fi
+    \ifnum\value{DR}=1 
+    \addtocounter{8}{#1}
+    \addtocounter{16}{-#1}
+    \fi
+    
+    \ifnum\ifnum\value{UL}=1 1 \else\ifnum\value{UR}=1 1\else\ifnum\value{DL}=1 1\else\ifnum\value{DR}=1 1\else0\fi\fi\fi\fi=1
+    \addtocounter{4}{#1}
+    \fi
+    
+    \ifnum\ifnum\value{UL}=1 1 \else\ifnum\value{UR}=1 1\else0\fi\fi=1
+    \addtocounter{1}{#1}
+    \fi
+    
+    \ifnum\ifnum\value{UL}=1 1 \else\ifnum\value{DL}=1 1\else0\fi\fi=1
+    \addtocounter{3}{#1}
+    \fi
+    
+    \ifnum\ifnum\value{UR}=1 1 \else\ifnum\value{DR}=1 1\else0\fi\fi=1
+    \addtocounter{5}{#1}
+    \fi
+    
+    \ifnum\ifnum\value{DL}=1 1 \else\ifnum\value{DR}=1 1\else0\fi\fi=1
+    \addtocounter{7}{#1}
+    \fi
+}
+
+\def\yflip {
+    \setcounter{temp}{\value{10}}
+    \setcounter{10}{\value{0}}
+    \setcounter{0}{\value{temp}}
+
+    \setcounter{temp}{\value{11}}
+    \setcounter{11}{\value{1}}
+    \setcounter{1}{\value{temp}}
+
+    \setcounter{temp}{\value{12}}
+    \setcounter{12}{\value{2}}
+    \setcounter{2}{\value{temp}}
+
+    \setcounter{temp}{\value{13}}
+    \setcounter{13}{\value{3}}
+    \setcounter{3}{\value{temp}}
+
+    \setcounter{temp}{\value{14}}
+    \setcounter{14}{\value{4}}
+    \setcounter{4}{\value{temp}}
+
+    \setcounter{temp}{\value{15}}
+    \setcounter{15}{\value{5}}
+    \setcounter{5}{\value{temp}}
+
+    \setcounter{temp}{\value{16}}
+    \setcounter{16}{\value{6}}
+    \setcounter{6}{\value{temp}}
+
+    \setcounter{temp}{\value{17}}
+    \setcounter{17}{\value{7}}
+    \setcounter{7}{\value{temp}}
+
+    \setcounter{temp}{\value{18}}
+    \setcounter{18}{\value{8}}
+    \setcounter{8}{\value{temp}}
+
+    \setcounter{temp}{\value{UR}}
+    \ifnum\value{UL}=1
+        \setcounter{UR}{0}
+    \else
+        \setcounter{UR}{1}
+    \fi
+    \ifnum\value{temp}=1
+        \setcounter{UL}{0}
+    \else
+        \setcounter{UL}{1}
+    \fi
+    \setcounter{temp}{\value{DR}}
+    \ifnum\value{DL}=1
+        \setcounter{DR}{0}
+    \else
+        \setcounter{DR}{1}
+    \fi
+    \ifnum\value{temp}=1
+        \setcounter{DL}{0}
+    \else
+        \setcounter{DL}{1}
+    \fi
+
+}
+
+\def\drawclock {
+\begin{center}
+    \newcount{\x}
+    \newcount{\y}
+    \begin{tikzpicture}
+    \x=0
+    \y=0
+    \piece(\value0)
+    \piece(\value1)
+    \piece(\value2)
+    \x=0
+    \y=-1
+    \piece(\value3)
+    \piece(\value4)
+    \piece(\value5)
+    \x=0
+    \y=-2
+    \piece(\value6)
+    \piece(\value7)
+    \piece(\value8)
+    \x=4
+    \y=0
+    \piece(\value{10})
+    \piece(\value{11})
+    \piece(\value{12})
+    \x=4
+    \y=-1
+    \piece(\value{13})
+    \piece(\value{14})
+    \piece(\value{15})
+    \x=4
+    \y=-2
+    \piece(\value{16})
+    \piece(\value{17})
+    \piece(\value{18})
+    
+    % pins
+    \x=0
+    \y=-1
+    \pin(\theUL)
+    \pin(\theUR)
+    \x=0
+    \y=-2
+    \pin(\theDL)
+    \pin(\theDR)
+    
+    \x=4
+    \y=-1
+    \pinprime(\theUR)
+    \pinprime(\theUL)
+    \x=4
+    \y=-2
+    \pinprime(\theDR)
+    \pinprime(\theDL)
+    
+    \end{tikzpicture}
+\end{center}
+}
