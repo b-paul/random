@@ -745,6 +745,23 @@
             \end{scope}
         \end{tikzpicture}
         :=
+        \only<2-2>{
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[] (a)
+                +(1,1) coordinate[] (b)
+                +(0,2) coordinate[label=above:\(M\)] (tl)
+                +(1,2) coordinate[label=above:\(M'\)] (tr);
+            % Line drawing
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        }
+        \only<3->{
         \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
              %Coordinate layout and vertex positioning
             \path
@@ -761,9 +778,10 @@
             \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
+        }
     \end{equation*}
 
-    \pause
+    \pause[4]
     Multiplication:
 
     \begin{equation*}
@@ -783,7 +801,7 @@
             \end{scope}
         \end{tikzpicture}
         :=
-        \only<3-3>{
+        \only<4-4>{
         \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
              %Coordinate layout and vertex positioning
             \path
@@ -802,7 +820,7 @@
             \end{scope}
         \end{tikzpicture}
         }
-        \only<4-4>{
+        \only<5-5>{
         \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
              %Coordinate layout and vertex positioning
             \path
@@ -823,7 +841,7 @@
             \end{scope}
         \end{tikzpicture}
         }
-        \only<5-5>{
+        \only<6-6>{
         \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
              %Coordinate layout and vertex positioning
             \path
