@@ -1,0 +1,149 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\title{Atiyah Macdonald exercises}
+\author{bpaul}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Rings and Ideals}
+
+\setcounter{exercise}{11}
+\renewcommand{\theexercise}{\thesection.\arabic{exercise}}
+
+% 1.12
+\begin{exercise}
+    \begin{enumerate}
+        \item \(\ideala \subseteq (\ideala : \idealb)\)
+        \item \((\ideala : \idealb) \idealb \subseteq \ideala\)
+        \item \(((\ideala : \idealb) : \idealc) = (\ideala : \idealb \idealc) = ((\ideala : \idealc) : \idealb)\)
+        \item \((\bigcap_i \ideala_i : \idealb) = \bigcap_i (\ideala_i : \idealb)\)
+        \item \((\ideala : \sum_i \idealb_i) = \bigcap_i (\ideala : \idealb_i)\).
+    \end{enumerate}
+\end{exercise}
+
+% solution
+\vspace{1pt}
+\begin{enumerate}
+    \item
+        For \(a \in \ideala\), \(a \idealb \subseteq \ideala\) since \(\ideala\) is an ideal.
+    \item
+        Since \(xb \in (\ideala : \idealb) \idealb\) iff \(x \idealb \subseteq \ideala\) and \(b \in \idealb\), \(xb \in \ideala\).
+    \item
+        Since \(\idealb \idealc = \idealc \idealb\) we only need to show the first equality.
+        Observe that \(x \in ((\ideala : \idealb) : \idealc)\) iff \(x \idealc \subseteq (\ideala : \idealb)\), that is for all \(xc \in x \idealc\) with \(c \in \idealc\), \(xc \idealb \subseteq \ideala\).
+        This is true iff \(x \idealc \idealb \subseteq \ideala\).
+    \item
+        \(x \idealb \subseteq \bigcap_i \ideala_i\) iff \(x \idealb \subseteq \ideala_i\) for all \(i\).
+    \item
+        Note \(x \sum_i \idealb_i = \sum_i x \idealb_i\).
+        Then \(\sum_i x \idealb_i \subseteq \ideala\) iff \(x \idealb_i \subseteq \ideala\) for all \(i\).
+\end{enumerate}
+
+% 1.13
+\begin{exercise}
+    \begin{enumerate}
+        \item \label{ex-1.13.1} \(\rad{\ideala} \supseteq \ideala\)
+        \item \(\rad{\rad{\ideala}} = \rad{\ideala}\)
+        \item \(\rad{\mathfrak{ab}} = \rad{\ideala \cap \idealb} = \rad{\ideala} \cap \rad{\idealb}\)
+        \item \(\rad{\ideala} = (1) \iff \ideala = (1)\)
+        \item \(\rad{\ideala + \idealb} = \rad{\rad{\ideala} + \rad{\idealb}}\)
+        \item if \(\idealp\) is prime, \(\rad{\idealp^n} = \idealp\) for all \(n > 0\).
+    \end{enumerate}
+\end{exercise}
+
+% solution
+\vspace{1pt}
+\begin{enumerate}
+    \item
+        If \(x \in \ideala\), then \(x^1 \in \ideala\) so \(x \in \rad{\ideala}\).
+    \item
+        \(x \in \rad{\rad{\ideala}}\) iff \((x^n)^m \in \ideala\) iff \(x^{nm} \in \ideala\) iff \(x \in \rad{\ideala}\).
+    \item
+        If \(x^n \in \ideala \idealb\) then \(x^n \in \ideala \cap \idealb\).
+        If \(x^n \in \ideala \cap \idealb\) then \(x^n \in \ideala\) and \(x^n \in \idealb\).
+        If \(x^n \in \ideala\) and \(x^m \in \idealb\) then \(x^{mn} \in \ideala \idealb\).
+    \item
+        If \(1^n \in \ideala\) then \(1 \in \ideala\).
+        The converse comes from \ref{ex-1.13.1}.
+    \item
+        By 1., \(\rad{\ideala + \idealb} \subseteq \rad{\rad{\ideala} + \rad{\idealb}}\).
+        If \(x^n = y + z\) where \(y^k \in \ideala\) and \(z^m \in \idealb\) then \(x^{n (k + m)} = (y + z)^{k + m}\) has every term in its binomial expansion with either its \(y\) term at least \(k\) or its \(z\) term at least \(m\), and so \(x^{n (k+m)} \in \ideala + \idealb\).
+    \item
+        If \(x^m \in \idealp^n\) then \(x^m \in \idealp\) so \(x \in \idealp\).
+        Conversely if \(x \in \idealp\) then \(x^n \in \idealp^n\) so \(x \in \rad{\idealp^n}\).
+\end{enumerate}
+
+\setcounter{exercise}{17}
+
+% 1.18
+\begin{exercise}
+    If \(\ideala_1, \ideala_2\) are ideals of \(A\) and if \(\idealb_1, \idealb_2\) are ideals of \(B\), then
+    \[
+        \begin{array}{c c}
+            (\ideala_1 + \ideala_2)^e = \ideala_1^e + \ideala_2^e, &
+            (\idealb_1 + \idealb_2)^c \supseteq \idealb_1^c + \idealb_2^c, \\
+            (\ideala_1 \cap \ideala_2)^e \subseteq \ideala_1^e \cap \ideala_2^e, &
+            (\idealb_1 \cap \idealb_2)^c = \idealb_1^c \cap \idealb_2^c, \\
+            (\ideala_1 \ideala_2)^e = \ideala_1^e \ideala_2^e, &
+            (\idealb_1 \idealb_2)^c \supseteq \idealb_1^c \idealb_2^c, \\
+            (\ideala_1 : \ideala_2)^e \subseteq (\ideala_1^e : \ideala_2^e), &
+            (\idealb_1 : \idealb_2)^c \subseteq (\idealb_1^c : \idealb_2^c), \\
+            \rad(\ideala)^e \subseteq \rad(\ideala^e) &
+            \rad(\idealb)^c = \rad(\idealb^c).
+        \end{array}
+    \]
+\end{exercise}
+
+% solution
+\vspace{1pt}
+I REALLY DON'T WANT TO!!!
+remind me to do this later please
+
+\setcounter{exercise}{0}
+\renewcommand{\theexercise}{(\arabic{exercise})}
+
+\begin{exercise} \label{ex1-1}
+    Let \(x\) be a nilpotent element of a ring \(A\).
+    Show that \(1 + x\) is a unit in \(A\).
+    Deduce that the sum of a nilpotent element and a unit is a unit.
+\end{exercise}
+
+%solution
+Suppose \(x^n = 0\).
+Notice that
+\[
+    (1 + x)(\prod_{i=0}^n (-1)^i x^i) = 1 + x - x - x^2 + x^2 + x^3 \cdots \pm x^n = 1 \pm x^n = 1.
+\]
+If \(u\) is a unit then \(u^{-1} x\) is nilpotent, so \(1 + u^{-1} x\) is a unit, hence \(u + x\) is.
+
+\begin{exercise}
+    Let \(A\) be a ring and let \(A[x]\) be the ring of polynomials in an indeterminate \(x\), with coefficients in \(A\).
+    Let \(f = a_0 + a_1 x + \cdots + a_n x^n\). Prove that
+    \begin{enumerate}
+        \item \(f\) is a unit \(\iff\) \(a_0\) is a unit in \(A\) and \(a_1, \cdots, a_n\) are nilpotent.
+            [If \(b_0 + b_1 x + \cdots + b_m x^m\) is the inverse of \(f\), prove by induction on r that \(a_n^{r+1} b_{m-r} = 0\).
+            Hence show that \(a_n\) is nilpotent and use Ex. \ref{ex1-1}]
+        \item
+            \(f\) is nilpotent \(\iff\) \(a_0, a_1, \cdots, a_n\) are nilpotent.
+        \item
+            \(f\) is a zero-divisor \(\iff\) there exists \(a \neq 0\) in \(A\) such that \(a f = 0\).
+            [Choose a polynomial \(g = b_0 + b_1 x + \cdots + b_m x^m\) of least degree \(m\) such that \(f g = 0\).
+            Then \(a_n b_m = 0\), hence \(a_n g = 0\) because \(a_n g\) annihilates \(f\) and has degree \(< m\).
+            Now show by induction that \(a_{n-r} g = 0 \, (0 \leq r \leq n)\).]
+        \item
+            \(f\) is said to be primitive if \((a_0, a_1, \cdots, a_n) = (1)\).
+            Prove that if \(f, g \in A[x]\), then \(fg\) is primitive \(\iff\) f and g are primitive.
+    \end{enumerate}
+\end{exercise}
+
+%solution
+I shall continue another time, it is late.
+
+\section{Modules}
+\renewcommand{\theexercise}{\thesection.\arabic{exercise}}
+
+\end{document}
