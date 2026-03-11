@@ -91,15 +91,44 @@
             (\idealb_1 \idealb_2)^c \supseteq \idealb_1^c \idealb_2^c, \\
             (\ideala_1 : \ideala_2)^e \subseteq (\ideala_1^e : \ideala_2^e), &
             (\idealb_1 : \idealb_2)^c \subseteq (\idealb_1^c : \idealb_2^c), \\
-            \rad(\ideala)^e \subseteq \rad(\ideala^e) &
-            \rad(\idealb)^c = \rad(\idealb^c).
+            \rad{\ideala}^e \subseteq \rad{\ideala^e} &
+            (\rad{\idealb})^c = \rad{\idealb^c}.
         \end{array}
     \]
 \end{exercise}
 
 \noindent\textbf{Solution:}
-I REALLY DON'T WANT TO!!!
-remind me to do this later please
+Note that extension is monotone.
+Hence \(\ideala_1^e \subseteq (\ideala_1 + \ideala_2)^e\) and \(\ideala_2^e \subseteq (\ideala_1 + \ideala_2)^e\).
+Hence \(\ideala_1^e + \ideala_2^e \subseteq (\ideala_1 + \ideala_2)^e\).
+Conversely, let \(\sum_i f(a_i + b_i) \in (\ideala_1 + \ideala_2)^e\).
+Then \(\sum_i f(a_i + b_i) = (\sum_i f(a_i)) + (\sum_i f(b_i)) \in \ideala_1^e + \ideala_2^e\).
+Next, notice that \((\ideala_1 \cap \ideala_2)^e \subseteq \ideala_1^e\) and \((\ideala_1 \cap \ideala_2)^e \subseteq \ideala_2^e\).
+Hence \((\ideala_1 \cap \ideala2)^e \subseteq \ideala_1^e \cap \ideala_2^e\).
+Next, let \(\sum_i f(a_i b_i) \in (\ideala_1 \ideala_2)^e\).
+Then \(\sum_i f(a_i b_i) = \sum_i f(a_i) f(b_i) \in \ideala_1^e \ideala_2^e\).
+Conversely let \(\sum_i (\sum_j f(a_{ij})) (\sum_k f(b_{ik})) \in \ideala_1^e \ideala_2^e\).
+Then \(\sum_i (\sum_j f(a_{ij})) (\sum_k f(b_{ik})) = \sum_i \sum_j \sum_k f(a_{ij}) f(b_{ik}) = \sum_i \sum_j \sum_k f(a_{ij}b_{ik}) \in (\ideala_1 \ideala_2)^e\).
+Next, let \(\sum_i f(a_i) \in (\ideala_1 : \ideala_2)^e\) such that \(a_i \ideala_2 \subseteq \ideala_1\).
+Then \((f(a_i))\ideala_2^e = (a_i)^e\ideala_2^e = (a_i \ideala_2)^e \subseteq a_1^e\) so \(f(a_i) \in (\ideala_1^e : \ideala_2^e)\).
+Next let \(\sum_i f(a_i) \in \rad{\idealb}^e\)
+Then for some \(n_i\), \(f(a_i)^{n_i} \in \ideala^e\) so \(\sum_i f(a_i) \in \rad{\ideala^e}\).
+
+Let \(a + b \in \idealb_1^c + \idealb_2^c\).
+Then \(f(a) \in \idealb_1, f(b) \in \idealb_2\) so \(f(a + b) \in \idealb_1 + \idealb_2\) hence \(a + b \in (\idealb_1 + \idealb_2)^c\).
+Next let \(b \in (\idealb_1 \cap \idealb_2)^c\).
+Then \(f(b) \in \idealb_1 \cap \idealb_2\).
+Hence \(b \in \idealb_1^c \cap \idealb_2^c\).
+Conversely if \(b \in \idealb_1^c \cap \idealb_2^c\) then \(f(b) \in \idealb_1\) and \(f(b) \in \idealb_2\) so \(b \in (\idealb_1 \cap \idealb_2)^c\).
+Next let \(\sum_i a_i b_i \in \idealb_1^c \idealb_2^c\).
+Then \(f(a_i) \in \idealb_1\) and \(f(b_i) \in \idealb_2\) so \(f(\sum_i a_i b_i) \in \idealb_1 \idealb_2\).
+Hence \(\sum_i a_i b_i \in (\idealb_1 \idealb_2)^c\).
+Next let \(b \in (\idealb_1 : \idealb_2)^c\).
+Then \(f(b) \idealb_2 \subseteq \idealb_1\), that is for each \(c \in \idealb_2\), \(f(b) c \in \idealb_1\).
+If \(c' \in \idealb_2^c\) so that \(f(c') = c\) then \(f(b c') \in \idealb_1\), so \(bc' \in \idealb_1^c\).
+Hence \(b \in (\idealb_1^c : \idealb_2^c)\).
+Next, if \(b \in (\rad{\idealb})^c\) so that \(f(b)^n \in \idealb\), then \(f(b^n) \in \idealb\) so \(b^n \in \idealb^c\), so \(b \in \rad{\idealb^c}\).
+Conversely, if \(b \in \rad{\idealb^c}\) so that \(b^n \in \idealb^c\), then \(f(b)^n \in \idealb\) so \(f(b) \in \rad{\idealb}\) so \(b \in (\rad{\idealb})^c\).
 
 \setcounter{exercise}{0}
 \renewcommand{\theexercise}{(\arabic{exercise})}
