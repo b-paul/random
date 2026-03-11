@@ -25,8 +25,7 @@
     \end{enumerate}
 \end{exercise}
 
-% solution
-\vspace{1pt}
+\noindent\textbf{Solution:}
 \begin{enumerate}
     \item
         For \(a \in \ideala\), \(a \idealb \subseteq \ideala\) since \(\ideala\) is an ideal.
@@ -55,8 +54,7 @@
     \end{enumerate}
 \end{exercise}
 
-% solution
-\vspace{1pt}
+\noindent\textbf{Solution:}
 \begin{enumerate}
     \item
         If \(x \in \ideala\), then \(x^1 \in \ideala\) so \(x \in \rad{\ideala}\).
@@ -98,8 +96,7 @@
     \]
 \end{exercise}
 
-% solution
-\vspace{1pt}
+\noindent\textbf{Solution:}
 I REALLY DON'T WANT TO!!!
 remind me to do this later please
 
@@ -112,7 +109,7 @@ remind me to do this later please
     Deduce that the sum of a nilpotent element and a unit is a unit.
 \end{exercise}
 
-%solution
+\noindent\textbf{Solution:}
 Suppose \(x^n = 0\).
 Notice that
 \[
@@ -124,9 +121,8 @@ If \(u\) is a unit then \(u^{-1} x\) is nilpotent, so \(1 + u^{-1} x\) is a unit
     Let \(A\) be a ring and let \(A[x]\) be the ring of polynomials in an indeterminate \(x\), with coefficients in \(A\).
     Let \(f = a_0 + a_1 x + \cdots + a_n x^n\). Prove that
     \begin{enumerate}
-        \item \(f\) is a unit \(\iff\) \(a_0\) is a unit in \(A\) and \(a_1, \cdots, a_n\) are nilpotent.
-            [If \(b_0 + b_1 x + \cdots + b_m x^m\) is the inverse of \(f\), prove by induction on r that \(a_n^{r+1} b_{m-r} = 0\).
-            Hence show that \(a_n\) is nilpotent and use Ex. \ref{ex1-1}]
+        \item \label{ex1-2-1}
+            \(f\) is a unit \(\iff\) \(a_0\) is a unit in \(A\) and \(a_1, \cdots, a_n\) are nilpotent.
         \item
             \(f\) is nilpotent \(\iff\) \(a_0, a_1, \cdots, a_n\) are nilpotent.
         \item
@@ -140,8 +136,50 @@ If \(u\) is a unit then \(u^{-1} x\) is nilpotent, so \(1 + u^{-1} x\) is a unit
     \end{enumerate}
 \end{exercise}
 
-%solution
-I shall continue another time, it is late.
+\noindent\textbf{Solution:}
+\begin{enumerate}
+    \item
+        If \(a_0\) is a unit and \(a_i\) are nilpotent for \(i \geq 1\), then \(a_i x^i\) are nilpotent and their sum is nilpotent, hence by \ref{ex1-1} \(f\) is a unit.
+
+        Conversely suppose \(f\) is a unit with inverse \(g\) (coefficients indexed with \(b_i\)).
+        Then \(a_0 b_0 = 1\).
+        Next let \(\idealp\) be a prime ideal.
+        The map \(\varphi : A[x] \to (A/\idealp)[x]\) has \(\varphi(f)\varphi(g) = 1\).
+        Hence the degree of \(\varphi(f)\) and \(\varphi(g)\) are both \(0\) since \((A/\idealp)[x]\) is an integral domain.
+        Thus \(\phi(a_i) = 0\) for all \(i \geq 1\), that is \(a_i \in \idealp\).
+        Since this is for any prime ideal, the \(a_i\) are in all prime ideals, and hence are nilpotent.
+    \item
+        Similarly to above, if the \(a_i\) are nilpotent, their product with indeterminates are, and their sum is.
+
+        Let \(f\) be nilpotent with \(f^n = 0\).
+        Then \(a_0^n = 0\) so \(a_0\) is nilpotent.
+        By exercise \ref{ex1-1}, \(f + 1\) is a unit, and by part \ref{ex1-2-1} the \(a_i\) are nilpotent for \(i \geq 1\).
+    \item
+        Let \(g \neq 0\) annihilate \(f\) with minimum degree \(m\).
+        Then \(b_m a_n = 0\).
+        Hence \(a_n g\) has degree less than m, and moreover \(a_n g\) annihilates \(f\).
+        Hence \(a_n g = 0\).
+        Now suppose for induction that \(a_{n-i} g = 0\) holds for all \(i \leq r\).
+        Then \(a_{n-r-1} b_i = - \sum_{j > i} a_{n-j} b_j = 0\).
+        Hence for all \(i\), \(a_i b_n = 0\).
+        Thus \(b_n f = 0\).
+    \item
+        Suppose \(fg\) is primitive, and call its coefficients \(c_i\).
+        It is sufficient to show \(f\) is primitive.
+        Notice that \((a + b) \subseteq (a) + (b)\).
+        Hence \((c_i) \subseteq \sum_{j \leq i} (a_j b_{i-j}) \subseteq \sum_{j \leq i} (a_j)\) for all \(i\).
+        Thus \((1) = \sum_i (c_i) \subseteq \sum_i (a_j)\), and so \(f\) is primitive.
+
+        Conversely suppose \(f\) and \(g\) are primitive.
+        We will show that \(\idealc = (c_0, c_1, \cdots, c_k)\) is not contained in any prime ideal of \(A\).
+        Suppose it were contained \(\idealp\).
+        Then under the map \(\varphi : A[x] \to (A/\idealp)[x]\), \(\varphi(c_i) = 0\) and so \(\varphi(fg) = 0\).
+        Since \((A/\idealp)[x]\) is a domain, either \(\varphi(f) = 0\) or \(\varphi(g) = 0\).
+        However, since \((a_0, a_1, \cdots, a_n) \not\supseteq \idealp\) (since \(\idealp\) is proper), some \(a_i\) is not sent to zero.
+        Similarly, some \(b_i\) is not sent to zero.
+        This is a contradiction, and so \(\idealc\) is not contained in any prime ideal.
+        Since every proper ideal is contained in a maximal (and hence prime) ideal, \(\idealc\) is not proper.
+\end{enumerate}
 
 \section{Modules}
 \renewcommand{\theexercise}{\thesection.\arabic{exercise}}
