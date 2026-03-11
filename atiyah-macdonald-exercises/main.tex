@@ -11,8 +11,9 @@
 
 \section{Rings and Ideals}
 
-\setcounter{exercise}{11}
 \renewcommand{\theexercise}{\thesection.\arabic{exercise}}
+
+\setcounter{exercise}{11}
 
 % 1.12
 \begin{exercise}
@@ -127,9 +128,6 @@ If \(u\) is a unit then \(u^{-1} x\) is nilpotent, so \(1 + u^{-1} x\) is a unit
             \(f\) is nilpotent \(\iff\) \(a_0, a_1, \cdots, a_n\) are nilpotent.
         \item
             \(f\) is a zero-divisor \(\iff\) there exists \(a \neq 0\) in \(A\) such that \(a f = 0\).
-            [Choose a polynomial \(g = b_0 + b_1 x + \cdots + b_m x^m\) of least degree \(m\) such that \(f g = 0\).
-            Then \(a_n b_m = 0\), hence \(a_n g = 0\) because \(a_n g\) annihilates \(f\) and has degree \(< m\).
-            Now show by induction that \(a_{n-r} g = 0 \, (0 \leq r \leq n)\).]
         \item
             \(f\) is said to be primitive if \((a_0, a_1, \cdots, a_n) = (1)\).
             Prove that if \(f, g \in A[x]\), then \(fg\) is primitive \(\iff\) f and g are primitive.
@@ -181,7 +179,131 @@ If \(u\) is a unit then \(u^{-1} x\) is nilpotent, so \(1 + u^{-1} x\) is a unit
         Since every proper ideal is contained in a maximal (and hence prime) ideal, \(\idealc\) is not proper.
 \end{enumerate}
 
+I'll do the rest \textit{eventually} but the reading group is moving on so I need to do some catchup!
+
 \section{Modules}
 \renewcommand{\theexercise}{\thesection.\arabic{exercise}}
+
+\setcounter{exercise}{1}
+\begin{exercise}
+    \begin{enumerate}
+        \item \(\Ann(M + N) = \Ann(M) \cap \Ann(N)\)
+        \item \((N : P) = \Ann((N + P)/N)\)
+    \end{enumerate}
+\end{exercise}
+
+\noindent\textbf{Solution:}
+\begin{enumerate}
+    \item
+        Note that \(a(M + N) = aM + aN\).
+        Hence \(a \in \Ann(M + N)\) iff \(aM + aN \subseteq 0\) iff \(aM \subseteq 0\) and \(aN \subseteq 0\) iff \(a \in \Ann(M) \cap \Ann(N)\).
+    \item
+        If \(aP \subseteq N\) then every \(p \in P\) has \(ap \in N\).
+        As \(P \subseteq N + P\) this means \(ap + N = 0 + N\), so \(a \in \Ann((N + P)/N)\).
+        Conversely, suppose \(a(n + p) + N = 0 + N\) for all \(n + p \in N + P\).
+        Then \(ap + N = 0 + N\), so \(ap \in N\) and so \(a \in (N : P)\).
+\end{enumerate}
+
+\setcounter{exercise}{15}
+\begin{exercise} \label{ex2.16}
+    Let \(A, B\) be rings, let \(M\) be an \(A\)-module, \(P\) be a \(B\)-module and \(N\) an \((A, B)\)-bimodule.
+    Then \(M \tensor_A N\) is naturally a \(B\)-module, \(N \tensor_B P\) is naturally an \(A\)-module, and we have
+    \[
+        (M \tensor_A N) \tensor_B P \cong M \tensor_A (N \tensor_B P)
+    \]
+\end{exercise}
+
+\noindent\textbf{Solution:}
+I shall interpret the word naturally to mean that \(- \tensor_A N\) is a functor from \(\Mod_A\) to \(\Mod_B\).
+It is sufficient to only show this direction of tensoring, the other direction should be identical.
+For each \(b \in B\), define a bilinear map \((m, n) \mapsto m \tensor (bn)\).
+This induces a map from \(M \tensor_A N \to M \tensor_A N\).
+This multiplication preserves addition and multiplication of the ring structure (indeed \(m \tensor (b'(b n)) = m \tensor ((b' b)n)\) and \(m \tensor ((b + b')n) = m \tensor (bn + b'n)\)).
+Hence this makes \(M \tensor_A N\) a \(B\)-module.
+Now suppose \(f : M \to M'\) is an \(A\)-module homomorphism.
+We obtain a map \(f \tensor N : M \tensor_A N \to M' \tensor N\) bilinearly mapping \((m, n) \mapsto f(m) \tensor n\).
+Indeed \(\id \tensor N = \id\) and \((g \circ f) \tensor N = (g \tensor N) \circ (f \tensor N)\) (expand the definition).
+
+I shall interpret this big isomorphism we have to prove as an \((A, B)\)-bimodule isomorphism.
+These tensor products are special cases of a general bimodule tensor product described as follows.
+If \(M\) is an \(A\)-module and \(N\) is an \((A, B)\)-bimodule, then \(M \tensor_A N\) is an \((A, B)\)-bimodule.
+It has the universal property that maps out of it are naturally isomorphic to \(A\)-bilinear maps that are \(B\)-linear in the right component.
+Indeed given such a bilinear map \(f : M \times N \to P\), define \(\hat{f} : M \tensor_A N \to P\) with \(A\)-bilinearity.
+A bimodule homomorphism is a map that is both an \(A\) and \(B\)-module homomorphism, and here \(\hat{f}\) is already an \(A\)-module homomorphism.
+To see that it is a \(B\)-module homomorphism, observe
+\[
+    \hat{f}(b (m \tensor n)) = \hat{f}(m \tensor bn) = f(m, bn) = b f(m, n) = b \hat{f}(m \tensor n)
+\]
+and extend by linearity.
+This construction is natural in \(P\) since post composition does not affect anything we have done.
+An identical construction can be made for an \((A, B)\)-bimodule \(N\) and \(B\)-module \(P\) where we require \(A\)-linearity in the left component.
+
+Now that we have a universal property, we can prove the big isomorphism using the yoneda lemma.
+To define a map out of \((M \tensor_A N) \tensor_B P\), we have to define a bilinear map out of \((M \tensor_A N) \times P\) that is \(A\)-linear in the left component.
+That is, we have to define a map out of \(M \tensor_A N \times P\) that is a bimodule homomorphism with \(P\) fixed, and is \(B\)-linear with \(M \tensor_A N\) fixed.
+This is the same thing as a map out of \(M \times N \times P\) that is \(A\)-linear in \(M\), \(B\)-linear in \(P\) and linear in both \(A\) and \(B\) in \(N\).
+Reversing our steps, this shows that the universal property for \((M \tensor_A N) \tensor_B P\) and \(M \tensor_A (N \tensor_B P)\) are the same.
+Hence, they are isomorphic as \((A, B)\)-bimodules.
+
+\setcounter{exercise}{20}
+\begin{exercise}
+    If \(f : A \to B\) is a ring homomorphism and \(M\) is a flat \(A\)-module, then \(M_B = B \tensor_A M\) is a flat \(B\)-module.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Let
+\[
+    0 \to N' \to N \to N'' \to 0
+\]
+be an exact sequence of \(B\)-modules.
+Tensoring with \(M_B\) gives
+\[
+    0 \to (M \tensor_A B) \tensor_B N' \to (M \tensor_A B) \tensor_B N \to (M \tensor_A B) \tensor_B N'' \to 0
+\]
+but this is isomorphic to the following sequence by exercise \ref{ex2.16}.
+\[
+    0 \to M \tensor_A (B \tensor_B N') \to M \tensor_A (B \tensor_B N) \to M \tensor_A (B \tensor_B N'') \to 0
+\]
+This sequence is exact as a sequence of \(A\)-modules, but since kernels and images of maps are the same when regarded as a sequence of \(B\)-modules, this sequence is also exact as a \(B\)-module sequence.
+Hence \(M_B\) is flat.
+
+\setcounter{exercise}{0}
+\renewcommand{\theexercise}{(\arabic{exercise})}
+
+\begin{exercise}
+    Show that \((\ZZ/m\ZZ) \tensor_\ZZ (\ZZ/n\ZZ) = 0\) if \(m, n\) are coprime.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Let \(A\) be a \(Z\)-module (or abelian group) and let \(f : (\ZZ/m\ZZ) \times (\ZZ/n\ZZ) \to A\) be a bilinear map.
+Then \(f(0, 0) = f(m, 0) = m f(1, 0) = f(1, 0)\) and \(f(0, 0) = f(0, n) = n f(0, 1) = f(0, 1)\).
+Hence, the induced map \(\hat{f} : (\ZZ/m\ZZ) \tensor_\ZZ (\ZZ/n\ZZ) \to A\) is the zero map.
+Thus every map out of \((\ZZ/m\ZZ) \tensor_\ZZ (\ZZ/n\ZZ)\) is the zero map, and \((\ZZ/m\ZZ) \tensor_\ZZ (\ZZ/n\ZZ) \cong 0\).
+
+\begin{exercise}
+    Let \(A\) be a ring, \(\ideala\) an ideal, \(M\) an \(A\)-module.
+    Show that \(A/\ideala \tensor M\) is isomorphic to \(M/\ideala M\).
+\end{exercise}
+
+\noindent\textbf{Solution:}
+We will first show that \(\ideala \tensor M \cong \ideala M\).
+Define \(f : \ideala \tensor M \to \ideala M\) by \(a \tensor m \mapsto am\).
+Similarly define \(g : \ideala M \to \ideala \tensor M\) by \(am \mapsto a \tensor m\).
+Both maps are homomorphisms, and are clearly self inverse.
+
+Next consider the exact sequence
+\[
+    0 \to \ideala \to A \to A/\ideala \to 0.
+\]
+Since tensor is right exact, we obtain the following exact sequence
+\[
+    \ideala M \to M \to A/\ideala \tensor M \to 0.
+\]
+The left map is given from sending \(a m \mapsto a m\) and so is injective.
+Hence we can extend the sequence to the left with a zero.
+\[
+    0 \to \ideala M \to M \to A/\ideala \tensor M \to 0
+\]
+Thus \(A/\ideala \tensor M \cong M/\ideala M\).
 
 \end{document}
