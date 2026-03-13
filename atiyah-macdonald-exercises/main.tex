@@ -582,6 +582,42 @@ Hence the \(X_f\) form a basis!
         Their union is finite and covers \(U\).
 \end{enumerate}
 
+\begin{exercise}
+    For psychological reasons it is sometimes convenient to denote a prime ideal of \(A\) by a letter such as \(x\) or \(y\) when thinking of it as a point of \(X = \Spec(A)\).
+    When thinking of \(x\) as a prime ideal of \(A\), we denote it by \(\idealp_x\) (logically, of course, it is the same thing).
+    Show that
+    \begin{enumerate}
+        \item
+            the set \(\{x\}\) is closed (we say that \(x\) is a closed point) in \(\Spec(A)\) \(\iff\) \(\idealp_x\) is maximal;
+        \item
+            \(\overline{\{x\}} = V(\idealp_x)\);
+        \item
+            \(y \in \overline{\{x\}}\) \(\iff\) \(\idealp_x \subseteq \idealp_y\);
+        \item
+            \(X\) is a \(T_0\)-space (this means that if \(x, y\) are distinct points of \(X\), then either there is a neighbourhood of \(x\) which does not contain \(y\), or else there is a neighbourhood of \(y\) which does not contain \(x\).
+    \end{enumerate}
+\end{exercise}
+
+\noindent\textbf{Solution:}
+\begin{enumerate}
+    \item
+        If \(\{x\}\) is closed then \(\{x\} = V(\ideala\) for some \(\ideala\).
+        The set of prime ideals containing \(\ideala\) is just \(x\), so necessarily \(\ideala\) is maximal and equal to \(\idealp_x\).
+        Conversely if \(\idealp_x\) is maximal, then the set of ideals containing it is just \(V(\idealp_x) = \{\idealp_x\} = \{x\}\).
+    \item
+        A point \(y\) is in the closure of \(\{x\}\) iff every open neighbourhood of \(y\) contains \(x\).
+        This is true iff it is true for every basis element.
+        That is, for all \(f \in A\), if \(y \in X_f\) then \(x \in X_f\).
+        This is equivalent to that, if \(f \notin \idealp_y\) then \(f \notin \idealp_x\).
+        Finally this is equivalent to saying \(\idealp_x \subseteq \idealp_y\), i.e. \(\idealp_y \in V(\idealp_x)\).
+    \item
+        This is the definition of \(V(\idealp_x)\).
+    \item
+        Notice that for distinct \(x, y\), from part 3. that if \(y \in \overline{\{x\}}\) then \(x \notin \overline{\{y\}}\), and so we can take the open set \(X - \overline{\{y\}}\) which contains \(x\) but not \(y\).
+        If \(y \notin \overline{\{x\}}\), then \(\idealp_x \not\subseteq \idealp_y\), hence \(\idealp_y \notin V(\idealp_x)\).
+        Hence we can take the open set \(X - V(\idealp_x)\) which contains \(y\) but not \(x\).
+\end{enumerate}
+
 \section{Modules}
 \renewcommand{\theexercise}{\thesection.\arabic{exercise}}
 
