@@ -315,7 +315,7 @@ Let \(x + \idealp\) be a nonzero element.
 Then \(x (x^{n-1} - 1) + \idealp = 0 + \idealp\), so \(x^{n-1} \equiv 1 \pmod{\idealp}\).
 Hence \(x + \idealp\) is a unit, so \(\idealp\) is maximal.
 
-\begin{exercise}
+\begin{exercise} \label{ex1-8}
     Let \(A\) be a ring \(\neq 0\).
     Show that the set of prime ideals of \(A\) has minimal elements with respect to inclusion.
 \end{exercise}
@@ -508,7 +508,7 @@ So \(\idealp\) is prime.
 \noindent\textbf{Solution:}
 I don't want to put a photo here so no thanks...
 
-\begin{exercise}
+\begin{exercise} \label{ex1-17}
     For each \(f \in A\), let \(X_f\) denote the complement of \(V(f)\) in \(X = \Spec(A)\).
     The sets \(X_f\) are open.
     Show that they form a basis of open sets for the Zariski topology, and that
@@ -601,7 +601,7 @@ Hence the \(X_f\) form a basis!
 \noindent\textbf{Solution:}
 \begin{enumerate}
     \item
-        If \(\{x\}\) is closed then \(\{x\} = V(\ideala\) for some \(\ideala\).
+        If \(\{x\}\) is closed then \(\{x\} = V(\ideala)\) for some \(\ideala\).
         The set of prime ideals containing \(\ideala\) is just \(x\), so necessarily \(\ideala\) is maximal and equal to \(\idealp_x\).
         Conversely if \(\idealp_x\) is maximal, then the set of ideals containing it is just \(V(\idealp_x) = \{\idealp_x\} = \{x\}\).
     \item
@@ -616,6 +616,72 @@ Hence the \(X_f\) form a basis!
         Notice that for distinct \(x, y\), from part 3. that if \(y \in \overline{\{x\}}\) then \(x \notin \overline{\{y\}}\), and so we can take the open set \(X - \overline{\{y\}}\) which contains \(x\) but not \(y\).
         If \(y \notin \overline{\{x\}}\), then \(\idealp_x \not\subseteq \idealp_y\), hence \(\idealp_y \notin V(\idealp_x)\).
         Hence we can take the open set \(X - V(\idealp_x)\) which contains \(y\) but not \(x\).
+\end{enumerate}
+
+\begin{exercise} \label{ex1-19}
+    A topological space \(X\) is said to be \textit{irreducible} if \(X \neq \varnothing\) and if every pair of non-empty open sets of \(X\) intersect, or equivalently if every non-empty open set is dense in \(X\).
+    Show that \(\Spec(A)\) is irreducible if and only if the nilradical of \(A\) is a prime ideal.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Note that \(X\) is irreducible iff every pair of non-empty open basis elements intersect.
+Equivalently, for all non-nilpotent \(f, g \in A\), the product \(fg\) is not nilpotent by Exercise \ref{ex1-17}.
+This is exactly the statement of the nilradical being prime!
+
+\begin{exercise}
+    Let \(X\) be a topological space.
+    \begin{enumerate}
+        \item
+            If \(Y\) is an irreducible (Exercise \ref{ex1-19}) subspace of \(X\), then the closure \(\overline{Y}\) of \(Y\) in \(X\) is irreducible.
+        \item
+            Every irreducible subspace of \(X\) is contained in a maximal irreducible subspace.
+        \item
+            The maximal irreducible subspaces of \(X\) are closed and cover \(X\).
+            They are called the \textit{irreducible components} of \(X\).
+            What are the irreducible components of a Hausdorff space?
+        \item
+            If \(A\) is a ring and \(X = \Spec(A)\), then the irreducible components of \(X\) are the closed sets \(V(\idealp)\), where \(\idealp\) is a minimal prime ideal of \(A\) (Exercise \ref{ex1-8}).
+    \end{enumerate}
+\end{exercise}
+
+\noindent\textbf{Solution:}
+\begin{enumerate}
+    \item
+        Let \(U, V\) be non-empty open subsets of \(\overline{Y}\).
+        Then \(U \cap Y, V \cap Y\) are non-empty.
+        Hence they interesct, so \(U\) and \(V\) intersect.
+    \item
+        If there are no irreducible subspaces of \(X\) then the proposition holds trivially.
+        Else, we can apply Zorn's lemma.
+        Let \(C\) be a chain of irreducible subspaces.
+        Let \(U, V\) be open subsets of the union of \(C\).
+        Then there is some subspace \(Y\) containing both \(U\) and \(V\).
+        Hence, they intersect, so they intersect in the union.
+        Therefore the union of \(C\) is irreducible, and thus is an upper bound of \(C\).
+    \item
+        If \(Y\) is a maximal irreducible subspace, then \(\overline{Y}\) is irreducible, and hence equal to \(Y\), so \(Y\) is closed.
+        The maximal irreducible subspaces cover \(X\) since irreducible spaces cover \(X\), indeed each point is irreducible and contained in some maximal irreducible subspace (this is given by Zorn's lemma).
+
+        Since every pair of points in a Hausdorff space can be separated by disjoint open neighbourhoods, if a subspace has at least two points it is not irreducible.
+        Hence the irreducible subspaces (and irreducible components) are the points, which indeed are closed!
+    \item
+        Let \(Y\) be a closed irreducible subspace.
+        Then it is closed, so it is equal to \(V(\rad{\ideala})\) for some ideal \(\ideala\).
+        We first aim to show that \(\rad{\ideala}\) is prime.
+        Suppose \(fg \in \rad{\ideala}\).
+        Then \(X_{fg} \cap Y = \emptyset\) so one of \(X_f\) or \(X_g\) is empty in \(Y\).
+        Assume \(X_f\) is.
+        Then every prime ideal in \(Y\) contains \(f\).
+        Hence the intersection of said prime ideals contains \(f\), which is \(\rad{\ideala}\).
+        If instead \(X_g\) were empty, then \(g\) would be an element of \(\rad{\ideala}\).
+        Hence \(\rad{\ideala}\) is prime.
+        Conversely, consider \(Y = V(\idealp)\) for some prime \(\idealp\) and let \(X_{fg}\) be empty in \(Y\).
+        Then \(fg \in \idealp\).
+        Hence either \(f \in \idealp\) or \(g \in \idealp\), so either \(X_f\) is empty in \(Y\) or \(X_g\) is, so \(Y\) is irreducible.
+
+        Now suppose that \(Y = V(\idealp)\) is an irreducible component.
+        Then if \(Y \subseteq Y' = V(\idealq)\) for some prime \(\idealq\), then \(\idealq \subseteq \idealp\).
+        However, \(\idealp = \idealq\) since \(Y\) is maximal, so \(\idealp\) is minimal.
 \end{enumerate}
 
 \section{Modules}
