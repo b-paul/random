@@ -506,7 +506,7 @@ So \(\idealp\) is prime.
 \end{exercise}
 
 \noindent\textbf{Solution:}
-I don't want to put a photo here so no thanks...
+TODO i should REALLY come back to this question and describe their pictures...
 
 \begin{exercise} \label{ex1-17}
     For each \(f \in A\), let \(X_f\) denote the complement of \(V(f)\) in \(X = \Spec(A)\).
@@ -682,6 +682,79 @@ This is exactly the statement of the nilradical being prime!
         Now suppose that \(Y = V(\idealp)\) is an irreducible component.
         Then if \(Y \subseteq Y' = V(\idealq)\) for some prime \(\idealq\), then \(\idealq \subseteq \idealp\).
         However, \(\idealp = \idealq\) since \(Y\) is maximal, so \(\idealp\) is minimal.
+\end{enumerate}
+
+\begin{exercise}
+    Let \(\phi : A \to B\) be a ring homomorphism.
+    Let \(X = \Spec(A)\) and \(Y = \Spec(B)\).
+    If \(\idealq \in Y\) then \(\phi^{-1}(\idealq)\) is a prime ideal of \(A\), i.e. a point of \(X\).
+    Hence \(phi\) induces a mapping \(\phi^* : Y \to X\).
+    Show that
+    \begin{enumerate}
+        \item
+            If \(f \in A\) then \(\phi^{*-1} (X_f) = Y_{\phi(f)}\), and hence \(\phi^*\) is continuous.
+        \item
+            If \(\ideala\) is an ideal of \(A\), then \(\phi^{*-1}(V(\ideala)) = V(\ideala^e)\).
+        \item
+            If \(\idealb\) is an ideal of \(B\), then \(\overline{\phi^*(V(\idealb))} = V(\idealb^c)\).
+        \item
+            If \(\phi\) is surjective, then \(\phi^*\) is a homeomorphism of \(Y\) onto then closed subset \(V(\ker(\phi))\) of \(X\).
+            (In particular, \(\Spec(A)\) and \(\Spec(A/\nilrad)\) (where \(\nilrad\) is the nilradical of \(A\) are naturally homeomorphic).
+        \item
+            If \(\phi\) is injective, then \(\phi^*(Y)\) is dense in \(X\).
+            More precisely, \(\phi^*(Y)\) is dense in \(X\) \(\iff\) \(\ker(\phi) \subset \nilrad\).
+        \item
+            Let \(\psi : B \to C\) be another ring homomorphism.
+            Then \((\psi \circ \phi)^* = \phi^* \circ \psi^*\).
+        \item
+            Let \(A\) be an integral domain with just one non-zero prime ideal \(\idealp\), and \(K\) be the field of fractions of \(A\).
+            Let \(B = A/\idealp \times K\).
+            Define \(\phi : A \to B\) by \(\phi(x) = (\bar{x}, x)\), where \(\bar{x}\) is the image of \(x\) in \(A/\idealp\).
+            Show that \(\phi^*\) is bijective but not a homeomorphism.
+    \end{enumerate}
+\end{exercise}
+
+\noindent\textbf{Solution:}
+\begin{enumerate}
+    \item
+        A prime ideal \(\idealp\) is in \(\phi^{*-1}(X_f)\) if \(\phi^{-1}(\idealp)\) does not contain \(f\).
+        This is true iff \(\phi(f)\) is not contained in \(\idealp\), that is, \(\idealp \in Y_{\phi(f)}\).
+    \item
+        If \(\idealp \in \phi^{*-1}(V(\ideala))\) then \(\ideala \subseteq \idealp^c\).
+        Hence \(\ideala^e \subseteq \idealp^{ce} \subseteq \idealp\), so \(\idealp \in V(\ideala^e)\).
+        Conversely, if \(\idealp \in V(\ideala^e)\), then \(\phi^*(\idealp) = \idealp^c \supseteq \ideala^{ec} \supseteq \ideala\), so \(\idealp \in \phi^{*-1}(V(\ideala))\).
+    \item
+        Let \(\idealp \in \overline{\phi^*(V(\idealb))}\).
+        Suppose \(f \notin \idealp\).
+        Then, \(X_f \cap \phi^*(V(\idealb)))\) is non-empty.
+        Hence there is some \(\idealq \in V(\idealb)\) so that \(f \notin \idealq^c\).
+        Hence \(f \notin \idealb^c\), so \(\idealb^c \subseteq \idealp\).
+        Conversely, let \(\idealp \in V(\idealb^c)\).
+        Then \(\rad{\idealb^c} = (\rad{\idealb})^c \subseteq \idealp\).
+        Let \(X_f\) be a neighbourhood of \(\idealp\).
+        Then \(f \notin (\rad{\idealb})^c\), and so there is some prime ideal \(\idealq\) containing \(\idealb\) so that \(f \notin \idealq^c\).
+        Hence \(X_f \cap \phi^*(V(\idealb)) \neq \varnothing\), and \(\idealp \in \overline{\phi^*(V(\idealb))}\).
+    \item
+        We can identify \(B = A/\ideala\) for some ideal \(\ideala = \ker(\phi)\).
+        Then \(\phi^*\) is a bijection onto \(V(\ideala)\) as it is an order isomorphism between the prime ideals of \(A\) containing \(\ideala\) and of \(A/\ideala\).
+        Let \(Y_f\) be open in \(Y\).
+        Then there is some \(f'\) so that \(\phi(f') = f\).
+        We claim \(\phi*(Y_f) = X_{f'}\).
+        Indeed if \(\idealq^c \in \phi^*(Y_f)\), then \(f' \notin \idealq^c\).
+        Conversely if \(\idealq \in X_f'\) then \((\idealq / \ideala)^c = \idealq\), so \(\idealq / \ideala\) does not contain \(f\).
+    \item
+        If \(\phi\) is injective, then \(\overline{\phi^*(Y)} = \overline{\phi^*(V(0))} = V(0^c) = V(\ker(\phi)) = V(0)\).
+        If \(\ker(\phi) \subseteq \nilrad\) we can identify \(X\) with \(Spec(A/\ker(\phi))\) in which case \(\phi\) will be injective.
+        Conversely if \(\overline{\phi^*(Y)} = X\) then \(X = V(0^c) = V(\ker(\phi))\).
+        Hence every prime \(\idealp \in X\) has \(\ker(\phi) \subseteq \idealp\), and so \(\ker(\phi) \subseteq \nilrad\).
+    \item
+        If \(\idealp \in \Spec(C)\) then \((\psi \circ \phi)^*(\idealp) = (\psi \circ \phi)^{-1}(\idealp) = \phi^{-1}(\psi^{-1}(\idealp)) = (\phi^* \circ \psi^*)(\idealp)\).
+    \item
+        Firstly \(\Spec(A) = \{(0), \idealp\}\) has topology \(\tau_{\Spec(A)} = \{\varnothing, \Spec(A), \{(0)\}\}\) (think of the closed sets).
+        Notice that this space is connected.
+        Next, \(\Spec(B) = \{(0) \times K, A/\idealp \times (0)\}\) has topology \(\tau_{\Spec(B)} = \{\varnothing, \Spec(B), \{(0) \times K\}, \{A/\idealp \times (0)\}\}\).
+        This space is disconnected, so \(\Spec(A)\) and \(\Spec(B)\) are not homeomorphic.
+        However, \(\phi^*\) is a bijection, since \(\phi^*((0) \times K) = \idealp\) and \(\phi^*(A/\idealp \times (0)) = (0)\).
 \end{enumerate}
 
 \section{Modules}
