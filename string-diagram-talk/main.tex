@@ -1276,5 +1276,226 @@
         \end{align*}
     }
 \end{frame}
+\begin{frame}
+    \frametitle{Monoid homomorphisms}
+    \begin{definition}
+        Let \((M, \mu, e), (M', \mu', e')\) be monoids.
+        A function \(f : M \to M'\) is a monoid homomorphism if
+        \begin{itemize}
+            \item
+                for any \(a, b \in M\), \(f(a * b) = f(a) *' f(b)\),
+            \item
+                and \(f(e) = e'\).
+        \end{itemize}
+    \end{definition}
+    \uncover<2->{
+    \begin{example}
+        \begin{itemize}
+            \item
+                From \((\NN, +, 0)\) to \((\NN, *, 1)\), map \(n \mapsto 2^n\).
+            \item
+                From \((\RR, *, 0)\) to \((\mathrm{Mat}_n, *, I_n)\), map \(x \mapsto x I_n\).
+            \item
+                From \((\ZZ_4, +, 0)\) to \((S^1, *, 1)\), send \(n \mapsto e^{\frac{n \pi i}{2}}\).
+        \end{itemize}
+    \end{example}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Homomorphisms diagramatically}
+    A function \(f : M \to M'\) is a homomorphism if:
+
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[label=below:\(M\)] (dl)
+                +(1,0) coordinate[label=below:\(M\)] (dr)
+                +(0.5,1) coordinate[dot, label=below:\(\mu\)] (a)
+                +(0.5,2) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,3) coordinate[label=above:\(M'\)] (top);
+            % Line drawing
+            \draw (dl) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+            \draw (a) -- (b);
+            \draw (b) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[label=below:\(M\)] (dl)
+                +(1,0) coordinate[label=below:\(M\)] (dr)
+                +(0,1) coordinate[dot, label=left:\(f\)] (a)
+                +(1,1) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,2) coordinate[dot, label=below:\(\mu\)] (c)
+                +(0.5,3) coordinate[label=above:\(M'\)] (top);
+            % Line drawing
+            \draw (dl) -- (a);
+            \draw (dr) -- (b);
+            \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+            \draw (c) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, label=below:\(e\)] (a)
+                +(0,2) coordinate[dot, label=right:\(f\)] (b)
+                +(0,3) coordinate[label=above:\(M'\)] (top);
+            % Line drawing
+            \draw (a) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, label=below:\(e'\)] (a)
+                +(0,2) coordinate[label=above:\(M'\)] (top);
+            % Line drawing
+            \draw (a) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    Is \(f = \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+         %Coordinate layout and vertex positioning
+        \path
+            coordinate[label=below:\(M\)] (bot)
+            +(0,1) coordinate[dot, label=above:\(\Delta\)] (a)
+            +(-0.5,2) coordinate[] (b)
+            +(0.5,2) coordinate[] (c)
+            +(0,3) coordinate[dot, label=below:\(\mu\)] (d)
+            +(0,4) coordinate[label=above:\(M\)] (top);
+        % Line drawing
+        \draw (bot) -- (a);
+        \draw (b) to[out=-90, in=180] (a) to[out=0, in=-90] (c);
+        \draw (b) to[out=90, in=180] (d) to[out=0, in=90] (c);
+        \draw (d) -- (top);
+        % Region filling
+        \begin{scope}[on background layer]
+        \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+        \end{scope}
+    \end{tikzpicture}\) a homomorphism? (Equationally, \(f(m) = m^2\).) Well...
+
+    \begin{minipage}[t]{0.40\textwidth}
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[label=below:\(M\)] (dl)
+                +(1,0) coordinate[label=below:\(M\)] (dr)
+                +(0.5,1) coordinate[dot, label=below:\(\mu\)] (a)
+                +(0.5,2) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,3) coordinate[label=above:\(M\)] (top);
+            % Line drawing
+            \draw (dl) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+            \draw (a) -- (b);
+            \draw (b) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[label=below:\(M\)] (dl)
+                +(1,0) coordinate[label=below:\(M\)] (dr)
+                +(0.5,1) coordinate[dot, label=below:\(\mu\)] (a)
+                +(0.5,2) coordinate[dot, label=above:\(\Delta\)] (b)
+                +(0,3) coordinate[] (c)
+                +(1,3) coordinate[] (d)
+                +(0.5,4) coordinate[dot, label=below:\(\mu\)] (e)
+                +(0.5,5) coordinate[label=above:\(M\)] (top);
+            % Line drawing
+            \draw (dl) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+            \draw (a) -- (b);
+            \draw (c) to[out=-90, in=180] (b) to[out=0, in=-90] (d);
+            \draw (c) to[out=90, in=180] (e) to[out=0, in=90] (d);
+            \draw (e) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+    \end{minipage}
+    \begin{minipage}[t]{0.50\textwidth}
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[label=below:\(M\)] (dl)
+                +(1,0) coordinate[label=below:\(M\)] (dr)
+                +(0,1) coordinate[dot, label=left:\(f\)] (a)
+                +(1,1) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,2) coordinate[dot, label=below:\(\mu\)] (c)
+                +(0.5,3) coordinate[label=above:\(M'\)] (top);
+            % Line drawing
+            \draw (dl) -- (a);
+            \draw (dr) -- (b);
+            \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+            \draw (c) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[label=below:\(M\)] (dl)
+                +(2,0) coordinate[label=below:\(M\)] (dr)
+                +(0,1) coordinate[dot, label=above:\(\Delta\)] (a)
+                +(2,1) coordinate[dot, label=above:\(\Delta\)] (b)
+                +(-0.5,2) coordinate[] (c)
+                +(0.5,2) coordinate[] (d)
+                +(1.5,2) coordinate[] (e)
+                +(2.5,2) coordinate[] (f)
+                +(0,3) coordinate[dot, label=below:\(\mu\)] (g)
+                +(2,3) coordinate[dot, label=below:\(\mu\)] (h)
+                +(1,4) coordinate[dot, label=below:\(\mu\)] (i)
+                +(1,5) coordinate[label=above:\(M'\)] (top);
+            % Line drawing
+            \draw (dl) -- (a);
+            \draw (dr) -- (b);
+            \draw (c) to[out=-90, in=180] (a) to[out=0, in=-90] (d);
+            \draw (e) to[out=-90, in=180] (b) to[out=0, in=-90] (f);
+            \draw (c) to[out=90, in=180] (g) to[out=0, in=90] (d);
+            \draw (e) to[out=90, in=180] (h) to[out=0, in=90] (f);
+            \draw (g) to[out=90, in=180] (i) to[out=0, in=90] (h);
+            \draw (i) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1.5,0) rectangle (top -| 3.5,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+    \end{minipage}
+\end{frame}
 
 \end{document}
