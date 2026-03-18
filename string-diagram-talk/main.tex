@@ -28,6 +28,9 @@
 %\newtheorem{corollary}[theorem]{Corollary}
 %\newtheorem{example}{Example}[theorem]
 
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/]
+
 \usetikzlibrary{backgrounds, intersections, calc}
 \tikzstyle{dot}=[circle, draw=black, fill=black, minimum size=1mm, inner sep=0mm]
 \tikzstyle{bg}=[gray!30]
@@ -417,7 +420,7 @@
             \draw (f) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 3,0);
+            \fill[bg] (dl -| -1,0) rectangle (tr -| 3,0);
             \end{scope}
         \end{tikzpicture}
     \end{center}
@@ -650,7 +653,7 @@
         \draw (bot) -- (a);
         % Region filling
         \begin{scope}[on background layer]
-        \fill[bg] (bot -| -2,0) rectangle (tr -| 2,0);
+        \fill[bg] (bot -| -2,0) rectangle (top -| 2,0);
         \end{scope}
     \end{tikzpicture},
     satisfying:
@@ -686,7 +689,7 @@
         \draw (bot) -- (top);
         % region filling
         \begin{scope}[on background layer]
-        \fill[bg] (bot -| -2,0) rectangle (tr -| 2,0);
+        \fill[bg] (bot -| -2,0) rectangle (top -| 2,0);
         \end{scope}
     \end{tikzpicture}
     =
@@ -712,7 +715,7 @@
     }
 \end{frame}
 
-\section{Worked example: monoid algebra}
+\section{Worked example: monoids}
 
 \begin{frame}
     \frametitle{Monoids}
@@ -740,7 +743,7 @@
 
     Associativity:
     \begin{equation*}
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M\)] (bot)
@@ -761,7 +764,7 @@
             \end{scope}
         \end{tikzpicture}
         =
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M\)] (bot)
@@ -785,7 +788,7 @@
 
     Identity:
     \begin{equation*}
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M\)] (bot)
@@ -803,7 +806,7 @@
             \end{scope}
         \end{tikzpicture}
         =
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M\)] (bot)
@@ -819,7 +822,7 @@
             \end{scope}
         \end{tikzpicture}
         =
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M\)] (bot)
@@ -875,7 +878,7 @@
             % Line drawing
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \fill[bg] (bot -| -1,0) rectangle (tr -| 2,0);
             \end{scope}
         \end{tikzpicture}
         }
@@ -893,7 +896,7 @@
             \draw[red] (b) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \fill[bg] (bot -| -1,0) rectangle (tr -| 2,0);
             \end{scope}
         \end{tikzpicture}
         }
@@ -903,7 +906,7 @@
     Multiplication:
 
     \begin{equation*}
-        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M \times M'\)] (dl)
@@ -915,7 +918,7 @@
             \draw (a) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 4,0);
+            \fill[bg] (dl -| -1,0) rectangle (top -| 4,0);
             \end{scope}
         \end{tikzpicture}
         :=
@@ -934,7 +937,7 @@
             % Line drawing
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 4,0);
+            \fill[bg] (dll -| -1,0) rectangle (tr -| 4,0);
             \end{scope}
         \end{tikzpicture}
         }
@@ -955,7 +958,7 @@
             \draw[blue] (a) -- (tl);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 4,0);
+            \fill[bg] (dll -| -1,0) rectangle (tr -| 4,0);
             \end{scope}
         \end{tikzpicture}
         }
@@ -978,7 +981,7 @@
             \draw[red] (b) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 4,0);
+            \fill[bg] (dll -| -1,0) rectangle (tr -| 4,0);
             \end{scope}
         \end{tikzpicture}
         }
@@ -987,7 +990,7 @@
     \only<7-10>{
         Left identity:
         \begin{align*}
-        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M \times M'\)] (dl)
@@ -1002,7 +1005,7 @@
             \draw (dr) -- (c);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 4,0);
+            \fill[bg] (dl -| -1,0) rectangle (top -| 4,0);
             \end{scope}
         \end{tikzpicture}
         \uncover<8->{
@@ -1031,7 +1034,7 @@
             \draw[red] (f) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 4,0);
+            \fill[bg] (dll -| -1,0) rectangle (tr -| 4,0);
             \end{scope}
         \end{tikzpicture}
         \uncover<9->{
@@ -1060,7 +1063,7 @@
             \draw[red] (f) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 4,0);
+            \fill[bg] (dll -| -1,0) rectangle (tr -| 4,0);
             \end{scope}
         \end{tikzpicture}\\
         &=
@@ -1077,7 +1080,7 @@
             \draw[red] (dr) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 2,0);
+            \fill[bg] (dl -| -1,0) rectangle (tr -| 2,0);
             \end{scope}
         \end{tikzpicture}
         =
@@ -1091,7 +1094,7 @@
             \draw (bot) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 1,0);
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
             \end{scope}
         \end{tikzpicture}
         \end{align*}
@@ -1102,7 +1105,7 @@
     \only<11->{
         Associativity:
         \begin{align*}
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[] (bot)
@@ -1152,7 +1155,7 @@
             \draw[red] (f) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 6,0);
+            \fill[bg] (dlll -| -1,0) rectangle (tr -| 6,0);
             \end{scope}
         \end{tikzpicture}\\
         \uncover<13->{
@@ -1183,7 +1186,7 @@
             \draw[red] (f) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 6,0);
+            \fill[bg] (dlll -| -1,0) rectangle (tr -| 6,0);
             \end{scope}
         \end{tikzpicture}
         \uncover<14->{
@@ -1215,7 +1218,7 @@
             \draw[red] (h) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 6,0);
+            \fill[bg] (dlll -| -1,0) rectangle (tr -| 6,0);
             \end{scope}
         \end{tikzpicture}\\
         \uncover<15->{
@@ -1248,12 +1251,12 @@
             \draw[red] (f) -- (tr);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (tr -| 6,0);
+            \fill[bg] (dlll -| -1,0) rectangle (tr -| 6,0);
             \end{scope}
         \end{tikzpicture}
         =
         }}}}
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[] (bot)
@@ -1276,6 +1279,7 @@
         \end{align*}
     }
 \end{frame}
+
 \begin{frame}
     \frametitle{Monoid homomorphisms}
     \begin{definition}
@@ -1307,7 +1311,7 @@
     A function \(f : M \to M'\) is a homomorphism if:
 
     \begin{equation*}
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M\)] (dl)
@@ -1321,11 +1325,11 @@
             \draw (b) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
         =
-        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
                 coordinate[label=below:\(M\)] (dl)
@@ -1341,7 +1345,7 @@
             \draw (c) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
     \end{equation*}
@@ -1397,7 +1401,9 @@
         \begin{scope}[on background layer]
         \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
         \end{scope}
-    \end{tikzpicture}\) a homomorphism? (Equationally, \(f(m) = m^2\).) Well...
+    \end{tikzpicture}\) a homomorphism? (Equationally, \(f(m) = m^2\).)
+    \uncover<2->{
+    Well...
 
     \begin{minipage}[t]{0.40\textwidth}
     \begin{equation*}
@@ -1415,7 +1421,7 @@
             \draw (b) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
         =
@@ -1438,7 +1444,7 @@
             \draw (e) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
     \end{equation*}
@@ -1461,7 +1467,7 @@
             \draw (c) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1,0) rectangle (top -| 2,0);
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
         =
@@ -1491,10 +1497,11 @@
             \draw (i) -- (top);
             % Region filling
             \begin{scope}[on background layer]
-            \fill[bg] (bot -| -1.5,0) rectangle (top -| 3.5,0);
+            \fill[bg] (dl -| -1.5,0) rectangle (top -| 3.5,0);
             \end{scope}
         \end{tikzpicture}
     \end{equation*}
+    }
     \end{minipage}
 \end{frame}
 
