@@ -641,7 +641,7 @@
     \end{equation*}
     }
 
-    \only<3-3>{
+    \only<3-4>{
     Deleting elements:
     \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
          %Coordinate layout and vertex positioning
@@ -712,6 +712,9 @@
         \end{scope}
     \end{tikzpicture}
     \end{equation*}
+    \uncover<4-4>{
+        etc.
+    }
     }
 \end{frame}
 
@@ -1348,9 +1351,8 @@
             \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
-    \end{equation*}
-
-    \begin{equation*}
+        \qquad
+        \qquad
         \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
@@ -1380,6 +1382,274 @@
             \end{scope}
         \end{tikzpicture}
     \end{equation*}
+    The composite of two homomorphisms is a homomorphism:
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dl)
+                +(1,0) coordinate[] (dr)
+                +(0.5,1) coordinate[dot] (a)
+                +(0.5,2) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,3) coordinate[dot, label=right:\(g\)] (c)
+                +(0.5,4) coordinate[] (top);
+            % Line drawing
+            \draw (dl) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dl)
+                +(1,0) coordinate[] (dr)
+                +(0,1) coordinate[dot, label=left:\(f\)] (a)
+                +(1,1) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,2) coordinate[dot] (c)
+                +(0.5,3) coordinate[dot, label=right:\(g\)] (d)
+                +(0.5,4) coordinate[] (top);
+            % Line drawing
+            \draw (dl) -- (a);
+            \draw (dr) -- (b);
+            \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+            \draw (c) -- (d);
+            \draw (d) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dl)
+                +(1,0) coordinate[] (dr)
+                +(0,1) coordinate[dot, label=left:\(f\)] (a)
+                +(1,1) coordinate[dot, label=right:\(f\)] (b)
+                +(0,2) coordinate[dot, label=left:\(g\)] (c)
+                +(1,2) coordinate[dot, label=right:\(g\)] (d)
+                +(0.5,3) coordinate[dot] (e)
+                +(0.5,4) coordinate[] (top);
+            % Line drawing
+            \draw (dl) -- (a) -- (c);
+            \draw (dr) -- (b) -- (d);
+            \draw (c) to[out=90, in=180] (e) to[out=0, in=90] (d);
+            \draw (e) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, label=below:\(e\)] (a)
+                +(0,2) coordinate[dot, label=right:\(f\)] (b)
+                +(0,3) coordinate[dot, label=right:\(g\)] (c)
+                +(0,4) coordinate[] (top);
+            % Line drawing
+            \draw (a) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, label=below:\(e'\)] (a)
+                +(0,2) coordinate[dot, label=right:\(g\)] (c)
+                +(0,4) coordinate[] (top);
+            % Line drawing
+            \draw (a) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, label=below:\(e''\)] (a)
+                +(0,4) coordinate[] (top);
+            % Line drawing
+            \draw (a) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    Is \(f = \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[label=below:\(M\)] (dl)
+                +(1,0) coordinate[label=below:\(M'\)] (dr)
+                +(1,1) coordinate[dot, red] (a)
+                +(0,2) coordinate[label=above:\(M\)] (tl);
+            % Line drawing
+            \draw[blue] (dl) -- (tl);
+            \draw[red] (dr) -- (a);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (tl -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+    \) a homomorphism?
+    \uncover<2->{
+    Yes!
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dl)
+                +(1,0) coordinate[] (dr)
+                +(0.5,1) coordinate[dot, label=below:\(\mu^\times\)] (a)
+                +(0.5,2) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,3) coordinate[] (top);
+            % Line drawing
+            \draw (dl) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+            \draw (a) -- (b);
+            \draw (b) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dll)
+                +(1,0) coordinate[] (dl)
+                +(2,0) coordinate[] (dr)
+                +(3,0) coordinate[] (drr)
+                +(1,1) coordinate[dot, blue] (a)
+                +(2,1) coordinate[dot, red] (b)
+                +(2,2) coordinate[dot, red] (c)
+                +(1,3) coordinate[] (tl);
+            % Line drawing
+            \draw[blue] (dll) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+            \draw[red] (dl) to[out=90, in=180] (b) to[out=0, in=90] (drr);
+            \draw[blue] (a) -- (tl);
+            \draw[red] (b) -- (c);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (tl -| 4,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(tl)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dll)
+                +(1,0) coordinate[] (dl)
+                +(2,0) coordinate[] (dr)
+                +(3,0) coordinate[] (drr)
+                +(0,1) coordinate[] (a)
+                +(1,1) coordinate[dot, red] (b)
+                +(2,1) coordinate[] (c)
+                +(3,1) coordinate[dot, red] (d)
+                +(1,2) coordinate[dot, blue] (e)
+                +(1,3) coordinate[] (tl);
+            % Line drawing
+            \draw[blue] (dll) -- (a);
+            \draw[red] (dl) -- (b);
+            \draw[blue] (dr) -- (c);
+            \draw[red] (drr) -- (d);
+            \draw[blue] (a) to[out=90, in=180] (e) to[out=0, in=90] (c);
+            \draw[blue] (e) -- (tl);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (tl -| 4,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dl)
+                +(1,0) coordinate[] (dr)
+                +(0,1) coordinate[dot, label=left:\(f\)] (a)
+                +(1,1) coordinate[dot, label=right:\(f\)] (b)
+                +(0.5,2) coordinate[dot, label=below:\(\mu\)] (c)
+                +(0.5,3) coordinate[] (top);
+            % Line drawing
+            \draw (dl) -- (a);
+            \draw (dr) -- (b);
+            \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+            \draw (c) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+    \qquad
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, label=below:\(e^\times\)] (a)
+                +(0,2) coordinate[dot, label=right:\(f\)] (b)
+                +(0,3) coordinate[] (top);
+            % Line drawing
+            \draw (a) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(tl)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, blue, label=left:\(e\)] (a)
+                +(1,1) coordinate[dot, red, label=right:\(e'\)] (b)
+                +(1,2) coordinate[dot, red] (c)
+                +(0,3) coordinate[] (tl);
+            % Line drawing
+            \draw[blue] (a) -- (tl);
+            \draw[red] (b) -- (c);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (tl -| 3,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(bot)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (bot)
+                +(0,1) coordinate[dot, label=below:\(e\)] (a)
+                +(0,2) coordinate[] (top);
+            % Line drawing
+            \draw (a) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+    }
 \end{frame}
 
 \begin{frame}
@@ -1546,7 +1816,7 @@
             \fill[bg] (dl -| -1,0) rectangle (top -| 2,0);
             \end{scope}
         \end{tikzpicture}
-        \only<4->{
+        \uncover<4->{
         =
         \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
@@ -1561,7 +1831,7 @@
                 +(0,3) coordinate[dot, label=below:\(\mu\)] (g)
                 +(2,3) coordinate[dot, label=below:\(\mu\)] (h)
                 +(1,4) coordinate[dot, label=below:\(\mu\)] (i)
-                +(1,5) coordinate[label=above:\(M'\)] (top);
+                +(1,5) coordinate[label=above:\(M\)] (top);
             % Line drawing
             \draw (dl) to[out=90, in=180] (a);
             \draw (dr) to[out=90, in=0] (a);
@@ -1576,8 +1846,8 @@
             \fill[bg] (dl -| -1.5,0) rectangle (top -| 3.5,0);
             \end{scope}
         \end{tikzpicture}
+        \uncover<5->{
         =
-        \only<5->{
         \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
@@ -1592,7 +1862,7 @@
                 +(0,3) coordinate[dot, label=below:\(\mu\)] (g)
                 +(2,3) coordinate[dot, label=below:\(\mu\)] (h)
                 +(1,4) coordinate[dot, label=below:\(\mu\)] (i)
-                +(1,5) coordinate[label=above:\(M'\)] (top);
+                +(1,5) coordinate[label=above:\(M\)] (top);
             % Line drawing
             \draw (dl) -- (a);
             \draw (dr) -- (b);
@@ -1617,7 +1887,7 @@
                 +(0,1) coordinate[dot, label=left:\(f\)] (a)
                 +(1,1) coordinate[dot, label=right:\(f\)] (b)
                 +(0.5,2) coordinate[dot, label=below:\(\mu\)] (c)
-                +(0.5,3) coordinate[label=above:\(M'\)] (top);
+                +(0.5,3) coordinate[label=above:\(M\)] (top);
             % Line drawing
             \draw (dl) -- (a);
             \draw (dr) -- (b);
@@ -1643,7 +1913,7 @@
                 +(0,3) coordinate[dot, label=below:\(\mu\)] (g)
                 +(2,3) coordinate[dot, label=below:\(\mu\)] (h)
                 +(1,4) coordinate[dot, label=below:\(\mu\)] (i)
-                +(1,5) coordinate[label=above:\(M'\)] (top);
+                +(1,5) coordinate[label=above:\(M\)] (top);
             % Line drawing
             \draw (dl) -- (a);
             \draw (dr) -- (b);
@@ -1662,6 +1932,347 @@
     \only<6->{
     We need commutativity!
     }
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{The Eckmann-Hilton argument}
+    \only<1-1>{
+    Let \(M\) be a set with two monoid structures \((M, \circ, e), (M, \otimes, e')\) so that
+    \[
+        (a \otimes b) \circ (c \otimes d) = (a \circ c) \otimes (b \circ d).
+    \]
+    Diagramatically,
+    \begin{equation*}
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dll)
+                +(1,0) coordinate[] (dl)
+                +(2,0) coordinate[] (dr)
+                +(3,0) coordinate[] (drr)
+                +(0.5,1) coordinate[dot, blue] (a)
+                +(2.5,1) coordinate[dot, blue] (b)
+                +(1.5,2) coordinate[dot, red] (c)
+                +(1.5,3) coordinate[] (top);
+            % Line drawing
+            \draw (dll) to[out=90, in=180] (a) to[out=0, in=90] (dl);
+            \draw (dr) to[out=90, in=180] (b) to[out=0, in=90] (drr);
+            \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+            \draw (c) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dll -| -1,0) rectangle (top -| 4,0);
+            \end{scope}
+        \end{tikzpicture}
+        =
+        \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
+             %Coordinate layout and vertex positioning
+            \path
+                coordinate[] (dll)
+                +(1,0) coordinate[] (dl)
+                +(2,0) coordinate[] (dr)
+                +(3,0) coordinate[] (drr)
+                +(0.5,1) coordinate[dot, red] (a)
+                +(2.5,1) coordinate[dot, red] (b)
+                +(1.5,2) coordinate[dot, blue] (c)
+                +(1.5,3) coordinate[] (top);
+            % Line drawing
+            \draw (dll) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+            \draw (dl) to[out=90, in=180] (b) to[out=0, in=90] (drr);
+            \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+            \draw (c) -- (top);
+            % Region filling
+            \begin{scope}[on background layer]
+            \fill[bg] (dll -| -1,0) rectangle (top -| 4,0);
+            \end{scope}
+        \end{tikzpicture}
+    \end{equation*}
+    Then \(e = e'\), \(\circ = \otimes\), and \(M\) is commutative.
+    }
+    \only<2->{
+    \begin{proof}
+        \uncover<3->{
+        \begin{equation*}
+            \begin{tikzpicture}[scale=0.25, baseline=($(bot)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,1) coordinate[dot, red] (a)
+                    +(0,2) coordinate[] (top);
+                % Line drawing
+                \draw (a) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(bot)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,1) coordinate[dot, red] (a)
+                    +(2,1) coordinate[dot, red] (b)
+                    +(1,2) coordinate[dot, red] (c)
+                    +(1,3) coordinate[] (top);
+                % Line drawing
+                \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+                \draw (c) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (bot -| -1,0) rectangle (top -| 3,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(bot)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,1) coordinate[dot, blue] (a)
+                    +(1,1) coordinate[dot, red] (b)
+                    +(2,1) coordinate[dot, red] (c)
+                    +(3,1) coordinate[dot, blue] (d)
+                    +(0.5,2) coordinate[dot, blue] (e)
+                    +(2.5,2) coordinate[dot, blue] (f)
+                    +(1.5,3) coordinate[dot, red] (g)
+                    +(1.5,4) coordinate[] (top);
+                % Line drawing
+                \draw (a) to[out=90, in=180] (e) to[out=0, in=90] (b);
+                \draw (c) to[out=90, in=180] (f) to[out=0, in=90] (d);
+                \draw (e) to[out=90, in=180] (g) to[out=0, in=90] (f);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (bot -| -1,0) rectangle (top -| 4,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(bot)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,1) coordinate[dot, blue] (a)
+                    +(1,1) coordinate[dot, red] (b)
+                    +(2,1) coordinate[dot, red] (c)
+                    +(3,1) coordinate[dot, blue] (d)
+                    +(0.5,2) coordinate[dot, red] (e)
+                    +(2.5,2) coordinate[dot, red] (f)
+                    +(1.5,3) coordinate[dot, blue] (g)
+                    +(1.5,4) coordinate[] (top);
+                % Line drawing
+                \draw (a) to[out=90, in=180] (e) to[out=0, in=90] (c);
+                \draw (b) to[out=90, in=180] (f) to[out=0, in=90] (d);
+                \draw (e) to[out=90, in=180] (g) to[out=0, in=90] (f);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (bot -| -1,0) rectangle (top -| 4,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(bot)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,1) coordinate[dot, blue] (a)
+                    +(2,1) coordinate[dot, blue] (b)
+                    +(1,2) coordinate[dot, blue] (c)
+                    +(1,3) coordinate[] (top);
+                % Line drawing
+                \draw (a) to[out=90, in=180] (c) to[out=0, in=90] (b);
+                \draw (c) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (bot -| -1,0) rectangle (top -| 3,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(bot)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,1) coordinate[dot, blue] (a)
+                    +(0,2) coordinate[] (top);
+                % Line drawing
+                \draw (a) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (bot -| -1,0) rectangle (top -| 1,0);
+                \end{scope}
+            \end{tikzpicture}
+        \end{equation*}
+        So \(e = e'\).
+        }
+        \uncover<4->{
+        \begin{align*}
+            \begin{tikzpicture}[scale=0.25, baseline=($(dl)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (dl)
+                    +(2,0) coordinate[] (dr)
+                    +(1,1) coordinate[dot, red] (a)
+                    +(1,2) coordinate[] (top);
+                % Line drawing
+                \draw (dl) to[out=90, in=180] (a) to[out=0, in=90] (dr);
+                \draw (a) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (dl -| -1,0) rectangle (top -| 3,0);
+                \end{scope}
+            \end{tikzpicture}
+            &=
+            \begin{tikzpicture}[scale=0.25, baseline=($(dl)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(1,0)coordinate[] (dl)
+                    +(2,0) coordinate[] (dr)
+                    +(0,1) coordinate[dot] (a)
+                    +(1,1) coordinate[] (b)
+                    +(2,1) coordinate[] (c)
+                    +(3,1) coordinate[dot] (d)
+                    +(0.5,2) coordinate[dot, blue] (e)
+                    +(2.5,2) coordinate[dot, blue] (f)
+                    +(1.5,3) coordinate[dot, red] (g)
+                    +(1.5,4) coordinate[] (top);
+                % Line drawing
+                \draw (dl) -- (b);
+                \draw (dr) -- (c);
+                \draw (a) to[out=90, in=180] (e) to[out=0, in=90] (b);
+                \draw (c) to[out=90, in=180] (f) to[out=0, in=90] (d);
+                \draw (e) to[out=90, in=180] (g) to[out=0, in=90] (f);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (dl -| -1,0) rectangle (top -| 4,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(dl)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(1,0)coordinate[] (dl)
+                    +(2,0) coordinate[] (dr)
+                    +(0,1) coordinate[dot] (a)
+                    +(1,1) coordinate[] (b)
+                    +(2,1) coordinate[] (c)
+                    +(3,1) coordinate[dot] (d)
+                    +(0.5,2) coordinate[dot, red] (e)
+                    +(2.5,2) coordinate[dot, red] (f)
+                    +(1.5,3) coordinate[dot, blue] (g)
+                    +(1.5,4) coordinate[] (top);
+                % Line drawing
+                \draw (dl) -- (b);
+                \draw (dr) -- (c);
+                \draw (a) to[out=90, in=180] (e) to[out=0, in=90] (c);
+                \draw (b) to[out=90, in=180] (f) to[out=0, in=90] (d);
+                \draw (e) to[out=90, in=180] (g) to[out=0, in=90] (f);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (dl -| -1,0) rectangle (top -| 4,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(dl)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(1,0)coordinate[] (dl)
+                    +(2,0) coordinate[] (dr)
+                    +(1,1) coordinate[] (b)
+                    +(2,1) coordinate[] (c)
+                    +(0.5,2) coordinate[] (e)
+                    +(2.5,2) coordinate[] (f)
+                    +(1.5,3) coordinate[dot, blue] (g)
+                    +(1.5,4) coordinate[] (top);
+                % Line drawing
+                \draw (dl) -- (b);
+                \draw (dr) -- (c);
+                \draw (e) to[out=0, in=90] (c);
+                \draw (b) to[out=90, in=180] (f);
+                \draw (e) to[out=90, in=180] (g) to[out=0, in=90] (f);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (dl -| -1,0) rectangle (top -| 4,0);
+                \end{scope}
+            \end{tikzpicture}\\
+            &=
+            \begin{tikzpicture}[scale=0.25, baseline=($(dl)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,0)coordinate[] (dl)
+                    +(3,0) coordinate[] (dr)
+                    +(0,1.5) coordinate[] (a)
+                    +(3,1.5) coordinate[] (b)
+                    +(1,2.5) coordinate[dot] (c)
+                    +(2,2.5) coordinate[dot] (d)
+                    +(0.5,3.5) coordinate[dot, red] (e)
+                    +(2.5,3.5) coordinate[dot, red] (f)
+                    +(1.5,4.5) coordinate[dot, blue] (g)
+                    +(1.5,5) coordinate[] (top);
+                % Line drawing
+                \draw (dr) to[out=90, in=-45] (a) to[out=90, in=180] (e) to[out=0, in=90] (c);
+                \draw (d) to[out=90, in=180] (f) to[out=0, in=90] (b) to[out=-135, in=90] (dl);
+                \draw (e) to[out=90, in=180] (g) to[out=0, in=90] (f);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (dl -| -1,0) rectangle (top -| 4,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(dl)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,0)coordinate[] (dl)
+                    +(3,0) coordinate[] (dr)
+                    +(0,1.5) coordinate[] (a)
+                    +(3,1.5) coordinate[] (b)
+                    +(1,2.5) coordinate[dot] (c)
+                    +(2,2.5) coordinate[dot] (d)
+                    +(0.5,3.5) coordinate[dot, blue] (e)
+                    +(2.5,3.5) coordinate[dot, blue] (f)
+                    +(1.5,4.5) coordinate[dot, red] (g)
+                    +(1.5,5) coordinate[] (top);
+                % Line drawing
+                \draw (dr) to[out=90, in=-45] (a) to[out=90, in=180] (e) to[out=0, in=90] (d);
+                \draw (c) to[out=90, in=180] (f) to[out=0, in=90] (b) to[out=-135, in=90] (dl);
+                \draw (e) to[out=90, in=180] (g) to[out=0, in=90] (f);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (dl -| -1,0) rectangle (top -| 4,0);
+                \end{scope}
+            \end{tikzpicture}
+            =
+            \begin{tikzpicture}[scale=0.25, baseline=($(dl)!0.5!(top)$)]
+                 %Coordinate layout and vertex positioning
+                \path
+                    coordinate[] (bot)
+                    +(0,0)coordinate[] (dl)
+                    +(2,0) coordinate[] (dr)
+                    +(0,1.5) coordinate[] (a)
+                    +(2,1.5) coordinate[] (b)
+                    +(1,2.5) coordinate[dot, red] (g)
+                    +(1,3.5) coordinate[] (top);
+                % Line drawing
+                \draw (dr) to[out=90, in=-45] (a) to[out=90, in=180] (g) to[out=0, in=90] (b) to[out=-135, in=90] (dl);
+                \draw (g) -- (top);
+                % Region filling
+                \begin{scope}[on background layer]
+                \fill[bg] (dl -| -1,0) rectangle (top -| 3,0);
+                \end{scope}
+            \end{tikzpicture}
+        \end{align*}
+        So \(b \otimes a = b \circ a\) and \(a \otimes b = b \otimes a\) for all \(a, b \in M\).
+        }
+    \end{proof}
     }
 \end{frame}
 
