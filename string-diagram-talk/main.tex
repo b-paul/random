@@ -50,11 +50,6 @@
     \titlepage
 \end{frame}
 
-\begin{frame}
-    \frametitle{Outline}
-    \tableofcontents
-\end{frame}
-
 \section{The calculus of string diagrams}
 
 \begin{frame}
@@ -996,7 +991,7 @@
         \begin{tikzpicture}[scale=0.5, baseline=($(dl)!0.5!(top)$)]
              %Coordinate layout and vertex positioning
             \path
-                coordinate[label=below:\(M \times M'\)] (dl)
+                coordinate[] (dl)
                 +(0, 0.5) coordinate[dot, label=left:\(e^\times\)] (a)
                 +(3,0) coordinate[label=below:\(M \times M'\)] (dr)
                 +(1.5,2) coordinate[dot, label=below:\(\mu^\times\)] (b)
@@ -1301,7 +1296,7 @@
             \item
                 From \((\NN, +, 0)\) to \((\NN, *, 1)\), map \(n \mapsto 2^n\).
             \item
-                From \((\RR, *, 0)\) to \((\mathrm{Mat}_n, *, I_n)\), map \(x \mapsto x I_n\).
+                From \((\RR, *, 1)\) to \((\mathrm{Mat}_n, *, I_n)\), map \(x \mapsto x I_n\).
             \item
                 From \((\ZZ_4, +, 0)\) to \((S^1, *, 1)\), send \(n \mapsto e^{\frac{n \pi i}{2}}\).
         \end{itemize}
@@ -2274,6 +2269,13 @@
         }
     \end{proof}
     }
+\end{frame}
+
+\begin{frame}
+    \frametitle{References and recommended reading}
+    \nocite{*}
+    \bibliographystyle{plain}
+    \bibliography{references}
 \end{frame}
 
 \end{document}
