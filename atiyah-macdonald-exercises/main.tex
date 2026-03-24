@@ -1013,6 +1013,10 @@ Next, if \(\idealm \in \tilde{U}_f\), then \(\idealm = \idealm_x\) for some \(x 
 Hence \(f(x) \neq 0\), so \(x \in U_f\).
 Thus \(\idealm = \mu(x)\), so \(\mu(U_f) = \tilde{U}_f\).
 
+\begin{exercise}
+    TODO there are two more exercises on varieties but idk how to do them yet so I shall move on. (like does it want me to prove the nullstellensatz?!?!)
+\end{exercise}
+
 \section{Modules}
 \renewcommand{\theexercise}{\thesection.\arabic{exercise}}
 
@@ -1112,7 +1116,7 @@ Then \(f(0, 0) = f(m, 0) = m f(1, 0) = f(1, 0)\) and \(f(0, 0) = f(0, n) = n f(0
 Hence, the induced map \(\hat{f} : (\ZZ/m\ZZ) \tensor_\ZZ (\ZZ/n\ZZ) \to A\) is the zero map.
 Thus every map out of \((\ZZ/m\ZZ) \tensor_\ZZ (\ZZ/n\ZZ)\) is the zero map, and \((\ZZ/m\ZZ) \tensor_\ZZ (\ZZ/n\ZZ) \cong 0\).
 
-\begin{exercise}
+\begin{exercise} \label{ex2-2}
     Let \(A\) be a ring, \(\ideala\) an ideal, \(M\) an \(A\)-module.
     Show that \(A/\ideala \tensor M\) is isomorphic to \(M/\ideala M\).
 \end{exercise}
@@ -1137,5 +1141,104 @@ Hence we can extend the sequence to the left with a zero.
     0 \to \ideala M \to M \to A/\ideala \tensor M \to 0
 \]
 Thus \(A/\ideala \tensor M \cong M/\ideala M\).
+
+\begin{exercise}
+    Let \(A\) be a local ring, \(M\) and \(N\) finitely generated \(A\)-modules.
+    Prove that if \(M \tensor N = 0\) then \(M = 0\) or \(N = 0\).
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Let \(\idealm\) be the maximal ideal of \(A\) and call its residue field \(k\).
+Then \(\idealm\) is the Jacobson radical of \(A\), so the hypotheses of Nakayama's lemma apply.
+Exercise \ref{ex2-2} gives us that \(M_k \cong M/\idealm M, N_k \cong N/\idealm N\).
+By right exactness of tensor, the map \(M \tensor N \twoheadrightarrow M_k \tensor N\) is surjective, and similarly \(M_k \tensor N \twoheadrightarrow M_k \tensor N_k\) is, so their composite is.
+Hence \(M_k \tensor N_k = 0\), so either \(M_k\) or \(N_k\) are the zero vector space.
+Hence either \(M = \idealm M\) or \(N = \idealm N\), so by Nakayama's lemma either \(M = 0\) or \(N = 0\).
+
+\begin{exercise} \label{ex2-3}
+    Let \(M_i \, (i \in I)\) be any family of \(A\)-modules, and let \(M\) be their direct sum.
+    Prove that \(M\) is flat \(\iff\) each \(M_i\) is flat.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+We first show that a direct sum of short sequences is exact iff each sequence is exact.
+Let
+\[
+    \begin{tikzcd}
+        A_i \arrow[r, "f_i"] & B_i \arrow[r, "g_i"] & C_i
+    \end{tikzcd}
+\]
+be exact for each \(i \in I\).
+Then \(\ker\left(\bigoplus_i f_i\right) = \bigoplus_i \ker(f_i) = \bigoplus_i \im(f_i) = \im\left(\bigoplus_i f_i\right)\), so the sequence
+\[
+    \begin{tikzcd}
+        \bigoplus_i A_i \arrow[r, "\bigoplus_i f_i"] & \bigoplus_i B_i \arrow[r, "\bigoplus_i g_i"] & \bigoplus_i C_i
+    \end{tikzcd}
+\]
+of direct sums is exact.
+Conversely, suppose this direct sum sequence is exact and consider the following commutative diagram.
+\[
+    \begin{tikzcd}
+        A_i \arrow[r, "f_i"] \arrow[d, tail] & B_i \arrow[r, "g_i"] \arrow[d, tail] & C_i \arrow[d, tail] \\
+        \bigoplus_i A_i \arrow[r, "\bigoplus_i f_i"] & \bigoplus_i B_i \arrow[r, "\bigoplus_i g_i"] & \bigoplus_i C_i
+    \end{tikzcd}
+\]
+If \(b \in \im(f_i)\), then there is some \(a \in A_i\) so that \(f_i(a) = b\).
+Then the image of \(a\) into the direct sum maps to zero in the \(C\) term, so by injectivity \(g_i(b) = 0\), hence \(b \in \ker(f_i)\).
+Conversely, if \(b \in \ker(g_i)\), then by commutativity, the image of \(b\) in the direct sum of \(B_i\) is in the kernel of its right arrow.
+Hence it is in the image of the direct sum of \(f_i\).
+But because of how the direct sum of maps is defined, the term in the direct sum of \(A_i\) must necessarily be zero everywhere but the \(i\)th component, hence in \(A_i\).
+So \(b \in \im(f_i)\), so the sequence of \(i\)th modules is exact.
+
+From here we conclude the result of the exercise.
+Suppose
+\[
+    \begin{tikzcd}
+        M \tensor N' \arrow[r] & M \tensor N \arrow[r] & M \tensor N''
+    \end{tikzcd}
+\]
+is exact.
+Then since tensor distributes over direct sum, the following is exact.
+\[
+    \begin{tikzcd}
+        \bigoplus_i (M_i \tensor N') \arrow[r] & \bigoplus_i (M_i \tensor N) \arrow[r] & \bigoplus_i (M_i \tensor N'')
+    \end{tikzcd}
+\]
+Hence
+\[
+    \begin{tikzcd}
+        M_i \tensor N' \arrow[r] & M_i \tensor N \arrow[r] & M_i \tensor N''
+    \end{tikzcd}
+\]
+is exact.
+Conversely, if each of these \(i\) sequences are exact, then the middle direct sum sequence is exact, which is isomorphic to the first sequence.
+
+\begin{exercise}
+    Let \(A[x]\) be the ring of polynomials in one indeterminate over a ring \(A\).
+    Prove that \(A[x]\) is a flat \(A\)-algebra.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+\(A\) is flat, and \(A[x] \cong \bigoplus_\NN A\), so by Exercise \ref{ex2-3}, \(A[x]\) is flat.
+
+\begin{exercise}
+    For any \(A\)-module, let \(M[x]\) denote the set of all polynomials in \(x\) with coefficients in \(M\), that is to say expressions of the form
+    \[
+        m_0 + m_1 x + \cdots + m_r x^r \quad (m_i \in M).
+    \]
+    Defining the product of an element of \(A[x]\) and an element of \(M[x]\) in the obvious way, show that \(M[x]\) is an \(A[x]\) module.
+
+    Show that \(M[x] \cong A[x] \tensor_A M\).
+\end{exercise}
+
+\noindent\textbf{Solution:}
+We can view \(M[x]\) (as an abelian group) as \(\bigoplus_\NN M\).
+Then \(M[x]\) has \(A\)-module structure.
+To give \(M[x]\) \(A[x]\)-module structure, we need to define a map \(A[x] \to \End(M[x])\), but we have a map \(A \to \End(M[x])\) already from the \(A\)-module structure of \(M[x\), so we just need to choose an endomorphism for \(x\).
+The obvious choice is to use the endomorphism right shifting each term in the direct product by one, or equivalently, multiplying by \(x\).
+
+Define a map from \(M[x]\) to \(A[x] \tensor M\) sending \(m x^n\) to \(x^n \tensor m\) and extending by linearity.
+Define another map from \(A[x] \tensor M\) to \(M[x]\) sending \(a x^i \tensor m\) to \(a m x^i\) and extending by linearity.
+These maps are obviously homomorphisms, and obviously inverses.
 
 \end{document}
