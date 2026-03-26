@@ -1213,7 +1213,7 @@ Hence
 is exact.
 Conversely, if each of these \(i\) sequences are exact, then the middle direct sum sequence is exact, which is isomorphic to the first sequence.
 
-\begin{exercise}
+\begin{exercise} \label{ex2-5}
     Let \(A[x]\) be the ring of polynomials in one indeterminate over a ring \(A\).
     Prove that \(A[x]\) is a flat \(A\)-algebra.
 \end{exercise}
@@ -1221,7 +1221,7 @@ Conversely, if each of these \(i\) sequences are exact, then the middle direct s
 \noindent\textbf{Solution:}
 \(A\) is flat, and \(A[x] \cong \bigoplus_\NN A\), so by Exercise \ref{ex2-3}, \(A[x]\) is flat.
 
-\begin{exercise}
+\begin{exercise} \label{ex2-6}
     For any \(A\)-module, let \(M[x]\) denote the set of all polynomials in \(x\) with coefficients in \(M\), that is to say expressions of the form
     \[
         m_0 + m_1 x + \cdots + m_r x^r \quad (m_i \in M).
@@ -1240,5 +1240,68 @@ The obvious choice is to use the endomorphism right shifting each term in the di
 Define a map from \(M[x]\) to \(A[x] \tensor M\) sending \(m x^n\) to \(x^n \tensor m\) and extending by linearity.
 Define another map from \(A[x] \tensor M\) to \(M[x]\) sending \(a x^i \tensor m\) to \(a m x^i\) and extending by linearity.
 These maps are obviously homomorphisms, and obviously inverses.
+
+\begin{exercise}
+    Let \(\idealp\) be a prime ideal in \(A\).
+    Show that \(\idealp[x]\) is a prime ideal in \(A[x]\).
+    If \(\idealm\) is a maximal ideal in \(A\), is \(\idealm[x]\) maximal in \(A[x]\)?
+\end{exercise}
+
+\noindent\textbf{Solution:}
+We tensor the exact sequence
+\[
+    \begin{tikzcd}
+        0 \arrow[r] & \idealp \arrow[r] & A \arrow[r] & A/\idealp \arrow[r] & 0
+    \end{tikzcd}
+\]
+by \(A[x]\), and by Exercise \ref{ex2-5} and \ref{ex2-6} obtain the following exact sequence.
+\[
+    \begin{tikzcd}
+        0 \arrow[r] & \idealp[x] \arrow[r] & A[x] \arrow[r] & (A/\idealp)[x] \arrow[r] & 0
+    \end{tikzcd}
+\]
+Hence \(A[x]/\idealp[x] \cong (A/\idealp)[x]\), so \(\idealp\) is prime (the polynomial ring over an integral domain is an integral domain).
+Clearly this won't work with maximal ideals, since polynomial rings over fields are never fields.
+
+\begin{exercise}
+    Let \(0 \to M' \to M \to M'' \to 0\) be an exact sequence of \(A\)-modules.
+    If \(M'\) and \(M''\) are finitely generated, then so is \(M\).
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Consider the following diagram.
+\[
+    \begin{tikzcd}
+        0 \arrow[r] & R^m \arrow[r] \arrow[d, two heads] & R^{m+n} \arrow[r] \arrow[d, "?_2"] & R^n \arrow[r] \arrow[dl, "?_1"] \arrow[d, two heads] & 0 \\
+        0 \arrow[r] & M' \arrow[r] & M \arrow[r, two heads] & M'' \arrow[r] & 0
+    \end{tikzcd}
+\]
+We aim to construct \(?_1 : R^n \to M\), which would then induce the map \(?_2 : R^{m+n} \to M\) by the universal property of the coproduct.
+A map from \(R^n\) to \(M'\) is a choice of \(n\) elements in \(M'\).
+Surjectivity then gives us \(n\) elements in \(M\).
+Hence, we obtain a (not necessarily unique) map \(?_2 : R^{m+n} \to M\).
+The four lemma then tells us that it is surjeective, hence \(M\) is finitely generated.
+
+\begin{exercise}
+    Let \(A\) be a ring, \(\ideala\) be an ideal contained in the Jacobson radical of \(A\); let \(M\) be an \(A\)-module and \(N\) a finitely generated \(A\)-module, and let \(u : M \to N\) be a homomorphism.
+    If the induced homomorphism \(M/\ideala M \to N/\ideala N\) is surjective, then \(u\) is surjective.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Notice that \(\coker(u)\) is also finitely generated, through the image of the quotient.
+Tensor
+\[
+    \begin{tikzcd}
+        M \arrow[r, "u"] & N \arrow[r] & \coker(u) \arrow[r] & 0
+    \end{tikzcd}
+\]
+by \(A/\ideala\) to obtain this exact sequence.
+\[
+    \begin{tikzcd}
+        M/\ideala M \arrow[r, two heads, "u"] & N/\ideala N \arrow[r] & \coker(u)/\ideala \coker(u) \arrow[r] & 0
+    \end{tikzcd}
+\]
+Hence \(\coker(u) / \ideala \coker(u) = 0\), so by Nakayama's lemma \(\coker(u) = 0\).
+Hence \(u\) is surjective.
 
 \end{document}
