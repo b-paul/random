@@ -1074,7 +1074,7 @@ and extend by linearity.
 This construction is natural in \(P\) since post composition does not affect anything we have done.
 An identical construction can be made for an \((A, B)\)-bimodule \(N\) and \(B\)-module \(P\) where we require \(A\)-linearity in the left component.
 
-Now that we have a universal property, we can prove the big isomorphism using the yoneda lemma.
+Now that we have a universal property, we can prove the big isomorphism using the Yoneda lemma.
 To define a map out of \((M \tensor_A N) \tensor_B P\), we have to define a bilinear map out of \((M \tensor_A N) \times P\) that is \(A\)-linear in the left component.
 That is, we have to define a map out of \(M \tensor_A N \times P\) that is a bimodule homomorphism with \(P\) fixed, and is \(B\)-linear with \(M \tensor_A N\) fixed.
 This is the same thing as a map out of \(M \times N \times P\) that is \(A\)-linear in \(M\), \(B\)-linear in \(P\) and linear in both \(A\) and \(B\) in \(N\).
@@ -1475,7 +1475,7 @@ We obtain
 These terms sum to zero in the non-\(i\) components as \(x_i\) is a component of \(C\).
 In the \(i\) component as well, the sum is zero by cancellation.
 
-\begin{exercise}
+\begin{exercise} \label{ex2-16}
     Show that the direct limit is characterised (up to isomorphism) by the following property.
     Let \(N\) be an \(A\)-module and for each \(i \in I\) let \(\alpha_i : M_i \to N\) be an \(A\)-module homomorphism such that \(\alpha_i = \alpha_j \circ \mu_{ij}\) whenever \(i \leq j\).
     Then there exists a unique homomorphism \(\alpha : M \to N\) such that \(\alpha_i = \alpha \circ \mu_i\) for each \(i \in I\).
@@ -1528,5 +1528,18 @@ A funny way to state this is "\(\mathrm{colim}\) is a functor".
 
 \noindent\textbf{Solution:}
 Filtered colimits commute with finite limits lololol (and colimits commute with colimits).
+
+\begin{exercise}
+    Keeping the same notation as in Exercise \ref{ex2-14}, let \(N\) be any \(A\)-module.
+    Then \((M_i \tensor N, \mu_{ij} \tensor \id)\) is a direct system; let \(P = \varinjlim (M_i \tensor N)\) be its direct limit.
+    For each \(i \in I\), we have a homomorphism \(\mu_i \tensor 1 : M_i \tensor N \to M \tensor N\), hence by Exercise \ref{ex2-16} a homomorphism \(\psi : P \to M \tensor N\).
+    Show that \(\psi\) is an isomorphism, so that
+    \[
+        \varinjlim (M_i \tensor N) \cong (\varinjlim M_i) \tensor N.
+    \]
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Tensor is a left adjoint lololol (\(\psi\) is precisely the map obtained from applying tensor to the diagram \(\mathcal{M}\) and so is an isomorphism by the Yoneda lemma).
 
 \end{document}
