@@ -1433,9 +1433,9 @@ The diagram hence commutes, and so by the five lemma the induced map is an isomo
     Let \(A\) be a ring, let \(I\) be a directed set and let \((M_i)_{i \in I}\) be a family of \(A\)-modules indexed by \(I\).
     For each \(i, j \in I\) such that \(i \leq j\), let \(\mu_{ij} : M_i \to M_j\) be an \(A\)-module homomorphism, and suppose the following axioms are satisfied:
     \begin{enumerate}
-        \item
+        \item \label{ex2-14a}
             \(\mu_{ii}\) is the identity mapping on \(M_i\), for all \(i \in I\);
-        \item
+        \item \label{ex2-14b}
             \(\mu_{ik} = \mu_{jk} \circ \mu_{ij}\) whenever \(i \leq j \leq k\).
     \end{enumerate}
     Then the modules \(M_i\) and \(\mu_{ij}\) are said to form a \textit{direct system} \(\mathcal{M} = (M_i, \mu_{ij})\) over the directed set \(I\).
@@ -1452,7 +1452,7 @@ The diagram hence commutes, and so by the five lemma the induced map is an isomo
 \noindent\textbf{Solution:}
 There isn't really anything to show here.
 
-\begin{exercise}
+\begin{exercise} \label{ex2-15}
     In the situation of Exercise \ref{ex2-14}, show that every element of \(M\) can be written in the form \(\mu_i(x_i)\) for some \(i \in I\) and some \(x_i \in M_i\).
 
     Show also that if \(\mu_i(x_i) = 0\) then there exists \(j \geq i\) such that \(\mu_{ij}(x_i) = 0\) in \(M_j\).
@@ -1541,5 +1541,33 @@ Filtered colimits commute with finite limits lololol (and colimits commute with 
 
 \noindent\textbf{Solution:}
 Tensor is a left adjoint lololol (\(\psi\) is precisely the map obtained from applying tensor to the diagram \(\mathcal{M}\) and so is an isomorphism by the Yoneda lemma).
+
+\begin{exercise}
+    Let \((A_i)_{i \in I}\) be a family of rings indexed by a directed set \(I\), and for each pair \(i \leq j\) in \(I\) let \(\alpha_{ij} : A_i \to A_j\) be a ring homomorphism, satisfying conditions \ref{ex2-14a} and \ref{ex2-14b} of Exercise \ref{ex2-14}.
+    Regarding each \(A_i\) as a \(\ZZ\)-module we can form a direct limit \(A = \varinjlim A_i\).
+    Show that \(A\) inherits a ring structure from the \(A_i\) so that the mappings \(A_i \to A\) are ring homomorphisms.
+    The ring \(A\) is the \textit{direct limit} of the system \((A_i, \alpha_{ij})\).
+
+    If \(A = 0\) prove that \(A_i = 0\) for some \(i \in I\).
+\end{exercise}
+
+\noindent\textbf{Solution:}
+If \(I\) is empty then \(A\) is the zero ring.
+Hence we assume \(I\) is non-empty.
+We can take the identity element of \(A\) to be \(\alpha_i(1)\) for any \(i \in I\).
+This choice of element is independent of choice of \(i\), as indeed if \(k \geq i, j\) then \(\alpha_{ik}(1) = \alpha_{jk}(1)\) as the \(\alpha_{ij}\) are ring homomorphisms.
+Next, if \(a, b \in A\) then \(a = \alpha_i(a_i)\) and \(b = \alpha_i(b_i)\) for some \(i \in I\) by virtue of \(I\) being directed.
+Hence we can define \(ab = \alpha_i(a_i b_i)\).
+This is also independent of choice of \(i\) by exactly the same argument as with identities, if \(k \geq i, j\) then \(\alpha_{ik} (a_i b_i) - \alpha_{jk}(a_j b_j) \in D\), so \(\alpha_i(a_i b_i) = \alpha_k(\alpha_{ik}(a_i b_i)) = \alpha_k(\alpha_{ik}(a_j b_j)) = \alpha_j (a_j b_j)\).
+Lastly, notice that we have forced the \(\alpha_i : A_i \to A\) to satisfy the conditions of a ring homomorphism (even if we haven't proven \(A\) is a ring yet).
+
+We must now verify \(A\) under this identity and multiplication satisfy the ring axioms!
+They are all immediate. \(1 a = \alpha_i(1 a_i) = \alpha_i) = a\) so left identity holds.
+\(ab = \alpha_i(a_i b_i) = \alpha_i(b_i a_i) = ba\) so commutativity holds.
+\((ab)c = \alpha_i((a_i b_i) c_i) = \alpha_i(a_i (b_i c_i)) = a(bc)\) so associativity holds.
+Finally \(a(b + c) = \alpha_i(a_i (b_i + c_i)) = \alpha_i(a_i b_i + a_i c_i) = ab + ac\).
+Hence \(A\) is a ring!
+
+Now if \(A = 0\), then by Exercise \ref{ex2-15} \(0 = \mu_{ij}(1)\) so \(M_j = 0\).
 
 \end{document}
