@@ -1570,4 +1570,69 @@ Hence \(A\) is a ring!
 
 Now if \(A = 0\), then by Exercise \ref{ex2-15} \(0 = \mu_{ij}(1)\) so \(M_j = 0\).
 
+\begin{exercise}
+    Let \((A_i, \alpha_i)\) be a direct system of rings and let \(\nilrad_i\) be the nilradical of \(A_i\).
+    Show that \(\varinjlim \nilrad_i\) is the nilradical of \(\varinjlim A_i\).
+
+    If each \(A_i\) is an integral domain, then \(\varinjlim A_i\) is an integral domain.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+If \(a \in \varinjlim \nilrad_i\) then there is some \(a_i \in \nilrad_i\) mapping to it.
+Then \(a_i\) maps to a niilpotent element in \(\varinjlim A_i\) giving us an inclusion left to right.
+Next, if \(a \in \varinjlim A_i\) is nilpotent, say \(a^n = 0\), then there is some \(a_i \in A_i\) so that \(a_i^n = 0\) by Exercise \ref{ex2-15}.
+This obtains an incusion into the limit of nilradicals.
+
+If each \(A_i\) is an integral domain then their nilradicals are zero, hence the nilradical of \(\varinjlim A_i\) is zero so it is an integral domain.
+
+\begin{exercise}
+    Let \((B_\lambda)_{\lambda \in \Lambda}\) be a family of \(A\)-algebras.
+    For each subset \(J\) of \(\Lambda\), let \(B_J\) be the tensor product (over \(A\)) of the \(B_\lambda\) for \(\lambda \in J\).
+    If \(J'\) is another finite subset of \(\Lambda\) and \(J \subseteq J'\), then there is a canonical \(A\)-algebra homomorphism \(B_J \to B_{J'}\).
+    Let \(B\) denote the direct limit of of the rings \(B_J\) as \(J\) runs through finite subsets of \(\Lambda\).
+    The ring \(B\) has a natural \(A\)-algebra structure for which the homomorphisms \(B_j \to B\) are \(A\)-algebra homomorphisms.
+    The \(A\)-algebra \(B\) is the \textit{tensor product} of the family \((B_\lambda)_{\lambda \in \Lambda}\).
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Idk what this is asking lol but tensor is a coproduct so it commutes with direct limit!!!
+
+\begin{exercise} \label{ex2-24}
+    If \(M\) is an \(A\)-module, the following are equivalent:
+    \begin{enumerate}
+        \item
+            \(M\) is flat;
+        \item
+            \(\Tor_n^A(M, N) = 0\) for all \(n > 0\) and \(A\)-modules \(N\);
+        \item
+            \(\Tor_1^A(M, N) = 0\) for all \(A\)-modules \(N\).
+    \end{enumerate}
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Suppose \(M\) is flat.
+Then the tensor product of any projective resolution of an \(A\)-module \(N\) will itself be exact.
+Hence its homologies are zero, so \(\Tor_n^A(M, N) = 0\).
+
+Suppose \(\Tor_1^A(M, N) = 0\) for all \(N\).
+Then the long exact sequence of \(\Tor\) gives
+\[
+    \Tor_1^A(M, N) = 0 \to N' \tensor M \to N \tensor M \to N'' \tensor M \to 0
+\]
+exact for any exact sequence \(0 \to N' \to N \to N'' \to 0\), so \(M\) is flat.
+
+\begin{exercise}
+    Let \(0 \to N' \to N \to N'' \to 0\) be an exact sequence, with \(N''\) flat.
+    Then \(N'\) is flat \(\iff\) \(N\) is flat.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+Let \(M\) be any \(A\)-module.
+Note that \(\Tor\) is commutative, and \(\Tor_n^A(M, N'') = 0\) for all \(n > 0\) by Exercise \ref{ex2-24}.
+Then we obtain a long exact sequence
+\[
+    0 \to \Tor_1^A(M, N) \to \Tor_1^A(M, N) \to 0 \to M \tensor N' \to M \tensor N \to M \tensor N'' \to 0
+\]
+and so again by Exercise \(\ref{ex2-24}\) \(N'\) is flat iff \(N\) is flat.
+
 \end{document}
