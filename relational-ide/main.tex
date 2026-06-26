@@ -1,0 +1,46 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\title{Relational IDE analyses with a super super fast solver}
+\author{bpaul}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+This explanation needs lots more pictures and lots more theory which will be done at another time.
+
+The IDE framework described in \cite{sagiv_precise_1996} lets us perform interprocedural analyses efficiently given the domain we are analysing with satisfies nice enough properties (namely, distributy and efficient edge function representation).
+An example analysis that the framework lets us perform is linear constant propagation, which is constant propagation through expressions that are single variable linear functions.
+A natural question that someone familiar with the framework may ask is, could this be generalised to an interprocedural linear expression propagation analysis (generalising copy propagation)?
+The originally presented IDE solver likely does not give us a way to obtain these results, as the phase two analysis results it gives us will be non relational.
+However, if we manually try and work through a linear expression propagation analysis ourselves, an IDE-like approach emerges.
+
+Assuming an SSA IR, we can construct a graph where each variable is a node.
+Because of the SSA property, each variable will be assigned a unique expression, and if this expression is a linear function of another variable, we could draw a (directed) edge function between the variables.
+Repeating this for every variable in the program, we obtain a graph where a variable may point to, through a chain, some source variable, and hence can be replaced with a linear function (given by the composite of the chain) of said source variable.
+To make this efficient we can apply a labelled union find data structure (labels being the edges).
+This gives us a working analysis but it can be made more precise by handling branching and by handling interprocedural calls.
+
+If a variable is assigned a phi of two other variables, but those two variables are really equal to each other, then this new variable is itself also equal.
+We can encode phis in our graph as having multiple edges coming out of one variable.
+Then, once all edges are added to the graph, we can perform a recursive phi collapsing process where we look at the targets of each parent variable, collapse those targets, then check to see whether all targets have the same parent with the same function.
+If so, we can set our parent to that parent with the new composed function.
+There are weird whacky things that need to be done to handle cycles but it isn't too bad.
+
+If some collection of variables are returned by a function call, it could be the case that those output variables are linear functions of a collection of input variables, and so it could be possible that new edges could be added to our graph.
+We can check the body of the callee and see whether, after doing a path compressed dfs, any of the output variables have their phi-composed parents all being input variables.
+If so, we can add the composed edges.
+This will not give complete information if the callee isn't itself fully analysed.
+To handle this, we can take the standard approach of computing a reverse topological ordering of the strongly connected components of the call graph using perhaps Tarjan's algorithm.
+Then any calls to out-of-scc procedures will have complete information.
+Else, if we have a (possibly mutually) recursive call, we should notify call callers of the currently being analysed procedure that there has been an update to its graph every time a call propagates information.
+It could be assumed that all procedures in the scc have had their assign and phi edges already added so that those do not need to propagate information.
+
+Complexity analysis sounds hard!
+
+\bibliographystyle{alpha}
+\bibliography{references}
+
+\end{document}

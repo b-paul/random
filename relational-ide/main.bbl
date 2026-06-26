@@ -1,0 +1,8 @@
+\begin{thebibliography}{SRH96}
+
+\bibitem[SRH96]{sagiv_precise_1996}
+Mooly Sagiv, Thomas Reps, and Susan Horwitz.
+\newblock Precise interprocedural dataflow analysis with applications to constant propagation.
+\newblock {\em Theoretical Computer Science}, 167(1):131--170, January 1996.
+
+\end{thebibliography}
