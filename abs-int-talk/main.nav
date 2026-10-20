@@ -12,8 +12,20 @@
 \headcommand {\beamer@framepages {10}{12}}
 \headcommand {\slideentry {0}{0}{7}{13/13}{}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@partpages {1}{13}}
-\headcommand {\beamer@subsectionpages {1}{13}}
-\headcommand {\beamer@sectionpages {1}{13}}
-\headcommand {\beamer@documentpages {13}}
-\headcommand {\gdef \inserttotalframenumber {7}}
+\headcommand {\slideentry {0}{0}{8}{14/14}{}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\slideentry {0}{0}{9}{15/18}{}{0}}
+\headcommand {\beamer@framepages {15}{18}}
+\headcommand {\slideentry {0}{0}{10}{19/20}{}{0}}
+\headcommand {\beamer@framepages {19}{20}}
+\headcommand {\slideentry {0}{0}{11}{21/23}{}{0}}
+\headcommand {\beamer@framepages {21}{23}}
+\headcommand {\slideentry {0}{0}{12}{24/26}{}{0}}
+\headcommand {\beamer@framepages {24}{26}}
+\headcommand {\slideentry {0}{0}{13}{27/27}{}{0}}
+\headcommand {\beamer@framepages {27}{27}}
+\headcommand {\beamer@partpages {1}{27}}
+\headcommand {\beamer@subsectionpages {1}{27}}
+\headcommand {\beamer@sectionpages {1}{27}}
+\headcommand {\beamer@documentpages {27}}
+\headcommand {\gdef \inserttotalframenumber {13}}

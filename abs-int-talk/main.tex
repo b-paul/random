@@ -7,6 +7,7 @@
 \usepackage{ulem}
 \usepackage{algpseudocode}
 
+\usepackage[dvipsnames]{xcolor}
 
 \newcommand{\CC}{\mathbb{C}}
 \newcommand{\FF}{\mathbb{F}}
@@ -20,6 +21,27 @@
 
 \newcommand{\Set}{\mathbf{Set}}
 
+\newcommand{\true}{\mathrm{true}}
+\newcommand{\false}{\mathrm{false}}
+
+\newcommand{\varset}[0]{\mathbb{V}}
+\newcommand{\valset}[0]{\mathbb{I}}
+\newcommand{\stateset}[0]{\mathcal{E}}
+\newcommand{\concdomain}[0]{\mathcal{D}}
+\newcommand{\statesetb}[0]{\hat{\mathcal{E}}}
+\newcommand{\concdomainb}[0]{\hat{\mathcal{D}}}
+\newcommand{\statset}[0]{\mathbb{S}}
+
+\newcommand{\expression}[1]{\textcolor{red}{\mathbb{E}\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\cexpression}[1]{\textcolor{red}{\mathbb{C}\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\statement}[1]{\textcolor{red}{\mathbb{S}\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\statementb}[1]{\textcolor{red}{\hat{\mathbb{S}}\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\absexpression}[1]{\textcolor{red}{\mathbb{E}^\sharp\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\absstatement}[1]{\textcolor{red}{\mathbb{S}^\sharp\llbracket} #1 \textcolor{red}{\rrbracket}}
+
+\newcommand{\ite}[3]{\mathbf{if} \; #1 \; \mathbf{then} \; #2 \; \mathbf{else} \; #3 \; \mathbf{end\;if}}
+\newcommand{\while}[2]{\mathbf{while} \; #1 \; \mathbf{do} \; #2 \; \mathbf{end\;while}}
+
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric}
 
@@ -27,7 +49,7 @@
 
 %\theoremstyle{definition}
 %\newtheorem{theorem}{Theorem}[section]
-%\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{proposition}[theorem]{Proposition}
 %\newtheorem{definition}[theorem]{Definition}
 %\newtheorem{lemma}[theorem]{Lemma}
 %\newtheorem{corollary}[theorem]{Corollary}
@@ -92,16 +114,19 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Suboptimal program}
+    \frametitle{Fibonacci program}
 
     \only<1-1>{
     \begin{algorithmic}
         \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
         \State \(F[0] \gets 0\)
         \State \(F[1] \gets 1\)
-        \For{\(i \gets 2, \dots, 99\)}
+        \State \(i \gets 2\)
+        \While{\(i < 100\)}
             \State \(F[i] \gets F[i-1] + F[i-2]\)
-        \EndFor
+            \State \(i \gets i + 1\)
+        \EndWhile
+        \\\noindent\Return \(F\)
     \end{algorithmic}
     }
 
@@ -113,22 +138,147 @@
             \EndIf
         \State \(F[0] \gets 0\)
         \State \(F[1] \gets 1\)
-        \For{\(i \gets 2, \dots, 99\)}
+        \State \(i \gets 2\)
+        \While{\(i < 100\)}
             \If{\(\lnot(0 \leq i-2 \leq 99 \land 0 \leq i-1 \leq 99 \land 0 \leq i \leq 99)\)}
                 \State \textbf{explode} (out of bounds)
             \EndIf
             \State \(F[i] \gets F[i-1] + F[i-2]\)
-        \EndFor
+            \State \(i \gets i + 1\)
+        \EndWhile
+        \\\noindent\Return \(F\)
     \end{algorithmic}
 
     \uncover<3->{
         The bounds check is redundant!
-        How could we automatically determine this though?
     }
     }
 \end{frame}
 
 \begin{frame}
+    \frametitle{Syntax}
+    Expressions, conditions and statements are defined inductively.
+    Let \(n\) be numeric literals and \(v\) variables.
+
+    \[
+        \begin{array}{rcl}
+            e & := & n
+                \; \mid \; v
+                \; \mid \; e + e
+                \; \mid \; e - e
+                \; \mid \; e \times e
+                \; \mid \; e \div e
+                \\
+            c & := & \true
+                \; \mid \; \false
+                \; \mid \; e \leq e
+                \; \mid \; e = e
+                \; \mid \; c \land c
+                \; \mid \; c \lor c
+                \; \mid \; \lnot c
+                \\
+            s & := & v \gets e
+                \; \mid \; s; s
+                \; \mid \; \ite{c}{s}{s} \\
+            & & \; \mid \; \while{c}{s}
+                \; \mid \; \mathbf{explode}
+                \; \mid \; \mathbf{skip}
+        \end{array}
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Oh wait arrays}
+    Let \(a\) be array variables.
+    Then we can extend expressions and statements to include array syntax.
+
+    \[
+        \begin{array}{rcl}
+            e & := & \cdots
+                \; \mid \; a[e]
+                \\
+            s & := & \cdots
+                \; \mid \; a[e] \gets e
+        \end{array}
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Semantics}
+    There is a set \(\stateset\) of states (E for environment i think?) and (letting \(\concdomain = \mathcal{P}(\stateset)\)) an operator \(\statement{s} : \concdomain \to \concdomain\) for each statement \(s\).
+    This operator describes ``what the statements do''.
+
+    \uncover<2->{
+        Let's write it out!
+        Let \(\stateset = \ZZ^V \times A^W\) where \(V\) is the set of variables and \(W\) is the set of array variables.}
+    \uncover<3->{And \(A\) is the set of integer valued arrays... so that would be... umm
+        \[
+            A = \bigcup_{n \in \NN} \{n\} \times \ZZ^n
+        \]
+        so like each array has a number telling us its length and then a whole bunch of integers...}
+    \uncover<4->{and then we can define the semantics operator............ that sounds SOOOO annoying!!
+        these arrays are so ugly!
+        i don't wanna
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 1}
+    \begin{definition}
+        A poset is a set \(P\) equipped with a partial order \(\sqsubseteq\) that's reflexive, antisymmetric and transitive.
+    \end{definition}
+    (I really hope you've seen this before else this talk will go way too fast)
+    \uncover<2->{
+    \begin{example}
+        For any set \(S\), \((\mathcal{P}(S), \subseteq)\) is a poset.
+    \end{example}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 1}
+    \begin{definition}
+        A map \(f : P \to Q\) between posets is monotone if whenever \(x \sqsubseteq_P y\), \(f(x) \sqsubseteq_Q f(y)\).
+    \end{definition}
+    \uncover<2->{
+    \begin{proposition}
+        The identity map is monotone. Composites of monotone maps are monotone.
+    \end{proposition}
+    \begin{proof}
+        If \(x \sqsubseteq y\) then \(x \sqsubseteq y\).
+
+        If \(x \sqsubseteq y\) then \(f(x) \sqsubseteq f(y)\) then \(g(f(x)) \sqsubseteq g(f(y))\).
+    \end{proof}
+    }
+    \uncover<3->{
+    Monotone maps are ordered pointwise, \(f \sqsubseteq g\) iff \(f(x) \sqsubseteq g(x)\) for all \(x\) in the domain.
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Approximating semantics}
+    Instead of defining the full semantics, define an approximation set of states \(\statesetb\) and (letting \(\concdomainb = \mathcal{P}(\statesetb)\)) define an approximation operator \(\statementb{s} : \concdomainb \to \concdomainb\) for each statement \(s\).
+
+    \uncover<2->{
+    Need a monotone map \(\hat{\gamma} : \concdomainb \to \concdomain\) such that \(\statement{s} \circ \gamma \sqsubseteq \gamma \circ \statementb{s}\).
+    \[
+    \begin{tikzcd}[ampersand replacement=\&]
+        \concdomainb \arrow[r, "\statementb{s}"] \arrow[d, "\gamma", swap] \& \concdomainb \arrow[d, "\gamma"] \\
+        \concdomain \arrow[r, "\statement{s}", swap] \arrow[ur, "\sqsubseteq" {rotate=45}, phantom] \& \concdomain
+    \end{tikzcd}
+    \]
+    }
+    
+    \uncover<3->{
+    If you prefer, we need \(\hat{\gamma}\) a lax natural transformation viewing semantics opeators as functors from the one object category of statements under sequential composition to the poset-enriched category of posets!
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Approximating semantics}
+    Define \(\statesetb = \ZZ^V\) (no arrays!) and \(\concdomainb = \mathcal{P}(\statesetb)\).
+    Then define \(\gamma : \concdomainb \to \concdomain\) by \(\gamma(S) = S \times A^W\), giving all possible assignments of array variables.
+    This is clearly monotone!
 \end{frame}
 
 \end{document}
