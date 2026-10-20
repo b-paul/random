@@ -1,0 +1,134 @@
+\documentclass{beamer}
+
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\usepackage{tikz-cd}
+\usepackage{ulem}
+\usepackage{algpseudocode}
+
+
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\op}[1]{#1^{\text{op}}}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+
+\newcommand{\Set}{\mathbf{Set}}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+
+%\renewcommand\labelenumii{(\roman{enumii})}
+
+%\theoremstyle{definition}
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{example}{Example}[theorem]
+
+\mode<presentation>
+{
+    %\usetheme{Warsaw}
+}
+
+\title{Using AI to improve your code}
+\author{Eris :3 (they/them)}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\title{Using \sout{AI} Abstract Interpretation to improve your code}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\title{How other people use Abstract Interpretation to improve your code when you run it}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+    \frametitle{I FUCKING HATE AI!!!}
+
+    \uncover<2->{
+    Please imagine a video of Sam Altman being blown up by a missile.
+    }
+
+    \uncover<3->{
+    These are my thoughts on ai :)
+    }
+    \uncover<4->{
+    Artificial intelligence will not be mentioned again for the rest of this talk.
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Optimising compilers}
+
+    \begin{center}
+        \begin{tikzpicture}
+            \node (s) at (0, 0) {Source code};
+            \node (m) at (6, 0) {Machine code};
+            \draw[->] (s) -- (m);
+            \node (c) at (3, 0) [fill=white, draw=black] {Compiler};
+            \uncover<2->{
+            \draw[->] (c) edge [loop above] node[above] {Optimisations} (c);
+            }
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Suboptimal program}
+
+    \only<1-1>{
+    \begin{algorithmic}
+        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
+        \State \(F[0] \gets 0\)
+        \State \(F[1] \gets 1\)
+        \For{\(i \gets 2, \dots, 99\)}
+            \State \(F[i] \gets F[i-1] + F[i-2]\)
+        \EndFor
+    \end{algorithmic}
+    }
+
+    \only<2->{
+    \begin{algorithmic}
+        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
+            \If{\(\lnot(0 \leq 0 \leq 99 \land 0 \leq 1)\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+        \State \(F[0] \gets 0\)
+        \State \(F[1] \gets 1\)
+        \For{\(i \gets 2, \dots, 99\)}
+            \If{\(\lnot(0 \leq i-2 \leq 99 \land 0 \leq i-1 \leq 99 \land 0 \leq i \leq 99)\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+            \State \(F[i] \gets F[i-1] + F[i-2]\)
+        \EndFor
+    \end{algorithmic}
+
+    \uncover<3->{
+        The bounds check is redundant!
+        How could we automatically determine this though?
+    }
+    }
+\end{frame}
+
+\begin{frame}
+\end{frame}
+
+\end{document}
