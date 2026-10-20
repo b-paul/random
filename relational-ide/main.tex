@@ -2,12 +2,47 @@
 
 \input{preamble.tex}
 
-\title{Relational IDE analyses with a super super fast solver}
-\author{bpaul}
+\title{Relational analyses with a super super fast solver}
+\author{Eris}
 \date{\today}
 
 \begin{document}
 \maketitle
+
+\section{stuff}
+
+Let \(I\) be some set of values, perhaps integers modulo \(2^{64}\).
+Fix a sub-monoid \(M\) of \(\End_{\Set}(I)\).
+Take an \(M\)-labelled digraph \((V, E)\).
+This would be constructed by the algorithm and describes how variables relate to each other.
+Take a set of valid states \(S \subseteq (V \rightharpoonup I)\), which are partial maps from vertices (variables) to values.
+This could be the lfp of some ssa semantic operator or something like that.
+Impose the condition that if the set of out-edges of \(v\) is nonempty, then for all states \(s \in S\) where \(v\) is defined, there is some \((f, v') \in \mathrm{out}(v)\) such that \(s(v) = f(s(v'))\).
+Note that we can compose labels of edges in a path to get a label of a path via monoid multiplication.
+
+If there are no edges out of a vertex, we can modify the graph so it has a self-loop labelled with the identity.
+Then the imposed condition holds without any presupposition!
+
+\begin{lemma}
+    For every natural number \(n \in \NN\) and every state \(s \in S\) where \(v\) is defined, there is a path \(p\) of length \(n\) such that for all sub-paths \((f, v') \leq p\), \(s(v) = f(s(v'))\).
+\end{lemma}
+\begin{proof}
+    The base case of \(n = 0\) is trivially satisfied, as the only sub-path of the path of length \(0\) is \((\id, v)\).
+
+    Suppose the proposition holds for \(n\), and we have a path \((f, v')\) of length \(n\) for a given state \(s\).
+    Then by assumption, there is some edge \((g, v'')\) from \(v'\) such that \(s(v') = g(s(v''))\).
+    Then the path of length \(n+1\), \((g, v'') \circ (f, v')\) satisfies the condition.
+\end{proof}
+
+\begin{lemma}
+    If \(v'\) dominates \(v\) in the CFG, every terminating path from \(v\) contains \(v'\), and all paths to \(v'\) have the same label \(f\), then for all states \(s \in S\) where \(v\) is defined, \(s(v) = f(s(v'))\).
+\end{lemma}
+\begin{proof}
+    Unprovable without more assumptions and definitions!!
+    But I'm sure it's true...
+\end{proof}
+
+\section{Old stuff}
 
 This explanation needs lots more pictures and lots more theory which will be done at another time.
 
