@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[usepdftitle=false]{beamer}
 
 \usepackage{amssymb}
 \usepackage{mathrsfs}
@@ -57,13 +57,36 @@
 %\newtheorem{corollary}[theorem]{Corollary}
 %\newtheorem{example}{Example}[theorem]
 
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{skins}
+
+\definecolor{enby1}{RGB}{255,244,51}
+\definecolor{enby2}{RGB}{255,248,231}
+\definecolor{enby3}{RGB}{155,89,208}
+\definecolor{enby4}{RGB}{45,45,45}
+\tcbset{enby/.style={enhanced,hbox,colback=enby1,
+underlay={\begin{tcbclipinterior}
+\fill[enby2] let \p1=($(interior.north)-(interior.south)$) in
+([yshift={2*\y1/4}]interior.south west) rectangle 
+([yshift={1*\y1/4}]interior.south east);
+\fill[enby3] let \p1=($(interior.north)-(interior.south)$) in
+([yshift={3*\y1/4}]interior.south west) rectangle 
+([yshift={2*\y1/4}]interior.south east);
+\fill[enby4] let \p1=($(interior.north)-(interior.south)$) in
+([yshift={4*\y1/4}]interior.south west) rectangle 
+([yshift={3*\y1/4}]interior.south east);
+\end{tcbclipinterior}}},
+tight/.style={on
+line,boxsep=1pt,left=#1,right=#1,top=#1,bottom=#1,arc=0pt,boxrule=0pt},
+tight/.default=1pt}
+
 \mode<presentation>
 {
     %\usetheme{Warsaw}
 }
 
 \title{Using AI to improve your code}
-\author{Eris :3 (they/them)}
+\author{Eris :3 \begin{tcolorbox}[tight, enby](they/them)\end{tcolorbox}}
 \date{\today}
 
 \begin{document}
