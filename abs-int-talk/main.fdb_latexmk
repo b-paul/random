@@ -1,5 +1,13 @@
 # Fdb version 4
-["pdflatex"] 1792680970.05853 "main.tex" "main.pdf" "main" 1792680972.80046 0
+["bibtex main"] 1792688579.63443 "main.aux" "main.bbl" "main" 1792688583.64735 0
+  "./references.bib" 1792688574.41281 4475 da8874e178d07c3be108bcbce7b43e61 ""
+  "/usr/share/texmf-dist/bibtex/bst/base/plain.bst" 1775415801 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
+  "main.aux" 1792688583.38376 5168 75959986789259799b33cb8565b1d44a "pdflatex"
+  (generated)
+  "main.bbl"
+  "main.blg"
+  (rewritten before read)
+["pdflatex"] 1792688579.70402 "main.tex" "main.pdf" "main" 1792688583.64769 0
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1775415801 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1775415801 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1775415801 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -253,10 +261,11 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1775415801 43569 fd570f2fa160877d211e859f687312ba ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1782032406 5385594 49de8b7fb62a04988f23900f74455602 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1782032333 2328190 43da42e8bc8d688655b5a35db5e57343 ""
-  "main.aux" 1792680972.66136 4189 017040b2ec0f70216f38211dbdc230fa "pdflatex"
-  "main.nav" 1792680972.6631 2892 7a03396f5f3e8f0601aa4182afdc116f "pdflatex"
-  "main.out" 1792680970.81193 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.tex" 1792680969.46139 21189 53c5d2800e05c80da254a8318396beb5 ""
+  "main.aux" 1792688583.38376 5168 75959986789259799b33cb8565b1d44a "pdflatex"
+  "main.bbl" 1792688579.68966 672 1d9d4ebcee79c7ff078e00b13439342b "bibtex main"
+  "main.nav" 1792688583.38505 3450 d178c7779d35877b74bf56905d3a4e0e "pdflatex"
+  "main.out" 1792688580.45516 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.tex" 1792688553.55969 31762 4c71d529ea5a8b71dd00cae48518312a ""
   (generated)
   "main.aux"
   "main.log"

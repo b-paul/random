@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{10.1145/512950.512973}
+Patrick Cousot and Radhia Cousot.
+\newblock Abstract interpretation: a unified lattice model for static analysis of programs by construction or approximation of fixpoints.
+\newblock In {\em Proceedings of the 4th ACM SIGACT-SIGPLAN Symposium on Principles of Programming Languages}, POPL '77, page 238–252, New York, NY, USA, 1977. Association for Computing Machinery.
+
+\bibitem{10.1561/2500000034}
+Antoine Min{\'e}.
+\newblock Tutorial on static inference of numeric invariants by abstract interpretation.
+\newblock {\em Found. Trends Program. Lang.}, 4(3–4):120–372, December 2017.
+
+\end{thebibliography}

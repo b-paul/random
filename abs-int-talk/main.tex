@@ -33,10 +33,14 @@
 \newcommand{\statset}[0]{\mathbb{S}}
 
 \newcommand{\expression}[1]{\textcolor{red}{\mathbb{E}\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\expressionc}[1]{\textcolor{red}{\mathbb{E'}\llbracket} #1 \textcolor{red}{\rrbracket}}
 \newcommand{\cexpression}[1]{\textcolor{red}{\mathbb{C}\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\cexpressionc}[1]{\textcolor{red}{\mathbb{C'}\llbracket} #1 \textcolor{red}{\rrbracket}}
 \newcommand{\statement}[1]{\textcolor{red}{\mathbb{S}\llbracket} #1 \textcolor{red}{\rrbracket}}
 \newcommand{\statementb}[1]{\textcolor{red}{\hat{\mathbb{S}}\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\statementc}[1]{\textcolor{red}{\mathbb{S'}\llbracket} #1 \textcolor{red}{\rrbracket}}
 \newcommand{\absexpression}[1]{\textcolor{red}{\mathbb{E}^\sharp\llbracket} #1 \textcolor{red}{\rrbracket}}
+\newcommand{\abscexpression}[1]{\textcolor{red}{\mathbb{C}^\sharp\llbracket} #1 \textcolor{red}{\rrbracket}}
 \newcommand{\absstatement}[1]{\textcolor{red}{\mathbb{S}^\sharp\llbracket} #1 \textcolor{red}{\rrbracket}}
 
 \newcommand{\ite}[3]{\mathbf{if} \, #1 \, \mathbf{then} \, #2 \, \mathbf{else} \, #3 \, \mathbf{end\,if}}
@@ -155,7 +159,7 @@ tight/.default=1pt}
     \end{algorithmic}
     }
 
-    \only<2->{
+    \only<2-2>{
     \begin{algorithmic}
         \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
             \If{\(\lnot(0 \leq 0 \leq 99 \land 0 \leq 1 \leq 99)\)}
@@ -173,8 +177,62 @@ tight/.default=1pt}
         \EndWhile
         \\\noindent\Return \(F\)
     \end{algorithmic}
+    }
 
-    \uncover<3->{
+    \only<3-3>{
+    \begin{algorithmic}
+        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
+            \If{\(\false\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+        \State \(F[0] \gets 0\)
+        \State \(F[1] \gets 1\)
+        \State \(i \gets 2\)
+        \While{\(i < 100\)}
+            \If{\(\lnot(0 \leq i-2 \leq 99 \land 0 \leq i-1 \leq 99 \land 0 \leq i \leq 99)\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+            \State \(F[i] \gets F[i-1] + F[i-2]\)
+            \State \(i \gets i + 1\)
+        \EndWhile
+        \\\noindent\Return \(F\)
+    \end{algorithmic}
+    }
+
+    \only<4-4>{
+    \begin{algorithmic}
+        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
+        \State \(F[0] \gets 0\)
+        \State \(F[1] \gets 1\)
+        \State \(i \gets 2\)
+        \While{\(i < 100\)}
+            \If{\(\lnot(0 \leq i-2 \leq 99 \land 0 \leq i-1 \leq 99 \land 0 \leq i \leq 99)\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+            \State \(F[i] \gets F[i-1] + F[i-2]\)
+            \State \(i \gets i + 1\)
+        \EndWhile
+        \\\noindent\Return \(F\)
+    \end{algorithmic}
+    }
+
+    \only<5->{
+    \begin{algorithmic}
+        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
+        \State \(F[0] \gets 0\)
+        \State \(F[1] \gets 1\)
+        \State \(i \gets 2\)
+        \While{\(i < 100\)}
+            \If{\(2 > i \lor i > 99\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+            \State \(F[i] \gets F[i-1] + F[i-2]\)
+            \State \(i \gets i + 1\)
+        \EndWhile
+        \\\noindent\Return \(F\)
+    \end{algorithmic}
+
+    \uncover<6->{
         The bounds check is redundant!
     }
     }
@@ -339,11 +397,10 @@ tight/.default=1pt}
 \begin{frame}
     \frametitle{Approximating semantics}
     \[
-        \begin{array}{c}
+        \begin{array}{l}
             \statementb{s_1; s_2}(S) = \statementb{s_2}(\statementb{s_1}(S)) \\
             \statementb{v \gets e}(S) = \{\sigma[v \mapsto \expression{e}(\sigma)] \mid \sigma \in S\} \\
             \statementb{a[i] \gets e}(S) = S \\
-            % omg this sucks so much
             \statementb{\ite{c}{s_1}{s_2}}(S) =\\ \qquad\qquad\qquad \statementb{s_1}(\cexpression{c}(S)) \cup  \statementb{s_1}(\cexpression{\lnot c}(S)) \\
             \uncover<2->{
             \statementb{\while{c}{s}}(S) = \text{wait what} \\
@@ -446,13 +503,103 @@ tight/.default=1pt}
     
     \uncover<2->{
     That is, we want a poset \((A, \sqsubseteq)\) with elements of \(A\) easy to represent on a computer, and some computable semantics operator \(\absstatement{s} : A \to A\) for each statement \(s\), that's an approximation of our semantics by a map \(\gamma : A \to \concdomainb\).
-    There are some order theory tricks to help us with this!
+    }
+    
+    \uncover<3->{
+    One approach is to store the sets of all values a variable could have (\(\mathcal{D}' = \mathcal{P}(\ZZ)^V\)).
+    We can then approximate \(\mathcal{P}(\ZZ)\) by \(A\), and then get some computable set \(A^V\)!
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Value domains}
+    Examples of approximations of \(\mathcal{P}(\ZZ)\):
+    \begin{itemize}
+        \item<2->
+            \(S = \begin{tikzpicture}[scale=.7, baseline=($(zer)!0.15!(bot)$)]
+                \node (top) at (0,1) {$\top$};
+                \node (neg) at (-1,0) {$-$};
+                \node (zer) at (0,0) {$0$};
+                \node (pos) at (1,0) {$+$};
+                \node (bot) at (0,-1) {$\bot$};
+                \draw (bot) -- (neg) -- (top);
+                \draw (bot) -- (zer) -- (top);
+                \draw (bot) -- (pos) -- (top);
+            \end{tikzpicture}\).
+
+            \(\gamma(+) = \{n \in \ZZ \mid n > 0\}\) etc.
+        \item<3->
+            \(A = \{[a, b] \mid a, b \in \ZZ \cup \{-\infty, \infty\}; a \leq b\}\) ordered by subsets.
+
+            \(\gamma([a, b]) = \{n \in \ZZ \mid a \leq n \leq b\}\).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Example again}
+    \begin{algorithmic}
+        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
+        \State \(F[0] \gets 0\)
+        \State \(F[1] \gets 1\)
+        \State \(i \gets 2\)
+        \While{\(i < 100\)}
+            \If{\(2 > i \lor i > 99\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+            \State \(F[i] \gets F[i-1] + F[i-2]\)
+            \State \(i \gets i + 1\)
+        \EndWhile
+        \\\noindent\Return \(F\)
+    \end{algorithmic}
+    At the second bounds check, \(i \in [2, 99]\)!!
+\end{frame}
+
+\begin{frame}
+    \frametitle{Value set semantics}
+    \only<1-2>{
+    We define \(\expressionc{e} : \mathcal{P}(\ZZ)^V \to \mathcal{P}(\ZZ)\), \(\cexpressionc{c} : \mathcal{P}(\ZZ)^V \to \mathcal{P}(\ZZ)^V\) and \(\statementc{s} : \mathcal{P}(\ZZ)^V \to \mathcal{P}(\ZZ)^V\).
+
+    \uncover<2-2>{
+    \[
+        \begin{array}{rcl}
+            \expressionc{n}(\sigma) &=& \{n\} \\
+            \expressionc{v}(\sigma) &=& \sigma(v) \\
+            \expressionc{e_1 + e_2}(\sigma) &=& \{x + y \mid x \in \expressionc{e_1}(\sigma), y \in \expressionc{e_2}(\sigma)\} \\
+            \expressionc{e_1 - e_2}(\sigma) &=& \{x - y \mid x \in \expressionc{e_1}(\sigma), y \in \expressionc{e_2}(\sigma)\} \\
+            \expressionc{e_1 \times e_2}(\sigma) &=& \{x \times y \mid x \in \expressionc{e_1}(\sigma), y \in \expressionc{e_2}(\sigma)\} \\
+            \expressionc{a[i]}(\sigma) &=& \ZZ
+        \end{array}
+    \]
+    \[
+        \begin{array}{rcl}
+            \cexpressionc{\true}(\sigma) &=& \sigma \\
+            \cexpressionc{\false}(\sigma) &=& \bot \\
+            \cexpressionc{v \leq e}(\sigma) &=& \sigma[v \mapsto \{n \in \sigma(v) \mid n \leq \expressionc{e}(\sigma)] \\
+            \cexpressionc{e_1 = e_2}(\sigma) &=& \sigma \\
+            \cexpressionc{\lnot c}(\sigma) &=& \sigma \\
+            \text{etc}
+        \end{array}
+    \]
+    }}
+    \only<3->{
+    \[
+        \begin{array}{l}
+            \statementc{v \gets e}(S) = \sigma[v \mapsto \expressionc{e}(\sigma)] \\
+            \statementc{s_1; s_2}(S) = \statementc{s_2}(\statementc{s_1}(S)) \\
+            \statementc{a[i] \gets e}(S) = S \\
+            \statementc{\ite{c}{s_1}{s_2}}(S) =\\ \qquad\qquad\qquad \statementc{s_1}(\cexpressionc{c}(S)) \cup  \statementc{s_1}(\cexpressionc{\lnot c}(S)) \\
+            \statementc{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \cexpressionc{\lnot c}(\lfp (\lambda X . X \cup \statementc{s}(\cexpressionc{c}(X))))
+        \end{array}
+    \]
+    \uncover<4->{
+        From here, there is a trick to move to \(I^V\) from \(\mathcal{P}(\ZZ)^V\)!
+    }
     }
 \end{frame}
 
 \begin{frame}
     \frametitle{Order theory 3}
-    In order to compute least fixed-points, we need a notion of finite joins.
+    oops this is out of place but needs to go somewhere
     \uncover<2->{
     \begin{definition}[Non-binary double feature AND lattice double feature?!]
         A poset \((P, \sqsubseteq)\) is a join semi-lattice if every pair of elements \(x, y\) has a least upper bound (join) written \(x \sqcup y\).
@@ -474,6 +621,11 @@ tight/.default=1pt}
         If \(\gamma\) is injective, then we call the pair of maps a Galois embedding.
     \end{definition}
     \uncover<2->{
+    \begin{example}
+        The injective map \(\gamma([a, b]) = \{n \in \ZZ \mid a \leq n \leq b\}\) has left adjoint \(\alpha(S) = [\min(S), \max(S)]\) forming a Galois embedding!
+    \end{example}
+    }
+    \uncover<3->{
     \begin{proposition}
         In a Galois embedding \(\alpha : C \rightleftarrows A : \gamma\), \(\alpha(\gamma(a)) = a\) for all \(a \in A\).
     \end{proposition}
@@ -496,64 +648,162 @@ tight/.default=1pt}
         Any operator \(f : C \to C\) has its ``best abstraction'' on \(A\) (won't be defined sorry) by \(\alpha \circ f \circ \gamma\).
     \end{proposition}
     }
-
     \uncover<3->{
-    This gives us approximation semantics for free yay
+    (I'm too dead to write the proofs for this... do them as exercises!)
     }
-\end{frame}
 
-\begin{frame}
-    \frametitle{Value domains}
-    Instead of approximating \(\concdomainb\) directly, we can approximate \(\mathcal{P}(\ZZ)\).
-    \begin{itemize}
-        \item<2->
-            \(A = \begin{tikzpicture}[scale=.7, baseline=($(zer)!0.15!(bot)$)]
-                \node (top) at (0,1) {$\top$};
-                \node (neg) at (-1,0) {$-$};
-                \node (zer) at (0,0) {$0$};
-                \node (pos) at (1,0) {$+$};
-                \node (bot) at (0,-1) {$\bot$};
-                \draw (bot) -- (neg) -- (top);
-                \draw (bot) -- (zer) -- (top);
-                \draw (bot) -- (pos) -- (top);
-            \end{tikzpicture}\).
-
-            \(\gamma(+) = \{n \in \ZZ \mid n > 0\}\) and \(\alpha(S) = +\) if \(S\) is all positive etc.
-        \item<3->
-            \(A = \{[a, b] \mid a, b \in \ZZ \cup \{-\infty, \infty\}; a \leq b\}\) ordered by subsets.
-
-            \(\gamma([a, b]) = [a, b]\) and \(\alpha(S) = [\min(S), \max(S)]\).
-    \end{itemize}
     \uncover<4->{
-    We'll focus on intervals for the rest of this talk.
+    As a general idea, apply \(\gamma\), then some operation, then \(\alpha\).
+    This gives us approximation operators for free yay!
     }
-\end{frame}
-
-\begin{frame}
-    \frametitle{Example again}
-    \begin{algorithmic}
-        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
-            \If{\(\lnot(0 \leq 0 \leq 99 \land 0 \leq 1 \leq 99)\)}
-                \State \textbf{explode} (out of bounds)
-            \EndIf
-        \State \(F[0] \gets 0\)
-        \State \(F[1] \gets 1\)
-        \State \(i \gets 2\)
-        \While{\(i < 100\)}
-            \If{\(\lnot(0 \leq i-2 \leq 99 \land 0 \leq i-1 \leq 99 \land 0 \leq i \leq 99)\)}
-                \State \textbf{explode} (out of bounds)
-            \EndIf
-            \State \(F[i] \gets F[i-1] + F[i-2]\)
-            \State \(i \gets i + 1\)
-        \EndWhile
-        \\\noindent\Return \(F\)
-    \end{algorithmic}
-    At the second bounds check, \(i \in [2, 99]\)!!
 \end{frame}
 
 \begin{frame}
     \frametitle{Computing Interval semantics}
-    We have best approximations of the interval domain, is it computable though?!
+    Let's write out what \(\absexpression{e_1 + e_2} : I^V \to I\) is.
+    \uncover<2->{
+    Let \([a, b] = \absexpression{e_1}(\sigma^\sharp), [c, d] = \absexpression{e_2}(\sigma^\sharp)\).
+    \begin{align*}
+        \absexpression{e_1 + e_2}(\sigma^\sharp)
+        &= \alpha(\expressionc{e_1 + e_2}(\gamma(\sigma^\sharp))) \\
+        &= \alpha(\{x + y \mid x \in [a, b], y \in [c, d]\}) \\
+        &= [\min(\{x + y \mid x \in [a, b], y \in [c, d]\}), \max(\cdots)] \\
+        &= [a + c, b + d] \\
+    \end{align*}
+    }
+    \uncover<3->{
+    wow it's just interval arithmetic!
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Remaining interval semantics}
+    We still have to write out \(\abscexpression{c}\) and \(\absstatement{s}\) ourselves.
+    \[
+        \begin{array}{rcl}
+            \abscexpression{v < n}(\sigma^\sharp) &=& \sigma[v \mapsto \sigma(v) \sqcap [-\infty, n-1]] \\
+            \abscexpression{v = n}(\sigma^\sharp) &=& \sigma[v \mapsto \sigma(v) \sqcap [n, n]] \text{ etc} \\
+            \abscexpression{c}(\sigma^\sharp) &=& \sigma^\sharp \\
+        \end{array}
+    \]
+    \[
+        \begin{array}{l}
+            \absstatement{v \gets e}(S) = \sigma[v \mapsto \absexpression{e}(\sigma)] \\
+            \absstatement{s_1; s_2}(S) = \absstatement{s_2}(\absstatement{s_1}(S)) \\
+            \absstatement{\ite{c}{s_1}{s_2}}(S) =\\ \qquad\qquad\qquad \absstatement{s_1}(\abscexpression{c}(S)) \cup  \absstatement{s_1}(\abscexpression{\lnot c}(S)) \\
+            \absstatement{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \abscexpression{\lnot c}(\lfp (\lambda X . X \cup \absstatement{s}(\abscexpression{c}(X))))
+        \end{array}
+    \]
+    \uncover<2->{
+        Wow, this is almost all computable now!!
+        The only thing that isn't is the while loop...
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fixpoint acceleration}
+    \begin{definition}
+        An operation \(\nabla : A \times A \to A\) on a join semi-lattice \(A\) is called a widening operator if \(x \sqcup y \sqsubseteq x \nabla y\) and for any sequence \((y_i)_(i \in \omega)\), the sequence \(x_0 = y_0\) and \(x_{i+1} = x_i \mathbin{\nabla} y_{i+1}\) is eventually constant.
+    \end{definition}
+    \uncover<2->{
+    \begin{theorem}
+        If \(g : A \to A\) is an approximation of \(f : C \to C\) (in the sense of the (lax) commutative diagram from earlier), then the sequence \(x_0 = \bot\) and \(x_{i+1} = x_i \mathbin{\nabla} g(x_i)\) stabilises in finite time to \(x\) to approximate the least fixed point of \(f\), \(\lfp(f) \sqsubseteq \gamma(x)\).
+    \end{theorem}
+    no proof...
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fixpoint acceleration}
+    We can widen intervals like so:
+    \[
+        [a, b] \mathbin{\nabla} [c, d] = \left[\begin{cases}
+            a & \text{if } a \leq c \\
+            -\infty & \text{otherwise} \\
+        \end{cases}, \begin{cases}
+            b & \text{if } b \geq d \\
+            \infty & \text{otherwise} \\
+        \end{cases}\right].
+    \]
+    Intuitively, if we see \([c, d]\) is growing, clamp to infinity!
+
+    \uncover<2->{
+    We can then define widening on \(I^V\) pointwise, and define while semantics with
+    \[
+        \begin{array}{l}
+            \absstatement{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \abscexpression{\lnot c}(\lfp (\lambda X . X \mathbin{\nabla} (S \sqcup \absstatement{s}(\abscexpression{c}(X))))).
+        \end{array}
+    \]
+    This is computable!
+    }
+
+    \uncover<3->{
+    Also everything here is an approximation of the concrete semantics i promise
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abstract interpreting}
+    \only<-17>{
+    \begin{algorithmic}
+        \State{\(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\) \uncover<1->{\textcolor{gray}{\(i \mapsto [\infty, \infty]\)}}}
+        \State{\(F[0] \gets 0\) \uncover<2->{\textcolor{gray}{\(i \mapsto [\infty, \infty]\)}}}
+        \State{\(F[1] \gets 1\) \uncover<3->{\textcolor{gray}{\(i \mapsto [\infty, \infty]\)}}}
+        \State{\(i \gets 2\) \uncover<4->{\textcolor{gray}{\(i \mapsto [2, 2]\)}}}
+        \While{\(i < 100\)}
+            \State{\(
+                \only<-5>{\uncover<5-5>{\textcolor{gray}{i \mapsto [2, 2] \sqcap [-\infty, 100]}}}
+                \only<6-11>{\uncover<6-11>{\textcolor{gray}{i \mapsto [2, 2]}}}
+                \only<12-12>{\uncover<12-12>{\textcolor{gray}{i \mapsto [2, \infty] \sqcap [-\infty, 100]}}}
+                \only<13->{\uncover<13->{\textcolor{gray}{i \mapsto [2, 100]}}}
+            \)}
+            \only<-16>{
+            \If{\(2 > i \lor i > 99\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+            }
+            \State{\(F[i] \gets F[i-1] + F[i-2]\) 
+            \(
+                \only<-13>{\uncover<7-13>{\textcolor{gray}{i \mapsto [2, 2]}}}
+                \only<14->{\uncover<14->{\textcolor{gray}{i \mapsto [2, 100]}}}
+            \)}
+            \State{\(i \gets i + 1\)
+            \(
+                \only<-14>{\uncover<8->{\textcolor{gray}{i \mapsto [3, 3]}}}
+                \only<15->{\uncover<15->{\textcolor{gray}{i \mapsto [3, 101]}}}
+            \)}
+            \State{\(
+                \only<1-9>{\uncover<9-9>{\textcolor{gray}{i \mapsto [2, 2] \mathbin{\nabla} ([2, 2] \sqcup [3, 3])}}}
+                \only<10-10>{\uncover<10-10>{\textcolor{gray}{i \mapsto [2, 2] \mathbin{\nabla} [2, 3]}}}
+                \only<11->{\uncover<11->{\textcolor{gray}{i \mapsto [2, \infty]}}}
+                \only<11->{\uncover<11->{\textcolor{gray}{i \mapsto [2, \infty]}}}
+            \)}
+        \EndWhile
+        \State{\(\uncover<16->{\textcolor{gray}{i \mapsto [100, \infty]}}\)}
+        \\\noindent\Return \(F\)
+    \end{algorithmic}
+    }
+    \only<18->{
+    \begin{algorithmic}
+        \State{\(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)}
+        \State{\(F[0] \gets 0\)}
+        \State{\(F[1] \gets 1\)}
+        \State{\(i \gets 2\)}
+        \While{\(i < 100\)}
+            \State{\(F[i] \gets F[i-1] + F[i-2]\)}
+            \State{\(i \gets i + 1\)}
+        \EndWhile
+        \\\noindent\Return \(F\)
+    \end{algorithmic}
+    we did it!!
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Further reading}
+    \nocite{*}
+    \bibliographystyle{plain}
+    \bibliography{references}
 \end{frame}
 
 \end{document}
