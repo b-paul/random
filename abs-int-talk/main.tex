@@ -39,11 +39,13 @@
 \newcommand{\absexpression}[1]{\textcolor{red}{\mathbb{E}^\sharp\llbracket} #1 \textcolor{red}{\rrbracket}}
 \newcommand{\absstatement}[1]{\textcolor{red}{\mathbb{S}^\sharp\llbracket} #1 \textcolor{red}{\rrbracket}}
 
-\newcommand{\ite}[3]{\mathbf{if} \; #1 \; \mathbf{then} \; #2 \; \mathbf{else} \; #3 \; \mathbf{end\;if}}
-\newcommand{\while}[2]{\mathbf{while} \; #1 \; \mathbf{do} \; #2 \; \mathbf{end\;while}}
+\newcommand{\ite}[3]{\mathbf{if} \, #1 \, \mathbf{then} \, #2 \, \mathbf{else} \, #3 \, \mathbf{end\,if}}
+\newcommand{\while}[2]{\mathbf{while} \, #1 \, \mathbf{do} \, #2 \, \mathbf{end\,while}}
+
+\DeclareMathOperator{\lfp}{lfp}
 
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.geometric, calc}
 
 %\renewcommand\labelenumii{(\roman{enumii})}
 
@@ -70,18 +72,6 @@
     \titlepage
 \end{frame}
 
-\title{Using \sout{AI} Abstract Interpretation to improve your code}
-
-\begin{frame}
-    \titlepage
-\end{frame}
-
-\title{How other people use Abstract Interpretation to improve your code when you run it}
-
-\begin{frame}
-    \titlepage
-\end{frame}
-
 \begin{frame}
     \frametitle{I FUCKING HATE AI!!!}
 
@@ -95,6 +85,18 @@
     \uncover<4->{
     Artificial intelligence will not be mentioned again for the rest of this talk.
     }
+\end{frame}
+
+\title{Using \sout{AI} Abstract Interpretation to improve your code}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\title{How other people use Abstract Interpretation to improve your code when you run it}
+
+\begin{frame}
+    \titlepage
 \end{frame}
 
 \begin{frame}
@@ -133,7 +135,7 @@
     \only<2->{
     \begin{algorithmic}
         \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
-            \If{\(\lnot(0 \leq 0 \leq 99 \land 0 \leq 1)\)}
+            \If{\(\lnot(0 \leq 0 \leq 99 \land 0 \leq 1 \leq 99)\)}
                 \State \textbf{explode} (out of bounds)
             \EndIf
         \State \(F[0] \gets 0\)
@@ -167,7 +169,6 @@
                 \; \mid \; e + e
                 \; \mid \; e - e
                 \; \mid \; e \times e
-                \; \mid \; e \div e
                 \\
             c & := & \true
                 \; \mid \; \false
@@ -225,7 +226,7 @@
 \begin{frame}
     \frametitle{Order theory 1}
     \begin{definition}
-        A poset is a set \(P\) equipped with a partial order \(\sqsubseteq\) that's reflexive, antisymmetric and transitive.
+        A poset is a set \(P\) equipped with a partial order \(\sqsubseteq\) (reflexive, antisymmetric and transitive).
     \end{definition}
     (I really hope you've seen this before else this talk will go way too fast)
     \uncover<2->{
@@ -233,6 +234,11 @@
         For any set \(S\), \((\mathcal{P}(S), \subseteq)\) is a poset.
     \end{example}
     }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 1}
+    Insert hasse diagram here
 \end{frame}
 
 \begin{frame}
@@ -277,8 +283,254 @@
 \begin{frame}
     \frametitle{Approximating semantics}
     Define \(\statesetb = \ZZ^V\) (no arrays!) and \(\concdomainb = \mathcal{P}(\statesetb)\).
-    Then define \(\gamma : \concdomainb \to \concdomain\) by \(\gamma(S) = S \times A^W\), giving all possible assignments of array variables.
-    This is clearly monotone!
+    Then \(\gamma : \concdomainb \to \concdomain\) by \(\gamma(S) = S \times A^W\), giving all possible assignments of array variables, is an approximation.
+
+    Then we'll define \(\expression{e} : \statesetb \to \powerset{\ZZ}\), \(\cexpression{c} : \concdomainb \to \concdomainb\) and \(\statementb{s} : \concdomainb \to \concdomainb\) inductively.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Approximating semantics}
+    \[
+        \begin{array}{rcl}
+            \expression{n}(\sigma) &=& \{n\} \\
+            \expression{v}(\sigma) &=& \{\sigma(v)\} \\
+            \expression{e_1 + e_2}(\sigma) &=& \{x + y \mid x \in \expression{e_1}(\sigma), y \in \expression{e_2}(\sigma)\} \\
+            \expression{e_1 - e_2}(\sigma) &=& \{x - y \mid x \in \expression{e_1}(\sigma), y \in \expression{e_2}(\sigma)\} \\
+            \expression{e_1 \times e_2}(\sigma) &=& \{x \times y \mid x \in \expression{e_1}(\sigma), y \in \expression{e_2}(\sigma)\} \\
+            \expression{a[i]}(\sigma) &=& \ZZ \\
+        \end{array}
+    \]
+    \[
+        \begin{array}{rcl}
+            \cexpression{\true}(S) &=& S \\
+            \cexpression{\false}(S) &=& \emptyset \\
+            \cexpression{e_1 \leq e_2}(S) &=& \{\sigma \in S \mid \exists x \in \expression{e_1}, y \in \expression{e_2} : x \leq y\} \\
+            \cexpression{e_1 = e_2}(S) &=& \{\sigma \in S \mid \exists x \in \expression{e_1}, y \in \expression{e_2} : x = y\} \\
+            \cexpression{c_1 \land c_2}(S) &=& \cexpression{c_1}(S) \cap \cexpression{c_2}(S) \\
+            \cexpression{c_1 \lor c_2}(S) &=& \cexpression{c_1}(S) \cup \cexpression{c_2}(S) \\
+            \cexpression{\lnot c}(S) &=& \concdomainb - \cexpression{c}(S) \\
+        \end{array}
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Approximating semantics}
+    \[
+        \begin{array}{c}
+            \statementb{s_1; s_2}(S) = \statementb{s_2}(\statementb{s_1}(S)) \\
+            \statementb{v \gets e}(S) = \{\sigma[v \mapsto \expression{e}(\sigma)] \mid \sigma \in S\} \\
+            \statementb{a[i] \gets e}(S) = S \\
+            % omg this sucks so much
+            \statementb{\ite{c}{s_1}{s_2}}(S) =\\ \qquad\qquad\qquad \statementb{s_1}(\cexpression{c}(S)) \cup  \statementb{s_1}(\cexpression{\lnot c}(S)) \\
+            \uncover<2->{
+            \statementb{\while{c}{s}}(S) = \text{wait what} \\
+            }
+        \end{array}
+    \]
+    \noindent\uncover<3->{
+    We need some sort of limit of repeatedly applying \(s\)!
+    Alternatively, we could find some minimal \(X\) such that \(X = X \cup \statementb{s}(\cexpression{c}(X))\).
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 2}
+    \begin{definition}
+        There is a poset \(\omega = \NN\) under the standard ordering.
+    \end{definition}
+    \uncover<2->{
+    \begin{definition}
+        An \(\omega\)-chain in a poset \((P, \sqsubseteq)\) is the image of a monotone map \(f : \omega \to P\).
+        Equivalently, it is a sequence \((x_i)_{i \in \omega}\) such that if \(i \sqsubseteq j\) then \(x_i \sqsubseteq x_j\).
+    \end{definition}
+    }
+    \uncover<3->{
+    \begin{definition}
+        An \(\omega\) complete partial order, or \(\omega\)-CPO is a poset \((C, \sqsubseteq)\) such that all \(\omega\)-chains \((x_i)\) admit a least upper bound \(\bigsqcup_i x_i\) (so \(x_j \sqsubseteq \bigsqcup_i x_i\) for all \(j\) and is minimal among such).
+        We may call these least upper bounds \textit{joins}.
+        An \(\omega\)-CPO is \textit{pointed} if it has a least element \(\bot\).
+    \end{definition}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 2}
+    Insert hasse diagram here
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 2}
+    \begin{example}
+        For any set \(X\), the poset \((\mathcal{P}(X), \subseteq)\) is an \(\omega\)-cpo!
+        Joins are given by unions of sets, \(\bigsqcup_i X_i = \bigcup_i X_i\).
+        Moreover, it is pointed by \(\emptyset\)!
+    \end{example}
+    We can think of joins as generalisations of unions, but we will only see instances of non-union joins later.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 2}
+    \begin{definition}
+        A monotone map \(f : C \to D\) of \(\omega\)-cpos is \(\omega\)-continuous if for any \(\omega\)-chain \((x_i)_{i \in \omega}\) in \(C\), \(f(\bigsqcup_i x_i) = \bigsqcup_i f(x_i) \).
+    \end{definition}
+    \begin{theorem}[Kleene fixed-point theorem for \(\omega\)-cpos]
+        If \(C\) is a pointed \(\omega\)-cpo and \(f : C \to C\) is an \(\omega\)-continuous map, then a fixed point of \(f\) exists, and the least fixed point is
+        \[
+            \lfp(f) = \bigsqcup_i f^i(\bot).
+        \]
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 2}
+    \begin{proof}
+        Notice that \(f^i\) is monotone since it is a composite of monotone maps.
+        Applied to \(\bot \sqsubseteq f(\bot)\), we get \(f^i(\bot) \sqsubseteq f^{i+1}(\bot)\), so \(f^i(\bot)\) does form an \(\omega\)-chain!
+
+        \uncover<2->{
+        Next, our computation does give a fixed point, since
+        \[
+            f\left(\bigsqcup_i f^i(\bot)\right) = \bigsqcup_i f^{i+1}(\bot) = \bigsqcup_i f^i(\bot).
+        \]
+        }
+
+        \uncover<3->{
+        Finally, if \(x\) is another fixed-point of \(f\), then applying monotonicity to \(\bot \sqsubseteq x\) we get
+        \(f^i(\bot) \sqsubseteq f^i(x) = x\), so \(\sqsubseteq_i f^i(\bot) \sqsubseteq x\).
+        }
+    \end{proof}
+\end{frame}
+
+\begin{frame}
+    \frametitle{While loops}
+    And now we can define while loop semantics!
+    \uncover<2->{
+    \[
+        \statementb{\while{c}{s}}(S) = \cexpression{\lnot c}(\lfp (\lambda X . X \cup \statementb{s}(\cexpression{c}(X))))
+    \]
+    We've finally finished defining the language ...
+    }
+
+    \noindent\uncover<3->{
+    (There are questions about how we can know the inner expression is continuous if we haven't fully defined it but shhh this talk isn't about induction)
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abstract interpretation}
+    The semantics we just described is very non-computable!
+    Abstract interpretation is about approximating our ``concrete'' semantics so that it becomes computable.
+    
+    \uncover<2->{
+    That is, we want a poset \((A, \sqsubseteq)\) with elements of \(A\) easy to represent on a computer, and some computable semantics operator \(\absstatement{s} : A \to A\) for each statement \(s\), that's an approximation of our semantics by a map \(\gamma : A \to \concdomainb\).
+    There are some order theory tricks to help us with this!
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 3}
+    In order to compute least fixed-points, we need a notion of finite joins.
+    \uncover<2->{
+    \begin{definition}[Non-binary double feature AND lattice double feature?!]
+        A poset \((P, \sqsubseteq)\) is a join semi-lattice if every pair of elements \(x, y\) has a least upper bound (join) written \(x \sqcup y\).
+    \end{definition}
+    }
+    \uncover<3->{
+    \begin{example}
+        As usual \((\mathcal{P}(X), \sqsubseteq)\) is a join semi-lattice, where joins are unions!
+    \end{example}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 3}
+    \begin{definition}
+        If \((C,\sqsubseteq)\) and \((A, \sqsubseteq)\) are posets, and \(\alpha : C \rightleftarrows A : \gamma\) are monotone maps, then they form a Galois connection if
+        \(\alpha(c) \sqsubseteq a\) iff \(c \sqsubseteq \gamma(a)\).
+        We call \(\alpha\) the left adjoint and \(\gamma\) the right adjoint.
+        If \(\gamma\) is injective, then we call the pair of maps a Galois embedding.
+    \end{definition}
+    \uncover<2->{
+    \begin{proposition}
+        In a Galois embedding \(\alpha : C \rightleftarrows A : \gamma\), \(\alpha(\gamma(a)) = a\) for all \(a \in A\).
+    \end{proposition}
+    \begin{proof}
+        Firstly since \(\gamma(a) \sqsubseteq \gamma(a)\), \(\alpha(\gamma(a)) \sqsubseteq a\) so \(\gamma(\alpha(\gamma(a))) \sqsubseteq \gamma(a)\).
+        Next, since \(\alpha(\gamma(a)) \sqsubseteq \alpha(\gamma(a))\), \(\gamma(a) \sqsubseteq \gamma(\alpha(\gamma(a)))\).
+        Hence \(\gamma(\alpha(\gamma(a))) = \gamma(a)\) so by injectivity \(\alpha(\gamma(a)) = a\).
+    \end{proof}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Order theory 3}
+    Galois embeddings let us optimally approximate concrete structure in the abstract structure.
+    \uncover<2->{
+    \begin{proposition}
+        In a Galois embedding \(\alpha : C \rightleftarrows A : \gamma\), if \(C\) is a join semi-lattice, then \(A\) is a join semi-lattice with join \(a \sqcup b = \alpha(\gamma(a) \sqcup \gamma(b))\).
+    \end{proposition}
+    \begin{proposition}
+        Any operator \(f : C \to C\) has its ``best abstraction'' on \(A\) (won't be defined sorry) by \(\alpha \circ f \circ \gamma\).
+    \end{proposition}
+    }
+
+    \uncover<3->{
+    This gives us approximation semantics for free yay
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Value domains}
+    Instead of approximating \(\concdomainb\) directly, we can approximate \(\mathcal{P}(\ZZ)\).
+    \begin{itemize}
+        \item<2->
+            \(A = \begin{tikzpicture}[scale=.7, baseline=($(zer)!0.15!(bot)$)]
+                \node (top) at (0,1) {$\top$};
+                \node (neg) at (-1,0) {$-$};
+                \node (zer) at (0,0) {$0$};
+                \node (pos) at (1,0) {$+$};
+                \node (bot) at (0,-1) {$\bot$};
+                \draw (bot) -- (neg) -- (top);
+                \draw (bot) -- (zer) -- (top);
+                \draw (bot) -- (pos) -- (top);
+            \end{tikzpicture}\).
+
+            \(\gamma(+) = \{n \in \ZZ \mid n > 0\}\) and \(\alpha(S) = +\) if \(S\) is all positive etc.
+        \item<3->
+            \(A = \{[a, b] \mid a, b \in \ZZ \cup \{-\infty, \infty\}; a \leq b\}\) ordered by subsets.
+
+            \(\gamma([a, b]) = [a, b]\) and \(\alpha(S) = [\min(S), \max(S)]\).
+    \end{itemize}
+    \uncover<4->{
+    We'll focus on intervals for the rest of this talk.
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Example again}
+    \begin{algorithmic}
+        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
+            \If{\(\lnot(0 \leq 0 \leq 99 \land 0 \leq 1 \leq 99)\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+        \State \(F[0] \gets 0\)
+        \State \(F[1] \gets 1\)
+        \State \(i \gets 2\)
+        \While{\(i < 100\)}
+            \If{\(\lnot(0 \leq i-2 \leq 99 \land 0 \leq i-1 \leq 99 \land 0 \leq i \leq 99)\)}
+                \State \textbf{explode} (out of bounds)
+            \EndIf
+            \State \(F[i] \gets F[i-1] + F[i-2]\)
+            \State \(i \gets i + 1\)
+        \EndWhile
+        \\\noindent\Return \(F\)
+    \end{algorithmic}
+    At the second bounds check, \(i \in [2, 99]\)!!
+\end{frame}
+
+\begin{frame}
+    \frametitle{Computing Interval semantics}
+    We have best approximations of the interval domain, is it computable though?!
 \end{frame}
 
 \end{document}
