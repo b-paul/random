@@ -148,20 +148,6 @@ tight/.default=1pt}
     \only<1-1>{
     \begin{algorithmic}
         \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
-        \State \(F[0] \gets 0\)
-        \State \(F[1] \gets 1\)
-        \State \(i \gets 2\)
-        \While{\(i < 100\)}
-            \State \(F[i] \gets F[i-1] + F[i-2]\)
-            \State \(i \gets i + 1\)
-        \EndWhile
-        \\\noindent\Return \(F\)
-    \end{algorithmic}
-    }
-
-    \only<2-2>{
-    \begin{algorithmic}
-        \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
             \If{\(\lnot(0 \leq 0 \leq 99 \land 0 \leq 1 \leq 99)\)}
                 \State \textbf{explode} (out of bounds)
             \EndIf
@@ -179,7 +165,7 @@ tight/.default=1pt}
     \end{algorithmic}
     }
 
-    \only<3-3>{
+    \only<2-2>{
     \begin{algorithmic}
         \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
             \If{\(\false\)}
@@ -199,7 +185,7 @@ tight/.default=1pt}
     \end{algorithmic}
     }
 
-    \only<4-4>{
+    \only<3-3>{
     \begin{algorithmic}
         \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
         \State \(F[0] \gets 0\)
@@ -216,14 +202,14 @@ tight/.default=1pt}
     \end{algorithmic}
     }
 
-    \only<5->{
+    \only<4->{
     \begin{algorithmic}
         \State \(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)
         \State \(F[0] \gets 0\)
         \State \(F[1] \gets 1\)
         \State \(i \gets 2\)
         \While{\(i < 100\)}
-            \If{\(2 > i \lor i > 99\)}
+            \If{\(i < 2 \lor 99 < i\)}
                 \State \textbf{explode} (out of bounds)
             \EndIf
             \State \(F[i] \gets F[i-1] + F[i-2]\)
@@ -232,33 +218,35 @@ tight/.default=1pt}
         \\\noindent\Return \(F\)
     \end{algorithmic}
 
-    \uncover<6->{
-        The bounds check is redundant!
+    \uncover<5->{
+        The bounds check is redundant though!
     }
     }
 \end{frame}
 
 \begin{frame}
     \frametitle{Syntax}
-    Expressions, conditions and statements are defined inductively.
-    Let \(n\) be numeric literals and \(v\) variables.
+    We define expressions, conditions and statements.
 
+    \uncover<2->{
+    Expressions are things that evaluate to numbers.
+    \begin{itemize}
+        \item<3->
+            A number \(n\) is an expression.
+        \item<4->
+            A variable (integer variable) \(v\) is an expression.
+        \item<5->
+            Index an array by an expression \(a[e]\).
+        \item<6->
+            We can write down the sum of two expressions \(e_1 + e_2\).
+        \item<7->
+            Difference \(e_1 - e_2\).
+        \item<8->
+            Product \(e_1 \times e_2\).
+    \end{itemize}
+    }
     \[
         \begin{array}{rcl}
-            e & := & n
-                \; \mid \; v
-                \; \mid \; e + e
-                \; \mid \; e - e
-                \; \mid \; e \times e
-                \\
-            c & := & \true
-                \; \mid \; \false
-                \; \mid \; e \leq e
-                \; \mid \; e = e
-                \; \mid \; c \land c
-                \; \mid \; c \lor c
-                \; \mid \; \lnot c
-                \\
             s & := & v \gets e
                 \; \mid \; s; s
                 \; \mid \; \ite{c}{s}{s} \\
@@ -270,56 +258,85 @@ tight/.default=1pt}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Oh wait arrays}
-    Let \(a\) be array variables.
-    Then we can extend expressions and statements to include array syntax.
+    \frametitle{Syntax}
+    Conditions are what guard ifs and whiles.
+    \begin{itemize}
+        \item<2->
+            \(\true\) and \(\false\) are conditions
+        \item<3->
+            Comparisons of expressions like \(e_1 < e_2\) or \(e_1 = e_2\).
+        \item<4->
+            Conjunctions \(c_1 \land c_2\)
+        \item<5->
+            Disjunctions \(c_1 \lor c_2\)
+    \end{itemize}
+    \uncover<6->{
+        Negation is dealt with by applying de-morgan's law and negating "atoms".
+        \[
+            \lnot(x \leq y \land y \leq z) = x > y \lor y > z
+        \]
+    }
+\end{frame}
 
-    \[
-        \begin{array}{rcl}
-            e & := & \cdots
-                \; \mid \; a[e]
-                \\
-            s & := & \cdots
-                \; \mid \; a[e] \gets e
-        \end{array}
-    \]
+\begin{frame}
+    \frametitle{Syntax}
+    Statements are the lines of code.
+    \begin{itemize}
+        \item<2->
+            Variable assignment by expressions \(v \gets e\)
+        \item<3->
+            Array updates, indexed by expressions \(a[e_1] \gets e_2\)
+        \item<4->
+            The composite of two statements \(s_1; s_2\)
+        \item<5->
+            If statements, with bodies statements \(\ite{c}{s_1}{s_2}\)
+        \item<6->
+            While loops, with bodies statements \(\while{c}{s}\)
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Semantics}
-    There is a set \(\stateset\) of states (E for environment i think?) and (letting \(\concdomain = \mathcal{P}(\stateset)\)) an operator \(\statement{s} : \concdomain \to \concdomain\) for each statement \(s\).
+    There is a set \(\stateset\) of states (assignments of all variables to values) and (letting \(\concdomain = \mathcal{P}(\stateset)\)) an operator \(\statement{s} : \concdomain \to \concdomain\) for each statement \(s\).
     This operator describes ``what the statements do''.
 
     \uncover<2->{
-        Let's write it out!
-        Let \(\stateset = \ZZ^V \times A^W\) where \(V\) is the set of variables and \(W\) is the set of array variables.}
-    \uncover<3->{And \(A\) is the set of integer valued arrays... so that would be... umm
+        For example,
         \[
-            A = \bigcup_{n \in \NN} \{n\} \times \ZZ^n
+            \statement{x \gets 5}(\stateset) = \{\sigma \in \stateset \mid \sigma(x) = 5\}.
         \]
-        so like each array has a number telling us its length and then a whole bunch of integers...}
-    \uncover<4->{and then we can define the semantics operator............ that sounds SOOOO annoying!!
-        these arrays are so ugly!
-        i don't wanna
+    }
+
+    \uncover<3->{
+    It's quite yucky to write out everything in full with arrays included.
+    Instead, we will use order theory to ``approximate'' the real semantics.
     }
 \end{frame}
 
 \begin{frame}
     \frametitle{Order theory 1}
-    \begin{definition}
-        A poset is a set \(P\) equipped with a partial order \(\sqsubseteq\) (reflexive, antisymmetric and transitive).
-    \end{definition}
-    (I really hope you've seen this before else this talk will go way too fast)
+    For any set \(S\), \((\mathcal{P}(S), \subseteq)\) is a poset.
+
     \uncover<2->{
-    \begin{example}
-        For any set \(S\), \((\mathcal{P}(S), \subseteq)\) is a poset.
-    \end{example}
+        \begin{center}
+            \begin{tikzpicture}
+                \node (top) at (0,2) {$\{x,y,z\}$};
+                \node (xy) at (-1,1) {$\{x,y\}$};
+                \node (xz) at (0,1) {$\{x,z\}$};
+                \node (yz) at (1,1) {$\{y,z\}$};
+                \node (x) at (-1,0) {$\{x\}$};
+                \node (y) at (0,0) {$\{y\}$};
+                \node (z) at (1,0) {$\{z\}$};
+                \node (bot) at (0,-1) {$\emptyset$};
+                \draw (bot) -- (x) -- (xy) -- (top);
+                \draw (bot) -- (y) -- (yz) -- (top);
+                \draw (bot) -- (z) -- (xz) -- (top);
+                \draw (x) -- (xz);
+                \draw (y) -- (xy);
+                \draw (z) -- (yz);
+            \end{tikzpicture}
+        \end{center}
     }
-\end{frame}
-
-\begin{frame}
-    \frametitle{Order theory 1}
-    Insert hasse diagram here
 \end{frame}
 
 \begin{frame}
@@ -331,14 +348,6 @@ tight/.default=1pt}
     \begin{proposition}
         The identity map is monotone. Composites of monotone maps are monotone.
     \end{proposition}
-    \begin{proof}
-        If \(x \sqsubseteq y\) then \(x \sqsubseteq y\).
-
-        If \(x \sqsubseteq y\) then \(f(x) \sqsubseteq f(y)\) then \(g(f(x)) \sqsubseteq g(f(y))\).
-    \end{proof}
-    }
-    \uncover<3->{
-    Monotone maps are ordered pointwise, \(f \sqsubseteq g\) iff \(f(x) \sqsubseteq g(x)\) for all \(x\) in the domain.
     }
 \end{frame}
 
@@ -347,7 +356,12 @@ tight/.default=1pt}
     Instead of defining the full semantics, define an approximation set of states \(\statesetb\) and (letting \(\concdomainb = \mathcal{P}(\statesetb)\)) define an approximation operator \(\statementb{s} : \concdomainb \to \concdomainb\) for each statement \(s\).
 
     \uncover<2->{
-    Need a monotone map \(\hat{\gamma} : \concdomainb \to \concdomain\) such that \(\statement{s} \circ \gamma \sqsubseteq \gamma \circ \statementb{s}\).
+    Need a monotone map \(\hat{\gamma} : \concdomainb \to \concdomain\) such that for any set of states \(S\), \(\statement{s} (\gamma(S)) \subseteq \gamma (\statementb{s}(S))\).
+    Intuitively, every state described in the ``real world'' is captured in the ``approximate world''.
+    }
+    
+    \uncover<3->{
+    If you prefer, we need \(\hat{\gamma}\) a lax natural transformation viewing semantics opeators as functors from the one object category of statements under sequential composition to the poset-enriched category of posets!
     \[
     \begin{tikzcd}[ampersand replacement=\&]
         \concdomainb \arrow[r, "\statementb{s}"] \arrow[d, "\gamma", swap] \& \concdomainb \arrow[d, "\gamma"] \\
@@ -355,18 +369,16 @@ tight/.default=1pt}
     \end{tikzcd}
     \]
     }
-    
-    \uncover<3->{
-    If you prefer, we need \(\hat{\gamma}\) a lax natural transformation viewing semantics opeators as functors from the one object category of statements under sequential composition to the poset-enriched category of posets!
-    }
 \end{frame}
 
 \begin{frame}
     \frametitle{Approximating semantics}
-    Define \(\statesetb = \ZZ^V\) (no arrays!) and \(\concdomainb = \mathcal{P}(\statesetb)\).
-    Then \(\gamma : \concdomainb \to \concdomain\) by \(\gamma(S) = S \times A^W\), giving all possible assignments of array variables, is an approximation.
+    Define \(\statesetb = \ZZ^V\) (where \(V\) is the set of \textit{integer} variables only) and \(\concdomainb = \mathcal{P}(\statesetb)\).
+    Then define \(\gamma : \concdomainb \to \concdomain\), to give all possible assignments of arrays.
 
     Then we'll define \(\expression{e} : \statesetb \to \powerset{\ZZ}\), \(\cexpression{c} : \concdomainb \to \concdomainb\) and \(\statementb{s} : \concdomainb \to \concdomainb\) inductively.
+
+    \(\expression{e}\) tells us what expressions can evaluate to and \(\cexpression{c}\) tells us which statements pass through a guard.
 \end{frame}
 
 \begin{frame}
@@ -389,7 +401,6 @@ tight/.default=1pt}
             \cexpression{e_1 = e_2}(S) &=& \{\sigma \in S \mid \exists x \in \expression{e_1}, y \in \expression{e_2} : x = y\} \\
             \cexpression{c_1 \land c_2}(S) &=& \cexpression{c_1}(S) \cap \cexpression{c_2}(S) \\
             \cexpression{c_1 \lor c_2}(S) &=& \cexpression{c_1}(S) \cup \cexpression{c_2}(S) \\
-            \cexpression{\lnot c}(S) &=& \concdomainb - \cexpression{c}(S) \\
         \end{array}
     \]
 \end{frame}
@@ -399,7 +410,7 @@ tight/.default=1pt}
     \[
         \begin{array}{l}
             \statementb{s_1; s_2}(S) = \statementb{s_2}(\statementb{s_1}(S)) \\
-            \statementb{v \gets e}(S) = \{\sigma[v \mapsto \expression{e}(\sigma)] \mid \sigma \in S\} \\
+            \statementb{v \gets e}(S) = \{\sigma[v \mapsto x] \mid \sigma \in S, x \in\expression{e}(\sigma)\} \\
             \statementb{a[i] \gets e}(S) = S \\
             \statementb{\ite{c}{s_1}{s_2}}(S) =\\ \qquad\qquad\qquad \statementb{s_1}(\cexpression{c}(S)) \cup  \statementb{s_1}(\cexpression{\lnot c}(S)) \\
             \uncover<2->{
@@ -415,13 +426,11 @@ tight/.default=1pt}
 
 \begin{frame}
     \frametitle{Order theory 2}
-    \begin{definition}
-        There is a poset \(\omega = \NN\) under the standard ordering.
-    \end{definition}
+    Unfortunately domain theorists use \(\omega\) to mean \(\NN\).
+
     \uncover<2->{
     \begin{definition}
-        An \(\omega\)-chain in a poset \((P, \sqsubseteq)\) is the image of a monotone map \(f : \omega \to P\).
-        Equivalently, it is a sequence \((x_i)_{i \in \omega}\) such that if \(i \sqsubseteq j\) then \(x_i \sqsubseteq x_j\).
+        An \(\omega\)-chain is a sequence \((x_i)_{i \in \omega}\) such that if \(i \sqsubseteq j\) then \(x_i \sqsubseteq x_j\).
     \end{definition}
     }
     \uncover<3->{
@@ -431,11 +440,6 @@ tight/.default=1pt}
         An \(\omega\)-CPO is \textit{pointed} if it has a least element \(\bot\).
     \end{definition}
     }
-\end{frame}
-
-\begin{frame}
-    \frametitle{Order theory 2}
-    Insert hasse diagram here
 \end{frame}
 
 \begin{frame}
@@ -486,7 +490,9 @@ tight/.default=1pt}
     And now we can define while loop semantics!
     \uncover<2->{
     \[
-        \statementb{\while{c}{s}}(S) = \cexpression{\lnot c}(\lfp (\lambda X . X \cup \statementb{s}(\cexpression{c}(X))))
+        \begin{array}{l}
+            \statementb{\while{c}{s}}(S) =\\\qquad\qquad\qquad \cexpression{\lnot c}(\lfp (X \mapsto X \cup \statementb{s}(\cexpression{c}(X))))
+        \end{array}
     \]
     We've finally finished defining the language ...
     }
@@ -529,7 +535,7 @@ tight/.default=1pt}
 
             \(\gamma(+) = \{n \in \ZZ \mid n > 0\}\) etc.
         \item<3->
-            \(A = \{[a, b] \mid a, b \in \ZZ \cup \{-\infty, \infty\}; a \leq b\}\) ordered by subsets.
+            \(A = \{[a, b] \mid a, b \in \ZZ \cup \{-\infty, \infty\}\}\) ordered by subsets.
 
             \(\gamma([a, b]) = \{n \in \ZZ \mid a \leq n \leq b\}\).
     \end{itemize}
@@ -556,10 +562,9 @@ tight/.default=1pt}
 
 \begin{frame}
     \frametitle{Value set semantics}
-    \only<1-2>{
-    We define \(\expressionc{e} : \mathcal{P}(\ZZ)^V \to \mathcal{P}(\ZZ)\), \(\cexpressionc{c} : \mathcal{P}(\ZZ)^V \to \mathcal{P}(\ZZ)^V\) and \(\statementc{s} : \mathcal{P}(\ZZ)^V \to \mathcal{P}(\ZZ)^V\).
+    We define just \(\expressionc{e} : \mathcal{P}(\ZZ)^V \to \mathcal{P}(\ZZ)\) and leave the rest for later.
 
-    \uncover<2-2>{
+    \uncover<2->{
     \[
         \begin{array}{rcl}
             \expressionc{n}(\sigma) &=& \{n\} \\
@@ -570,30 +575,9 @@ tight/.default=1pt}
             \expressionc{a[i]}(\sigma) &=& \ZZ
         \end{array}
     \]
-    \[
-        \begin{array}{rcl}
-            \cexpressionc{\true}(\sigma) &=& \sigma \\
-            \cexpressionc{\false}(\sigma) &=& \bot \\
-            \cexpressionc{v \leq e}(\sigma) &=& \sigma[v \mapsto \{n \in \sigma(v) \mid n \leq \expressionc{e}(\sigma)] \\
-            \cexpressionc{e_1 = e_2}(\sigma) &=& \sigma \\
-            \cexpressionc{\lnot c}(\sigma) &=& \sigma \\
-            \text{etc}
-        \end{array}
-    \]
-    }}
-    \only<3->{
-    \[
-        \begin{array}{l}
-            \statementc{v \gets e}(S) = \sigma[v \mapsto \expressionc{e}(\sigma)] \\
-            \statementc{s_1; s_2}(S) = \statementc{s_2}(\statementc{s_1}(S)) \\
-            \statementc{a[i] \gets e}(S) = S \\
-            \statementc{\ite{c}{s_1}{s_2}}(S) =\\ \qquad\qquad\qquad \statementc{s_1}(\cexpressionc{c}(S)) \cup  \statementc{s_1}(\cexpressionc{\lnot c}(S)) \\
-            \statementc{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \cexpressionc{\lnot c}(\lfp (\lambda X . X \cup \statementc{s}(\cexpressionc{c}(X))))
-        \end{array}
-    \]
-    \uncover<4->{
-        From here, there is a trick to move to \(I^V\) from \(\mathcal{P}(\ZZ)^V\)!
     }
+    \uncover<3->{
+    We want to approximate \(\expressionc{e}\) with intervals instead of sets.
     }
 \end{frame}
 
@@ -618,22 +602,11 @@ tight/.default=1pt}
         If \((C,\sqsubseteq)\) and \((A, \sqsubseteq)\) are posets, and \(\alpha : C \rightleftarrows A : \gamma\) are monotone maps, then they form a Galois connection if
         \(\alpha(c) \sqsubseteq a\) iff \(c \sqsubseteq \gamma(a)\).
         We call \(\alpha\) the left adjoint and \(\gamma\) the right adjoint.
-        If \(\gamma\) is injective, then we call the pair of maps a Galois embedding.
     \end{definition}
     \uncover<2->{
     \begin{example}
-        The injective map \(\gamma([a, b]) = \{n \in \ZZ \mid a \leq n \leq b\}\) has left adjoint \(\alpha(S) = [\min(S), \max(S)]\) forming a Galois embedding!
+        The map \(\gamma([a, b]) = \{n \in \ZZ \mid a \leq n \leq b\}\) has left adjoint \(\alpha(S) = [\min(S), \max(S)]\)!
     \end{example}
-    }
-    \uncover<3->{
-    \begin{proposition}
-        In a Galois embedding \(\alpha : C \rightleftarrows A : \gamma\), \(\alpha(\gamma(a)) = a\) for all \(a \in A\).
-    \end{proposition}
-    \begin{proof}
-        Firstly since \(\gamma(a) \sqsubseteq \gamma(a)\), \(\alpha(\gamma(a)) \sqsubseteq a\) so \(\gamma(\alpha(\gamma(a))) \sqsubseteq \gamma(a)\).
-        Next, since \(\alpha(\gamma(a)) \sqsubseteq \alpha(\gamma(a))\), \(\gamma(a) \sqsubseteq \gamma(\alpha(\gamma(a)))\).
-        Hence \(\gamma(\alpha(\gamma(a))) = \gamma(a)\) so by injectivity \(\alpha(\gamma(a)) = a\).
-    \end{proof}
     }
 \end{frame}
 
@@ -642,7 +615,7 @@ tight/.default=1pt}
     Galois embeddings let us optimally approximate concrete structure in the abstract structure.
     \uncover<2->{
     \begin{proposition}
-        In a Galois embedding \(\alpha : C \rightleftarrows A : \gamma\), if \(C\) is a join semi-lattice, then \(A\) is a join semi-lattice with join \(a \sqcup b = \alpha(\gamma(a) \sqcup \gamma(b))\).
+        In a Galois connection \(\alpha : C \rightleftarrows A : \gamma\), if \(C\) is a join semi-lattice, then \(A\) is a join semi-lattice with join \(a \sqcup b = \alpha(\gamma(a) \sqcup \gamma(b))\).
     \end{proposition}
     \begin{proposition}
         Any operator \(f : C \to C\) has its ``best abstraction'' on \(A\) (won't be defined sorry) by \(\alpha \circ f \circ \gamma\).
@@ -660,13 +633,13 @@ tight/.default=1pt}
 
 \begin{frame}
     \frametitle{Computing Interval semantics}
-    Let's write out what \(\absexpression{e_1 + e_2} : I^V \to I\) is.
+    Let's write out what \(\absexpression{e_1 + e_2} : I^V \to I\) might be.
     \uncover<2->{
     Let \([a, b] = \absexpression{e_1}(\sigma^\sharp), [c, d] = \absexpression{e_2}(\sigma^\sharp)\).
     \begin{align*}
         \absexpression{e_1 + e_2}(\sigma^\sharp)
         &= \alpha(\expressionc{e_1 + e_2}(\gamma(\sigma^\sharp))) \\
-        &= \alpha(\{x + y \mid x \in [a, b], y \in [c, d]\}) \\
+        &\sqsubseteq \alpha(\{x + y \mid x \in [a, b], y \in [c, d]\}) \\
         &= [\min(\{x + y \mid x \in [a, b], y \in [c, d]\}), \max(\cdots)] \\
         &= [a + c, b + d] \\
     \end{align*}
@@ -679,6 +652,7 @@ tight/.default=1pt}
 \begin{frame}
     \frametitle{Remaining interval semantics}
     We still have to write out \(\abscexpression{c}\) and \(\absstatement{s}\) ourselves.
+    \uncover<2->{
     \[
         \begin{array}{rcl}
             \abscexpression{v < n}(\sigma^\sharp) &=& \sigma[v \mapsto \sigma(v) \sqcap [-\infty, n-1]] \\
@@ -686,35 +660,29 @@ tight/.default=1pt}
             \abscexpression{c}(\sigma^\sharp) &=& \sigma^\sharp \\
         \end{array}
     \]
+    }
+    \uncover<3->{
     \[
         \begin{array}{l}
             \absstatement{v \gets e}(S) = \sigma[v \mapsto \absexpression{e}(\sigma)] \\
             \absstatement{s_1; s_2}(S) = \absstatement{s_2}(\absstatement{s_1}(S)) \\
             \absstatement{\ite{c}{s_1}{s_2}}(S) =\\ \qquad\qquad\qquad \absstatement{s_1}(\abscexpression{c}(S)) \cup  \absstatement{s_1}(\abscexpression{\lnot c}(S)) \\
-            \absstatement{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \abscexpression{\lnot c}(\lfp (\lambda X . X \cup \absstatement{s}(\abscexpression{c}(X))))
+            \absstatement{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \abscexpression{\lnot c}(\lfp (X \mapsto X \cup \absstatement{s}(\abscexpression{c}(X))))
         \end{array}
     \]
-    \uncover<2->{
+    }
+    \uncover<4->{
         Wow, this is almost all computable now!!
         The only thing that isn't is the while loop...
+        It's a join of infinitely many things!
     }
 \end{frame}
 
 \begin{frame}
     \frametitle{Fixpoint acceleration}
-    \begin{definition}
-        An operation \(\nabla : A \times A \to A\) on a join semi-lattice \(A\) is called a widening operator if \(x \sqcup y \sqsubseteq x \nabla y\) and for any sequence \((y_i)_(i \in \omega)\), the sequence \(x_0 = y_0\) and \(x_{i+1} = x_i \mathbin{\nabla} y_{i+1}\) is eventually constant.
-    \end{definition}
+    If we have a sequence of intervals \(([0, 0], [0, 1], [0, 2], [0, 3], \dots)\), then there's no hope to find a fixed-point of them by joining them repeatedly.
+    
     \uncover<2->{
-    \begin{theorem}
-        If \(g : A \to A\) is an approximation of \(f : C \to C\) (in the sense of the (lax) commutative diagram from earlier), then the sequence \(x_0 = \bot\) and \(x_{i+1} = x_i \mathbin{\nabla} g(x_i)\) stabilises in finite time to \(x\) to approximate the least fixed point of \(f\), \(\lfp(f) \sqsubseteq \gamma(x)\).
-    \end{theorem}
-    no proof...
-    }
-\end{frame}
-
-\begin{frame}
-    \frametitle{Fixpoint acceleration}
     We can widen intervals like so:
     \[
         [a, b] \mathbin{\nabla} [c, d] = \left[\begin{cases}
@@ -725,13 +693,27 @@ tight/.default=1pt}
             \infty & \text{otherwise} \\
         \end{cases}\right].
     \]
-    Intuitively, if we see \([c, d]\) is growing, clamp to infinity!
+    Intuitively, if we see \([c, d]\) is growing, clamp to infinity.
+
+    This is an instance of what is called a widening operator (definition omitted)!
+    }
+
+    \uncover<3->{
+    \begin{theorem}
+        If \(g : A \to A\) is an approximation of \(f : C \to C\) (in the sense of the (lax) commutative diagram from earlier), then the sequence \(x_0 = \bot\) and \(x_{i+1} = x_i \mathbin{\nabla} g(x_i)\) stabilises in finite time to \(x\) to approximate the least fixed point of \(f\), \(\lfp(f) \sqsubseteq \gamma(x)\).
+    \end{theorem}
+    no proof
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Fixpoint acceleration}
 
     \uncover<2->{
     We can then define widening on \(I^V\) pointwise, and define while semantics with
     \[
         \begin{array}{l}
-            \absstatement{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \abscexpression{\lnot c}(\lfp (\lambda X . X \mathbin{\nabla} (S \sqcup \absstatement{s}(\abscexpression{c}(X))))).
+            \absstatement{\while{c}{s}}(S) =\\ \qquad\qquad\qquad \abscexpression{\lnot c}(\lfp (X \mapsto X \mathbin{\nabla} (S \sqcup \absstatement{s}(\abscexpression{c}(X))))).
         \end{array}
     \]
     This is computable!
@@ -744,7 +726,7 @@ tight/.default=1pt}
 
 \begin{frame}
     \frametitle{Abstract interpreting}
-    \only<-17>{
+    \only<-20>{
     \begin{algorithmic}
         \State{\(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\) \uncover<1->{\textcolor{gray}{\(i \mapsto [\infty, \infty]\)}}}
         \State{\(F[0] \gets 0\) \uncover<2->{\textcolor{gray}{\(i \mapsto [\infty, \infty]\)}}}
@@ -752,12 +734,12 @@ tight/.default=1pt}
         \State{\(i \gets 2\) \uncover<4->{\textcolor{gray}{\(i \mapsto [2, 2]\)}}}
         \While{\(i < 100\)}
             \State{\(
-                \only<-5>{\uncover<5-5>{\textcolor{gray}{i \mapsto [2, 2] \sqcap [-\infty, 100]}}}
+                \only<-5>{\uncover<5-5>{\textcolor{gray}{i \mapsto [2, 2] \sqcap [-\infty, 99]}}}
                 \only<6-11>{\uncover<6-11>{\textcolor{gray}{i \mapsto [2, 2]}}}
-                \only<12-12>{\uncover<12-12>{\textcolor{gray}{i \mapsto [2, \infty] \sqcap [-\infty, 100]}}}
-                \only<13->{\uncover<13->{\textcolor{gray}{i \mapsto [2, 100]}}}
+                \only<12-12>{\uncover<12-12>{\textcolor{gray}{i \mapsto [2, \infty] \sqcap [-\infty, 99]}}}
+                \only<13->{\uncover<13->{\textcolor{gray}{i \mapsto [2, 99]}}}
             \)}
-            \only<-16>{
+            \only<-19>{
             \If{\(2 > i \lor i > 99\)}
                 \State \textbf{explode} (out of bounds)
             \EndIf
@@ -765,25 +747,27 @@ tight/.default=1pt}
             \State{\(F[i] \gets F[i-1] + F[i-2]\) 
             \(
                 \only<-13>{\uncover<7-13>{\textcolor{gray}{i \mapsto [2, 2]}}}
-                \only<14->{\uncover<14->{\textcolor{gray}{i \mapsto [2, 100]}}}
+                \only<14->{\uncover<14->{\textcolor{gray}{i \mapsto [2, 99]}}}
             \)}
             \State{\(i \gets i + 1\)
             \(
                 \only<-14>{\uncover<8->{\textcolor{gray}{i \mapsto [3, 3]}}}
-                \only<15->{\uncover<15->{\textcolor{gray}{i \mapsto [3, 101]}}}
+                \only<15->{\uncover<15->{\textcolor{gray}{i \mapsto [3, 100]}}}
             \)}
             \State{\(
                 \only<1-9>{\uncover<9-9>{\textcolor{gray}{i \mapsto [2, 2] \mathbin{\nabla} ([2, 2] \sqcup [3, 3])}}}
                 \only<10-10>{\uncover<10-10>{\textcolor{gray}{i \mapsto [2, 2] \mathbin{\nabla} [2, 3]}}}
-                \only<11->{\uncover<11->{\textcolor{gray}{i \mapsto [2, \infty]}}}
-                \only<11->{\uncover<11->{\textcolor{gray}{i \mapsto [2, \infty]}}}
+                \only<11-15>{\uncover<11-15>{\textcolor{gray}{i \mapsto [2, \infty]}}}
+                \only<16-16>{\uncover<16-16>{\textcolor{gray}{i \mapsto [2, 99] \mathbin{\nabla} ([2, 2] \sqcup [3, 100])}}}
+                \only<17-17>{\uncover<17-17>{\textcolor{gray}{i \mapsto [2, 99] \mathbin{\nabla} [2, 100]}}}
+                \only<18->{\uncover<18->{\textcolor{gray}{i \mapsto [2, \infty]}}}
             \)}
         \EndWhile
-        \State{\(\uncover<16->{\textcolor{gray}{i \mapsto [100, \infty]}}\)}
+        \State{\(\uncover<19->{\textcolor{gray}{i \mapsto [100, \infty]}}\)}
         \\\noindent\Return \(F\)
     \end{algorithmic}
     }
-    \only<18->{
+    \only<21->{
     \begin{algorithmic}
         \State{\(F \gets \underbrace{[0, \dots, 0]}_{\text{100 of them}}\)}
         \State{\(F[0] \gets 0\)}
