@@ -1,0 +1,111 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\title{FOAG The Rising Sea exercises}
+\author{bpaul}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Category theory}
+might do later we'll see
+
+\section{Sheaves}
+
+\subsection{Motivating example: The sheaf of smooth functions}
+
+\begin{exercise}
+    Show that \(\mathfrak{m}_p\), the ideal of germs vanishing at \(p\), is the only maximal ideal of \(\mathscr{O}_p\).
+    (Hint: show that every element of \(\mathscr{O}_p \setminus \mathfrak{m}_p\) is invertible.)
+\end{exercise}
+
+\begin{proof}
+    Let \((f, U)\) be represent a germ that is non-zero at \(p\).
+    Then there's some open neighbourhood of \(f(v)\) that doesn't contain zero, and the preimage of that neighbourhood is open.
+    Call it \(V\).
+    Then the restriction \((f |_{U \cap V}, U \cap V)\) is non-zero everywhere and we can define an inverse!
+    Hence every element of \(\mathscr{O}_p \setminus \mathfrak{m}_p\) is invertible.
+    Any proper ideal must contain no units, and must therefore be contained in \(\mathfrak{m}_p\).
+\end{proof}
+
+\begin{exercise}
+    Show that \(\mathfrak{m}_p / \mathfrak{m}_p^2\) is the cotangent space at \(p\).
+\end{exercise}
+
+\begin{proof}
+    skipped (idk DG) something about killing non-linear terms idk
+\end{proof}
+
+\subsection{Definition of sheaf and presheaf}
+\begin{exercise}
+    Show that presheafs are the same thing as contravariant functors from the poset category of open sets to \(\Set\).
+\end{exercise}
+
+\begin{proof}
+    Associating an \(\mathscr{F}(U)\) to each open \(U\) is defining the map on objects.
+    Defining restriction maps \(\res_{V,U} : \mathscr{F}(V) \to \mathscr{F}(U)\) is defining the map on morphisms \(U \hookrightarrow V\).
+    Requiring \(\res_{U, U} = \id_{\mathscr{F}(U)}\) is the identity axiom of a functor, and requiring \(\res_{W, V} \circ \res_{V, U} = \res_{W, U}\) is the composition axiom of a functor.
+\end{proof}
+
+\begin{exercise}
+    Show the following are presheaves on \(\CC\) but not sheaves: (a) bounded functions, (b) holomorphic functions admitting a holomorphic square root.
+\end{exercise}
+\begin{proof}
+    These examples are both presheaves because restriction is function restriction.
+
+    Bounded functions fail gluability since we can take infinite unions.
+    For example, take \(U_i = [-1, 1] \times [i, i+1] \subseteq \CC\) with \(f(z) = |z|\).
+    This function is bounded on all \(U_i\) but is not bounded an their union.
+
+    Holomorphic functions with holomorphic square roots fail gluability because we can glue over branch cuts.
+    For example, we could take the identity function on three thirds of the complex plane with overlap that glue to the whole space, and so each function has a holomorphic square root, but their union does not.
+\end{proof}
+
+\begin{exercise}
+    What limit expresses the identity and gluability axioms?
+\end{exercise}
+\begin{proof}
+    Gluability and identity can be expressed as, for any open cover \(U_i\) of \(U\), saying that
+    \(\begin{tikzcd}[cramped, sep=small] \mathscr{F}(U) \arrow[r] & \prod_i \mathscr{F}(U_i) \arrow[r, shift left=0.75ex] \arrow[r, shift right=0.75ex] & \prod_{i, j} \mathscr{F}(U_i \cap U_j) \end{tikzcd}\)
+    is an equaliser diagram.
+    We also would want that the cone map is restriction maps, or equivalently that \(\mathscr{F}\) preserves colimits-to-limits (it is contravariant) of this form.
+    Then the identity axiom is the fact that \(\mathscr{F}(U)\) is a subobject of the product of \(\mathscr{F}(U_i)\) and gluability is the fact that elements are (can be) represented by tuples that equalise.
+\end{proof}
+
+\begin{exercise}
+    \begin{enumerate}
+        \item
+            Verify that the sheaves of smooth functions, continuous functions, real-analytic functions and real-valued functions on a manifold are sheaves.
+        \item
+            Show that real-valued continuous functions on a topological space \(X\) form a sheaf.
+    \end{enumerate}
+\end{exercise}
+\begin{proof}
+    \begin{enumerate}
+        \item
+            dhgmbwidgmhubwidhgbmuidhgmbw i don't wanna what the heck is a manifold
+        \item
+            See exercise \ref{ex22f}
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+    Let \(\mathscr{F}(U)\) be the set of maps \(U \to S\) that are locally constant (every point \(p \in U\) has a neighbourhood that the map is constant on).
+    Show this forms a sheaf on \(X\).
+\end{exercise}
+\begin{proof}
+    A locally constant map \(f : U \to S\) is precisely a continuous map endowing \(S\) with the discrete topology.
+    The neighbourhood of \(p\) will be \(f^{-1}(\{f(p)\})\).
+    By exercise \ref{ex22f}, this forms a sheaf!
+\end{proof}
+
+\begin{exercise}\label{ex22f}
+    Show the sheaf of continuous maps into some space \(Y\) is a sheaf on \(X\).
+\end{exercise}
+\begin{proof}
+    This functor is \(\Hom(\iota(-), Y)\) where \(\iota\) is the inclusion from open sets to topological spaces.
+    Since \(\iota\) preserves cover coequalisers, the composite sends cover coequalisers to the correct equalisers.
+\end{proof}
+\end{document}
